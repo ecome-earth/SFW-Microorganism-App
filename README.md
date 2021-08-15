@@ -1,9 +1,16 @@
+# Welcome to Soil-Food-Web Microorganism App.
 
-# Welcome to SFW Microorganisms.
-## Introduction
+## Description
 
 This is an open-source app currently in development phase that helps you to identify organisms with other users. You can upload photos or short 10 second videos to identify organisms, see how other people voted and later on have a chat about the organisms.
 
+[SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing)
+
+### Donation
+- ETH:
+- BTC:
+- BCH:
+- BSC:
 
 ## Table of Contents
 
@@ -74,7 +81,7 @@ https://flutter.dev/docs/testing
 ## 6. Roadmap
 
 **Current Phase**
-Currently we are still in the development phase. We are planning to launch the initial release with the features mentioned in the wireframe file [*wireframes.pdf*](wireframes.pdf) .
+Currently we are still in the development phase. We are planning to launch the initial release with the features mentioned in the wireframe file [SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing).
 
 **Future  Vision**
 After launching the app on the store, we are looking forward to integrate the app with other decentralized storage mediums mentioned above in the tech stack. We are still entertaining the idea. A more clear direction will be established after gaining user feedback.
@@ -105,3 +112,4 @@ Thanks to [kn9ts](https://gist.github.com/kn9ts) for summarizing the license det
 7. Any modifications of this code base MUST be distributed with the same license, GPLv3.
 8. This software is provided without warranty.
 9. The software author or license can not be held liable for any damages inflicted by the software.
+=======
