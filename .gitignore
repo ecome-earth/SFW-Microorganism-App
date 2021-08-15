@@ -121,6 +121,9 @@ captures/
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
+GoogleService-Info.plist
+firebase-config.js
+
 
 # Freeline
 freeline.py
@@ -887,3 +890,5 @@ DerivedData/
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Excluding Firebase Configuration for eb
