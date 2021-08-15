@@ -89,7 +89,7 @@ After launching the app on the store, we are looking forward to integrate the ap
 
 ## 7. Support us
 
-We would love you to help us on this project. If you are interested to contribute with code, please check the issues for available to find tasks you think you can do and then create a pull request.
+We would love you to help us on this project. If you are interested to contribute with code, please check the issues for available to find tasks you think you can do and then create a pull request. This project follows the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please use is to make your commits. 
 
 For financial support, we are working to create a completely transparent option to gain financial support for development through cryptocurrencies. All the development invoices can be found on [SFW Invoices](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing).
 
