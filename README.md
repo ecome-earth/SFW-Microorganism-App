@@ -6,4 +6,9 @@ helps you to indentify organisms with other users. You can upload fotos, identif
 ### Invoices 
 - [Invoice](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing) from Mahmoud Sherif aka [mwatidy](https://github.com/mwatidy)
 
+### Donation
+- ETH:
+- BTC:
+- BCH:
+- BSC:
 
