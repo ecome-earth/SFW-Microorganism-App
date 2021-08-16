@@ -87,7 +87,7 @@ All our finished and current milestones are published [here](https://github.com/
 
 - Integrate decentralised cloud storage solutions like www.siasky.net and www.storj.io so users can own their data. 
 - Integrate a service like www.moonpay.com to the app so people can donate money to our project DAO.
-- integrate www.aragon.org into the app so users can receive governance tokens, create proposals and vote on proposals.  
+- integrate www.aragon.org into the app so users can receive governance tokens to control the project DAO by creating proposals and vote on proposals.  
 
 
 
