@@ -1,17 +1,5 @@
 # Welcome to Soil-Food-Web Microorganism App.
 
-## Description
-
-This is an open-source app currently in development phase that helps you to identify organisms with other users. You can upload photos or short 10 second videos to identify organisms, see how other people voted and later on have a chat about the organisms.
-
-[SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing)
-
-### Donation
-- ETH:
-- BTC:
-- BCH:
-- BSC:
-
 ## Table of Contents
 
  1. Project's Information
@@ -25,9 +13,9 @@ This is an open-source app currently in development phase that helps you to iden
 
 ## 1. Project's information
 
-Johannes wanted to create an open source app to collect biological microscopic photos and 10 second videos. These photos and videos are provided by biologists, who also get to classify other microorganisms through voting. Biologists can also view and filter micro-organism and find out how other biologists voted for it.
+This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com/). It is currently in development phase. The App helps uses to identify soil microorganisms with each other. You cam upload photos or short 10 second statoc videos, see how other people voted and even have a chat about the organisms. 
 
---- Screenshots should be attached as soon as they are ready
+[SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing)
 
 ## 2. Tech stack used
 
@@ -91,8 +79,11 @@ After launching the app on the store, we are looking forward to integrate the ap
 
 We would love you to help us on this project. If you are interested to contribute with code, please check the issues for available to find tasks you think you can do and then create a pull request. This project follows the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please use is to make your commits. 
 
-For financial support, we are working to create a completely transparent option to gain financial support for development through cryptocurrencies. All the development invoices can be found on [SFW Invoices](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing).
-
+For financial support, we are working to create a completely transparent option to gain financial support for development through cryptocurrencies. All the development invoices can be found on [Invoices](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing).
+- ETH:
+- BTC:
+- BCH:
+- BSC:
 
 
 ## 8. License
