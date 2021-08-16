@@ -77,14 +77,13 @@ After launching the app on the store, we are looking forward to integrate the ap
 
 ## 7. Support us
 
-We would love you to help us on this project. If you are interested to contribute with code, please check the issues for available to find tasks you think you can do and then create a pull request. This project follows the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). Please use is to make your commits. 
+**Developers**
 
-For financial support, we are working to create a completely transparent option to gain financial support for development through cryptocurrencies. All the development invoices can be found on [Invoices](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing).
-- ETH:
-- BTC:
-- BCH:
-- BSC:
+If you like this project and want to contribute with code, please check the issues to find tasks you want to do. Please use the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) when commiting. 
 
+**Financial Support**
+
+We are using cryptocurrencys whenever prossilbe, to guarantee financial trust through transparency. All the invoices can be found [here](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing). We plan to give donors governance tokens proportianl to their donation, so they can influence the direction the project takes by making proposals and vote on them. We will use [Aragon](https://aragon.org/) for this. Whenever a proposal is accepted, we will create a milestone made out of issues and attach bounties to each issue proportional to the work it takes to complete them.
 
 ## 8. License
 
