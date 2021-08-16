@@ -22,7 +22,7 @@ This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com
 **Flutter ( Mobile + Web ) and Firebase**
 [Flutter](https://flutter.dev/) - [Firebase](https://firebase.google.com/)
 
-The UI for this project is built with Flutter for cross-platform mobile apps and web. The backend is created with firebase. If you would like to clone or take part in the development of this project you are going to need a firebase account and create a new firebase app following the instructions in the next chapter. Johannes would like to also integrate other centralized and decentralized storage providers like [siasky.net](https://siasky.net/) and [storj.io](https://www.storj.io).
+The UI for this project is built with Flutter for cross-platform mobile apps and web. The backend is created with firebase. If you would like to clone or take part in the development of this project you are going to need a firebase account and create a new firebase app following the instructions in the next chapter. We would also like to integrate other centralized and decentralized storage providers like [siasky.net](https://siasky.net/) and [storj.io](https://www.storj.io).
 
 ## 3. Cloning this project
 
