@@ -79,10 +79,12 @@ All tests are placed in the *./test* directory. We are using dart and flutter's 
 
 ## 6. Roadmap
 
-**Current Phase**
-Currently we are in the development phase. We will launch the initial release with the features mentioned in the wireframe file [SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing).
+**Current Phase:** 
 
-**Future  Vision**
+All our past and future milestones are published [here](https://github.com/mylife-plus/SFW-Microorganism-App/milestones). The milestones are based on the features mentioned in the wireframe file [SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing).
+
+**Future  Vision:** 
+
 Integrate decentralised cloud storage solutions like siasky.net and storj.io so users can own their data. 
 
 
@@ -91,7 +93,7 @@ Integrate decentralised cloud storage solutions like siasky.net and storj.io so 
 
 **Developers**
 
-If you like this project and want to contribute with code, please check the issues to find tasks you want to do. Please use the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) when committing. 
+If you like this project and want to contribute with code, please check the issues to find tasks you want to do. Please follow the [conventional commits rules](https://www.conventionalcommits.org/en/v1.0.0/) when committing. 
 
 **Financial Support**
 
