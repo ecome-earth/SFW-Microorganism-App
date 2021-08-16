@@ -81,11 +81,13 @@ All tests are placed in the *./test* directory. We are using dart and flutter's 
 
 **Current Phase:** 
 
-All our past and future milestones are published [here](https://github.com/mylife-plus/SFW-Microorganism-App/milestones). The milestones are based on the features mentioned in the wireframe file [SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing).
+All our finished and current milestones are published [here](https://github.com/mylife-plus/SFW-Microorganism-App/milestones). The milestones are based on the features mentioned in the wireframe file [SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing).
 
-**Future  Vision:** 
+**Future Milestones:** 
 
-Integrate decentralised cloud storage solutions like siasky.net and storj.io so users can own their data. 
+- Integrate decentralised cloud storage solutions like www.siasky.net and www.storj.io so users can own their data. 
+- Integrate a service like www.moonpay.com to the app so people can donate money to our project DAO.
+- integrate www.aragon.org into the app so users can receive governance tokens, create proposals and vote on proposals.  
 
 
 
