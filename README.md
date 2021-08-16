@@ -13,7 +13,7 @@
 
 ## 1. Project's information
 
-This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com/). It is currently in development phase. The App helps uses to identify soil microorganisms with each other. You cam upload photos or short 10 second statoc videos, see how other people voted and even have a chat about the organisms. 
+This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com/). It is currently in development phase. The App helps users to identify soil microorganisms with each other. You cam upload photos or short 10 second static videos, see how other people voted and even have a chat about the organisms. 
 
 [SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing)
 
@@ -22,7 +22,7 @@ This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com
 **Flutter ( Mobile + Web ) and Firebase**
 [Flutter](https://flutter.dev/) - [Firebase](https://firebase.google.com/)
 
-The UI for this project is built with Flutter for cross-platform mobile apps and web. The backend is created with firebase. If you would like to clone or take part in the development of this project you are going to need a firebase account and create a new firebase app following the instructions in the next chapter. We would also like to integrate other centralized and decentralized storage providers like [siasky.net](https://siasky.net/) and [storj.io](https://www.storj.io).
+The UI for this project is built with Flutter for cross-platform mobile apps and web. The backend is created with firebase. If you would like to clone or take part in the development of this project you are going to need a firebase account and create a new firebase app following the instructions in the next chapter. We would also like to integrate other centralised and decentralised storage providers like [siasky.net](https://siasky.net/) and [storj.io](https://www.storj.io).
 
 ## 3. Cloning this project
 
@@ -72,22 +72,22 @@ https://flutter.dev/docs/testing
 Currently we are still in the development phase. We are planning to launch the initial release with the features mentioned in the wireframe file [SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing).
 
 **Future  Vision**
-After launching the app on the store, we are looking forward to integrate the app with other decentralized storage mediums mentioned above in the tech stack. We are still entertaining the idea. A more clear direction will be established after gaining user feedback.
+After launching the app on the store, we are looking forward to integrate the app with other decentralised storage mediums mentioned above in the tech stack. We are still entertaining the idea. A more clear direction will be established after gaining user feedback.
 
 
 ## 7. Support us
 
 **Developers**
 
-If you like this project and want to contribute with code, please check the issues to find tasks you want to do. Please use the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) when commiting. 
+If you like this project and want to contribute with code, please check the issues to find tasks you want to do. Please use the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) when committing. 
 
 **Financial Support**
 
-We are using cryptocurrencys whenever prossilbe, to guarantee financial trust through transparency. All the invoices can be found [here](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing). We plan to give donors governance tokens proportianl to their donation, so they can influence the direction the project takes by making proposals and vote on them. We will use [Aragon](https://aragon.org/) for this. Whenever a proposal is accepted, we will create a milestone made out of issues and attach bounties to each issue proportional to the work it takes to complete them.
+We are using cryptocurrency whenever possible, to guarantee financial trust through transparency. All the invoices can be found [here](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing). We plan to give donors governance tokens proportional to their donation, so they can influence the direction the project takes by making proposals and vote on them. We will use [Aragon](https://aragon.org/) for this. Whenever a proposal is accepted, we will create a milestone made out of issues and attach bounties to each issue proportional to the work it takes to complete them.
 
 ## 8. License
 
-Thanks to [kn9ts](https://gist.github.com/kn9ts) for summarizing the license details below. [Original Source](https://gist.github.com/kn9ts/cbe95340d29fc1aaeaa5dd5c059d2e60)
+Thanks to [kn9ts](https://gist.github.com/kn9ts) for summarising the license details below. [Original Source](https://gist.github.com/kn9ts/cbe95340d29fc1aaeaa5dd5c059d2e60)
 
 ### GPL3 LICENSE SYNOPSIS
 
