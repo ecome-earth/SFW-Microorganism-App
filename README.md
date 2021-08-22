@@ -95,6 +95,7 @@ For financial support, we are working to create a completely transparent option 
 
 
 
+
 ## 8. License
 
 Thanks to [kn9ts](https://gist.github.com/kn9ts) for summarizing the license details below. [Original Source](https://gist.github.com/kn9ts/cbe95340d29fc1aaeaa5dd5c059d2e60)
