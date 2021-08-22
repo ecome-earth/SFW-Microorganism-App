@@ -103,6 +103,7 @@ We are using cryptocurrency whenever possible, to guarantee financial trust thro
 
 
 
+
 ## 8. License
 
 Thanks to [kn9ts](https://gist.github.com/kn9ts) for summarising the license details below. [Original Source](https://gist.github.com/kn9ts/cbe95340d29fc1aaeaa5dd5c059d2e60)
