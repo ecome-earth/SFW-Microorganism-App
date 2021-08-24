@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -13,11 +14,14 @@ class _AuthScreen extends State<AuthScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  var auth;
+
 
   @override
   @mustCallSuper
   void initState() {
     super.initState();
+    auth = FirebaseAuth.instance;
   }
 
   @override
@@ -27,6 +31,64 @@ class _AuthScreen extends State<AuthScreen> {
     password.dispose();
     super.dispose();
   }
+
+  void isSignedIn() {
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('User is signed in!');
+      }
+    });
+  }
+
+  Future register (String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future login (String email, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email,
+          password: password
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
+
+  Future sendVerificationEmail () async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user!= null && !user.emailVerified) {
+      await user.sendEmailVerification();
+    }
+  }
+
+  void signout()  {
+    FirebaseAuth.instance.signOut();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +130,14 @@ class _AuthScreen extends State<AuthScreen> {
                                 
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                              child: Text('Invalid Email Address',
-                                style: TextStyle(
-                                  color: Colors.red
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            //   child: Text('Invalid Email Address',
+                            //     style: TextStyle(
+                            //       color: Colors.red
+                            //     ),
+                            //   ),
+                            // ),
                             SizedBox(height: 20),
                             Form(
                               key: _formKey,
@@ -88,13 +150,27 @@ class _AuthScreen extends State<AuthScreen> {
                                       TextFormField(
                                         controller: email,
                                         decoration: const InputDecoration(
-                                          hintText: 'Email',
+                                          labelText: 'Email',
+                                          hintText: 'Enter your email',
                                         ),
                                         validator: (String? value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
+
+                                          if(
+                                            value != null &&
+                                            RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)
+                                          ) {
+                                            return "Valid Email";
+                                          } else {
+                                            return "Invalid Email";
                                           }
-                                          return null;
+
+
+                                          // if (!!email.length) {
+                                          //   bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+                                          // }
+
+                                          // return 'Please enter some text';
+
                                         },
                                       ),
                                       TextFormField(
@@ -123,13 +199,19 @@ class _AuthScreen extends State<AuthScreen> {
                               ),
                               onPressed: () {
                 
-                                // CHECK IF EMAIL IS REGISTERED THEN LOGIN
-                                //    check email and password match
-                                //      yes ? get user data and update in local DB
-                                //      no ?
-                                // ELSE REGISTER
-                                print(email.text);
-                                print(password.text);
+
+                                // make sure all is vaild
+                                // submit the form 
+                                // call firebase functions
+
+
+
+                                print('form submitted');
+
+
+                                //validate password
+                                // var userPassword = password.text;
+                                // print(password.text);
                 
                 
                               },
