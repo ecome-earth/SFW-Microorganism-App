@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+// USED FOR DEVELOPMENT REASONS ONLY
+import 'package:flutter/foundation.dart';
+
+
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -9,19 +16,21 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreen extends State<AuthScreen> {
 
+  final _formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final password = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-
   var auth;
-
+  var userStore;
+  var profile;
 
   @override
   @mustCallSuper
   void initState() {
     super.initState();
     auth = FirebaseAuth.instance;
+    userStore = FirebaseFirestore.instance.collection('users');
+    ;
   }
 
   @override
@@ -32,38 +41,43 @@ class _AuthScreen extends State<AuthScreen> {
     super.dispose();
   }
 
-  void isSignedIn() {
-    FirebaseAuth.instance
-        .authStateChanges()
-        .listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-      }
-    });
-  }
 
-  Future register (String email, String password) async {
+
+  Future registerWithEmail () async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email,
           password: password
       );
+
+      // SEND VERIFICATION EMAIL WHEN ALL IS COMPLETE
+      sendVerificationEmail();
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+
         print('The password provided is too weak.');
+
       } else if (e.code == 'email-already-in-use') {
+
         print('The account already exists for that email.');
+
       }
     } catch (e) {
       print(e);
     }
   }
 
-  Future login (String email, String password) async {
+  Future continueWithGoogle () async {
+
+
+
+  }
+
+  Future login () async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email,
           password: password
       );
@@ -77,23 +91,54 @@ class _AuthScreen extends State<AuthScreen> {
   }
 
   Future sendVerificationEmail () async {
-    User? user = FirebaseAuth.instance.currentUser;
+    User? user = auth.currentUser;
 
     if (user!= null && !user.emailVerified) {
       await user.sendEmailVerification();
     }
   }
 
+  Future checkIfUserExists () async {
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email.text)
+        .get()
+        .then((result) {
+          print(result.docs);
+          print(result);
+        });
+
+
+
+  }
+
   void signout()  {
-    FirebaseAuth.instance.signOut();
+    auth.signOut();
   }
 
   void handleSubmit() {
     final FormState form = _formKey.currentState as FormState;
     if (form.validate()) {
+
+      checkIfUserExists();
+
+      /// CHECK IF USER EXISTS
+      ///   IF YES THEN COMPARE PASSWORD
+      ///     IF CORRECT
+      ///       UPDATE FIREBASE TO SAVE AND
+      ///       THEN SHOW PROFILE
+      ///     ELSE
+      ///       SHOW ERROR MESSAGE
+      ///
+      ///   ELSE
+      ///     REGISTER
+      ///       ///       UPDATE FIREBASE TO SAVE AND
+      ///       ///       THEN SHOW PROFILE
+      ///
       print('Form is valid');
-    } else {
-      print('Form is invalid');
+
+
     }
   }
 
