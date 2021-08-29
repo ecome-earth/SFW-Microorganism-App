@@ -88,7 +88,14 @@ class _AuthScreen extends State<AuthScreen> {
     FirebaseAuth.instance.signOut();
   }
 
-
+  void handleSubmit() {
+    final FormState form = _formKey.currentState as FormState;
+    if (form.validate()) {
+      print('Form is valid');
+    } else {
+      print('Form is invalid');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,36 +161,35 @@ class _AuthScreen extends State<AuthScreen> {
                                           hintText: 'Enter your email',
                                         ),
                                         validator: (String? value) {
-
                                           if(
                                             value != null &&
                                             RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)
                                           ) {
-                                            return "Valid Email";
+                                            return null;
                                           } else {
                                             return "Invalid Email";
                                           }
-
-
-                                          // if (!!email.length) {
-                                          //   bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
-                                          // }
-
-                                          // return 'Please enter some text';
-
                                         },
                                       ),
                                       TextFormField(
                                         obscureText: true,
                                         controller: password,
                                         decoration: const InputDecoration(
-                                          hintText: 'Password',
+                                          labelText: 'Password',
+                                          hintText: 'Enter your password',
                                         ),
                                         validator: (String? value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter some text';
-                                          }
+
+                                          if (value == null) return "You must enter a password";
+
+                                          bool atLeastEightChars = RegExp(r'.{8,}').hasMatch(value);
+                                          if (!atLeastEightChars) return "Enter at least 8 characters";
+
                                           return null;
+
+                                          // TO ADD STRONG PASSWORD USE THE FOLLOWING REGEXP
+                                          // RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)
+
                                         },
                                       ),
                                     ],
@@ -197,24 +203,25 @@ class _AuthScreen extends State<AuthScreen> {
                                   textStyle: const TextStyle(fontSize: 16),
                                   minimumSize: Size(220, 34),
                               ),
-                              onPressed: () {
-                
-
-                                // make sure all is vaild
-                                // submit the form 
-                                // call firebase functions
-
-
-
-                                print('form submitted');
-
-
-                                //validate password
-                                // var userPassword = password.text;
-                                // print(password.text);
-                
-                
-                              },
+                              onPressed: handleSubmit,
+                              //   () {
+                              //
+                              //
+                              //   // make sure all is vaild
+                              //   // submit the form
+                              //   // call firebase functions
+                              //
+                              //
+                              //
+                              //   print('form submitted');
+                              //
+                              //
+                              //   //validate password
+                              //   // var userPassword = password.text;
+                              //   // print(password.text);
+                              //
+                              //
+                              // },
                               child: const Text('Login / Register'),
                             ),
                             const Divider(

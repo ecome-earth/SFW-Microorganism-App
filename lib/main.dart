@@ -6,7 +6,6 @@ import 'screens/AuthScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(MyApp());
 }
 
@@ -28,7 +27,30 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: AuthScreen(), //MyHomePage(title: 'SFW Microorganisms'),
+      home: FutureBuilder(
+        // Initialize FlutterFire
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+          // Check for errors
+          if (snapshot.hasError) {
+            print('problem occured with Firebase');
+            return AuthScreen();
+          }
+
+          // Once complete, show your application
+          if (snapshot.connectionState == ConnectionState.done) {
+
+            print('All good and connected to firebase');
+            return AuthScreen();
+
+          }
+
+          // Otherwise, show something whilst waiting for initialization to complete
+          return AuthScreen();
+        },
+      )
+
+         //MyHomePage(title: 'SFW Microorganisms'),
     );
   }
 
@@ -36,8 +58,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -59,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   bool _initialized = false;
   bool _error = false;
+
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   // Define an async function to initialize FlutterFire
   void initializeFlutterFire() async {
