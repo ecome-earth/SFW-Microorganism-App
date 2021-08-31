@@ -4,8 +4,10 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// USED FOR DEVELOPMENT REASONS ONLY
-import 'package:flutter/foundation.dart';
+import 'package:sfw_microorganisms/classes/Profile.dart';
+import 'package:sfw_microorganisms/screens/Profile.dart';
+
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 
@@ -42,50 +44,172 @@ class _AuthScreen extends State<AuthScreen> {
   }
 
 
+  void showMessage (String text) {
 
-  Future registerWithEmail () async {
+    final snackBar = SnackBar(
+      content: Text(text),
+    );
+
+    // Find the ScaffoldMessenger in the widget tree
+    // and use it to show a
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    
+  }
+
+  void continueToProfileScreen () {
+    Route route = MaterialPageRoute(builder: (context) => ProfileScreen());
+    Navigator.pushReplacement(context, route);
+  }
+
+  Future<void> resetPassword () async {
+    if (isValidEmail(email.text)) {
+      try {
+
+        await auth.sendPasswordResetEmail(email: email.text);
+        showMessage('We send you reset email');
+
+      } catch (e) {
+
+        print(e);
+        showMessage("Couldn't connect to server");
+
+      }
+    } else {
+      showMessage('Enter a valid email first');
+    }
+  }
+
+  Future<void> getProfileAndContinueToProfileScreen() async {
+
+    Profile? userProfile = await Profile.getByEmail(email.text);
+
+
+    if (userProfile is Profile) {
+
+      print('page navigation complete');
+      continueToProfileScreen();
+
+    } else {
+
+      showMessage('Error occured gathering your profile');
+      print('No profile gathered');
+
+    }
+  }
+
+  Future<void> createUserProfile (String email) async {
+
+    // CREATE USER PROFILE
+    Profile profile = new Profile();
+    profile.name = 'Anonymous';
+    profile.email = email;
+
+    await Profile.add(profile.toJson());
+  }
+
+
+  Future<void> registerWithEmail () async {
     try {
 
+      print('CALLED REGISTER FUNCTION');
+
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password
+          email: email.text,
+          password: password.text
       );
 
+      print('USER CREATED');
+
+      await createUserProfile(email.text);
+      getProfileAndContinueToProfileScreen();
+
       // SEND VERIFICATION EMAIL WHEN ALL IS COMPLETE
-      sendVerificationEmail();
+      // await sendVerificationEmail();
+
+      // print('EMAIL VERIFICATION SENT');
+
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
 
         print('The password provided is too weak.');
-
-      } else if (e.code == 'email-already-in-use') {
-
-        print('The account already exists for that email.');
+        showMessage('The password provided is too§ weak.');
 
       }
+      // else if (e.code == 'email-already-in-use') {
+      //
+      //   print('The account already exists logging in.');
+      //   await login();
+      //
+      //
+      // }
+      else {
+        print('error occured $e');
+      }
+
     } catch (e) {
+
       print(e);
     }
   }
 
-  Future continueWithGoogle () async {
+  Future<void> continueWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    UserCredential credentials = await FirebaseAuth.instance.signInWithCredential(credential);
+    User? user = credentials.user;
+
+    // Create new profile if user profile exist
+    if (user != null) {
+      Profile? userProfile = await Profile.getByEmail(user.uid);
+    } else {
+      await createUserProfile(email.text);
+    }
+
+    continueToProfileScreen();
 
   }
 
-  Future login () async {
+  Future<void> continueAnonymous () async {
+    await FirebaseAuth.instance.signInAnonymously();
+    createUserProfile(auth.currentUser.uid);
+    continueToProfileScreen();
+  }
+
+  Future<void> loginOrRegister () async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email,
-          password: password
+          email: email.text,
+          password: password.text
       );
+
+      // GET PPROFILE AND REDIRECT TO PROFILE PAGE
+      getProfileAndContinueToProfileScreen();
+
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
+
         print('No user found for that email.');
+        registerWithEmail();
+
+
       } else if (e.code == 'wrong-password') {
+
+        showMessage('Invalid password');
         print('Wrong password provided for that user.');
+
       }
     }
   }
@@ -95,51 +219,31 @@ class _AuthScreen extends State<AuthScreen> {
 
     if (user!= null && !user.emailVerified) {
       await user.sendEmailVerification();
+      showMessage('Verfifcation Email Sent');
     }
   }
 
-  Future checkIfUserExists () async {
-
-    FirebaseFirestore.instance
-        .collection('users')
-        .where('email', isEqualTo: email.text)
-        .get()
-        .then((result) {
-          print(result.docs);
-          print(result);
-        });
-
-
-
+  bool isValidEmail (String email) {
+    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
   }
 
   void signout()  {
     auth.signOut();
   }
 
-  void handleSubmit() {
+  Future<void> handleSubmit() async {
+
+    // LOGIN
+      // IF USER DOESN'T EXIST THEN CREATE PROFILE AND REGISTER
+      // ELSE GET PROFILE AND SHOW PROFILE SCREEN
+
     final FormState form = _formKey.currentState as FormState;
     if (form.validate()) {
 
-      checkIfUserExists();
+        await loginOrRegister();
 
-      /// CHECK IF USER EXISTS
-      ///   IF YES THEN COMPARE PASSWORD
-      ///     IF CORRECT
-      ///       UPDATE FIREBASE TO SAVE AND
-      ///       THEN SHOW PROFILE
-      ///     ELSE
-      ///       SHOW ERROR MESSAGE
-      ///
-      ///   ELSE
-      ///     REGISTER
-      ///       ///       UPDATE FIREBASE TO SAVE AND
-      ///       ///       THEN SHOW PROFILE
-      ///
-      print('Form is valid');
+      }
 
-
-    }
   }
 
   @override
@@ -182,14 +286,6 @@ class _AuthScreen extends State<AuthScreen> {
                                 
                               ),
                             ),
-                            // Container(
-                            //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            //   child: Text('Invalid Email Address',
-                            //     style: TextStyle(
-                            //       color: Colors.red
-                            //     ),
-                            //   ),
-                            // ),
                             SizedBox(height: 20),
                             Form(
                               key: _formKey,
@@ -207,8 +303,7 @@ class _AuthScreen extends State<AuthScreen> {
                                         ),
                                         validator: (String? value) {
                                           if(
-                                            value != null &&
-                                            RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)
+                                            value != null && isValidEmail(value)
                                           ) {
                                             return null;
                                           } else {
@@ -249,24 +344,6 @@ class _AuthScreen extends State<AuthScreen> {
                                   minimumSize: Size(220, 34),
                               ),
                               onPressed: handleSubmit,
-                              //   () {
-                              //
-                              //
-                              //   // make sure all is vaild
-                              //   // submit the form
-                              //   // call firebase functions
-                              //
-                              //
-                              //
-                              //   print('form submitted');
-                              //
-                              //
-                              //   //validate password
-                              //   // var userPassword = password.text;
-                              //   // print(password.text);
-                              //
-                              //
-                              // },
                               child: const Text('Login / Register'),
                             ),
                             const Divider(
@@ -278,7 +355,7 @@ class _AuthScreen extends State<AuthScreen> {
                             SignInButton(
                               Buttons.Google,
                               text: "Continue with Google",
-                              onPressed: () {},
+                              onPressed: continueWithGoogle,
                             ),
                             Row(
                               children: [
@@ -287,7 +364,7 @@ class _AuthScreen extends State<AuthScreen> {
                                     primary: Colors.grey[800],
                                     textStyle: const TextStyle(fontSize: 10),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: resetPassword,
                                   child: Text('forgot password?',
                                       style: TextStyle(
                                         fontSize: 14,
@@ -301,7 +378,7 @@ class _AuthScreen extends State<AuthScreen> {
                                     primary: Colors.grey[600],
                                     textStyle: const TextStyle(fontSize: 10),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: continueAnonymous,
                                   child: const Text('skip login',
                                       style: TextStyle(
                                         fontSize: 14
@@ -310,37 +387,10 @@ class _AuthScreen extends State<AuthScreen> {
                                   ),
                               ],
                             ),
-                            // TextButton(
-                            //   style: TextButton.styleFrom(
-                            //     padding: const EdgeInsets.all(16.0),
-                            //     primary: Colors.grey[800],
-                            //     textStyle: const TextStyle(fontSize: 12),
-                            //   ),
-                            //   onPressed: () {},
-                            //   child: const Text('skip login',
-                            //       style: TextStyle(fontSize: 14),
-                            //     ),
-                            //   ),
                           ],
                         ),
                       ),
                       // FutureBuilder(
-                      //   future:
-                      //   GAuthentication.initializeFirebase(context: context),
-                      //   builder: (context, snapshot) {
-                      //     if (snapshot.hasError) {
-                      //       return Text('Error initializing Firebase');
-                      //     } else if (snapshot.connectionState ==
-                      //         ConnectionState.done) {
-                      //       return GoogleSignInButton();
-                      //     }
-                      //     return CircularProgressIndicator(
-                      //       valueColor: AlwaysStoppedAnimation<Color>(
-                      //         Colors.orange[400],
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
                     ],
                   ),
                 ),

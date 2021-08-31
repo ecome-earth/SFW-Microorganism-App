@@ -30,6 +30,7 @@ dependencies:
   cloud_functions: ^3.0.0
   flutter_signin_button: ^2.0.0
   shared_preferences: ^2.0.6
+  google_sign_in: "^4.5.1"
 
 
 

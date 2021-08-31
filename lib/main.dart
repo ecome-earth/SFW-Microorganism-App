@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'screens/AuthScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sfw_microorganisms/classes/Profile.dart';
+
+import 'screens/AuthScreen.dart';
+import 'screens/Profile.dart';
 
 void main() {
 
@@ -34,8 +37,10 @@ class MyApp extends StatelessWidget {
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           // Check for errors
+
           if (snapshot.hasError) {
             print('problem occured with Firebase');
+
 
             // TODO: RETURN ERROR SCREEN INSTEAD OFF AuthScreen
             return  Scaffold(
@@ -68,35 +73,20 @@ class MyApp extends StatelessWidget {
             FirebaseAuth.instance
                 .authStateChanges()
                 .listen((User? user) {
-              if (user == null) {
-                // redirect to Login page if not logged in
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AuthScreen()),
-                );
-              }
+                  if (user == null) {
+                    // redirect to Login page if not logged in
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AuthScreen()),
+                    );
+                  }
+                  // else {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  //   );
+                  // }
             });
-
-            return  Scaffold(
-                backgroundColor: Colors.grey[100],
-                body:
-                SafeArea(
-                    child: Stack(
-                        children: [
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16.0,
-                                right: 16.0,
-                                bottom: 20.0,
-                              ),
-                              child: Center(
-                                child: Text('Profile page'),
-                              )
-                          ),
-                        ]
-                    )
-                )
-            );
 
           }
 

@@ -55,7 +55,12 @@ You will need to download the *GoogleService-Info.plist* file from firebase iOS 
 rename the file *firebase-config-sample.js* to *firebase-config.js* and then copy the web configuration you got from firebase ---> new web app.
 `./web/firebase-config-sample.js`
 
+**STEP 5: Firebase Configuration:**
+remember to enable the sign-in methods on firebase.
 
+Build > Authentication > sign in methods
+ 
+Enable Email/Password, Google, and Anonymous users.
 
 ## 4. Project Structure
 
@@ -93,6 +98,7 @@ We would love you to help us on this project. If you are interested to contribut
 
 For financial support, we are working to create a completely transparent option to gain financial support for development through cryptocurrencies. All the development invoices can be found on [SFW Invoices](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing).
 
+[find more about contributing](CONtTRIBUTE.md) 
 
 
 
