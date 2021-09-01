@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sfw_microorganisms/classes/Profile.dart';
 
 import 'screens/AuthScreen.dart';
-import 'screens/Profile.dart';
+import 'screens/ProfileScreen.dart';
 
 void main() {
 
@@ -87,6 +87,8 @@ class MyApp extends StatelessWidget {
                   //   );
                   // }
             });
+
+            return ProfileScreen();
 
           }
 

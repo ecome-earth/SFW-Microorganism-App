@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:sfw_microorganisms/classes/Profile.dart';
-import 'package:sfw_microorganisms/screens/Profile.dart';
+import 'package:sfw_microorganisms/screens/ProfileScreen.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
