@@ -17,7 +17,7 @@
 
 This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com/). It is currently in development phase. The App helps users to identify soil microorganisms with each other. You cam upload photos or short 10 second static videos, see how other people voted and even have a chat about the organisms. 
 
-[SFW Microorganism App Wireframes](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view?usp=sharing)
+[SFW Microorganism App Wireframes](https://www.figma.com/proto/QMm6yXvIhIDIcTLM4nfMEY/SFW-Microorganisms-App?node-id=716%3A3346&scaling=min-zoom&page-id=4%3A0)
 
 
 
