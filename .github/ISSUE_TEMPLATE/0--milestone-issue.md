@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-[Wireframe](https://drive.google.com/file/d/1a_gFOeLnrD9907lD4xzv-vF1aDkN3X6V/view) [Page Title]
+[Wireframe](https://www.figma.com/file/QMm6yXvIhIDIcTLM4nfMEY/SFW-Microorganisms-App?node-id=716%3A3346) [Screen Title]
 
 **Issue Description**
 
