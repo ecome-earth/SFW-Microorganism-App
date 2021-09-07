@@ -1,7 +1,7 @@
 ---
 name: 2. Bug Report
 about: Create a report to help us improve
-title: ''
+title: 'fix: [Title]'
 labels: ''
 assignees: ''
 
