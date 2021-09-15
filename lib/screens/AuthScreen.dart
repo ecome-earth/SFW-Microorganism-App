@@ -8,8 +8,7 @@ import 'package:sfw_microorganisms/classes/Profile.dart';
 import 'package:sfw_microorganisms/screens/ProfileScreen.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-
-
+import 'package:sfw_microorganisms/screens/profile_uploads.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -17,7 +16,6 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreen extends State<AuthScreen> {
-
   final _formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final password = TextEditingController();
@@ -43,9 +41,7 @@ class _AuthScreen extends State<AuthScreen> {
     super.dispose();
   }
 
-
-  void showMessage (String text) {
-
+  void showMessage(String text) {
     final snackBar = SnackBar(
       content: Text(text),
     );
@@ -53,26 +49,21 @@ class _AuthScreen extends State<AuthScreen> {
     // Find the ScaffoldMessenger in the widget tree
     // and use it to show a
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    
   }
 
-  void continueToProfileScreen () {
-    Route route = MaterialPageRoute(builder: (context) => ProfileScreen());
+  void continueToProfileScreen() {
+    Route route = MaterialPageRoute(builder: (context) => ProfileUploads());
     Navigator.pushReplacement(context, route);
   }
 
-  Future<void> resetPassword () async {
+  Future<void> resetPassword() async {
     if (isValidEmail(email.text)) {
       try {
-
         await auth.sendPasswordResetEmail(email: email.text);
         showMessage('We send you reset email');
-
       } catch (e) {
-
         print(e);
         showMessage("Couldn't connect to server");
-
       }
     } else {
       showMessage('Enter a valid email first');
@@ -80,25 +71,18 @@ class _AuthScreen extends State<AuthScreen> {
   }
 
   Future<void> getProfileAndContinueToProfileScreen() async {
-
     Profile? userProfile = await Profile.getByEmail(email.text);
 
-
     if (userProfile is Profile) {
-
       print('page navigation complete');
       continueToProfileScreen();
-
     } else {
-
       showMessage('Error occured gathering your profile');
       print('No profile gathered');
-
     }
   }
 
-  Future<void> createUserProfile (String email) async {
-
+  Future<void> createUserProfile(String email) async {
     // CREATE USER PROFILE
     Profile profile = new Profile();
     profile.name = 'Anonymous';
@@ -107,16 +91,12 @@ class _AuthScreen extends State<AuthScreen> {
     await Profile.add(profile.toJson());
   }
 
-
-  Future<void> registerWithEmail () async {
+  Future<void> registerWithEmail() async {
     try {
-
       print('CALLED REGISTER FUNCTION');
 
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email.text,
-          password: password.text
-      );
+          email: email.text, password: password.text);
 
       print('USER CREATED');
 
@@ -128,13 +108,10 @@ class _AuthScreen extends State<AuthScreen> {
 
       // print('EMAIL VERIFICATION SENT');
 
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-
         print('The password provided is too weak.');
         showMessage('The password provided is too§ weak.');
-
       }
       // else if (e.code == 'email-already-in-use') {
       //
@@ -146,19 +123,18 @@ class _AuthScreen extends State<AuthScreen> {
       else {
         print('error occured $e');
       }
-
     } catch (e) {
-
       print(e);
     }
   }
 
   Future<void> continueWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -167,7 +143,8 @@ class _AuthScreen extends State<AuthScreen> {
     );
 
     // Once signed in, return the UserCredential
-    UserCredential credentials = await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential credentials =
+        await FirebaseAuth.instance.signInWithCredential(credential);
     User? user = credentials.user;
 
     // Create new profile if user profile exist
@@ -178,80 +155,67 @@ class _AuthScreen extends State<AuthScreen> {
     }
 
     continueToProfileScreen();
-
   }
 
-  Future<void> continueAnonymous () async {
+  Future<void> continueAnonymous() async {
     await FirebaseAuth.instance.signInAnonymously();
     createUserProfile(auth.currentUser.uid);
     continueToProfileScreen();
   }
 
-  Future<void> loginOrRegister () async {
+  Future<void> loginOrRegister() async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email.text,
-          password: password.text
-      );
+          email: email.text, password: password.text);
 
       // GET PPROFILE AND REDIRECT TO PROFILE PAGE
       getProfileAndContinueToProfileScreen();
-
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-
         print('No user found for that email.');
         registerWithEmail();
-
-
       } else if (e.code == 'wrong-password') {
-
         showMessage('Invalid password');
         print('Wrong password provided for that user.');
-
       }
     }
   }
 
-  Future sendVerificationEmail () async {
+  Future sendVerificationEmail() async {
     User? user = auth.currentUser;
 
-    if (user!= null && !user.emailVerified) {
+    if (user != null && !user.emailVerified) {
       await user.sendEmailVerification();
       showMessage('Verfifcation Email Sent');
     }
   }
 
-  bool isValidEmail (String email) {
-    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+  bool isValidEmail(String email) {
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
   }
 
-  void signout()  {
+  void signout() {
     auth.signOut();
   }
 
   Future<void> handleSubmit() async {
-
     // LOGIN
-      // IF USER DOESN'T EXIST THEN CREATE PROFILE AND REGISTER
-      // ELSE GET PROFILE AND SHOW PROFILE SCREEN
+    // IF USER DOESN'T EXIST THEN CREATE PROFILE AND REGISTER
+    // ELSE GET PROFILE AND SHOW PROFILE SCREEN
 
     final FormState form = _formKey.currentState as FormState;
     if (form.validate()) {
-
-        await loginOrRegister();
-
-      }
-
+      await loginOrRegister();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body:
-      SafeArea(
+      body: SafeArea(
         child: Stack(
           children: [
             Padding(
@@ -275,73 +239,73 @@ class _AuthScreen extends State<AuthScreen> {
                             CircleAvatar(
                               radius: 60.0,
                               backgroundColor: Colors.transparent,
-                              backgroundImage: AssetImage('assets/images/logo.png'),
+                              backgroundImage:
+                                  AssetImage('assets/images/logo.png'),
                             ),
                             SizedBox(height: 10),
-                            Text('SFW Microorganisms',
+                            Text(
+                              'SFW Microorganisms',
                               textAlign: TextAlign.left,
                               style: const TextStyle(
-                                fontWeight: FontWeight.bold,  
+                                fontWeight: FontWeight.bold,
                                 fontSize: 20,
-                                
                               ),
                             ),
                             SizedBox(height: 20),
                             Form(
                               key: _formKey,
                               child: Center(
-                                child: Container(
-                                  width: 220,
-                                  child: Column(
-                                    children: <Widget>[
-                                      // Add TextFormFields and ElevatedButton here.
-                                      TextFormField(
-                                        controller: email,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Email',
-                                          hintText: 'Enter your email',
-                                        ),
-                                        validator: (String? value) {
-                                          if(
-                                            value != null && isValidEmail(value)
-                                          ) {
-                                            return null;
-                                          } else {
-                                            return "Invalid Email";
-                                          }
-                                        },
+                                  child: Container(
+                                width: 220,
+                                child: Column(
+                                  children: <Widget>[
+                                    // Add TextFormFields and ElevatedButton here.
+                                    TextFormField(
+                                      controller: email,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Email',
+                                        hintText: 'Enter your email',
                                       ),
-                                      TextFormField(
-                                        obscureText: true,
-                                        controller: password,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Password',
-                                          hintText: 'Enter your password',
-                                        ),
-                                        validator: (String? value) {
-
-                                          if (value == null) return "You must enter a password";
-
-                                          bool atLeastEightChars = RegExp(r'.{8,}').hasMatch(value);
-                                          if (!atLeastEightChars) return "Enter at least 8 characters";
-
+                                      validator: (String? value) {
+                                        if (value != null &&
+                                            isValidEmail(value)) {
                                           return null;
-
-                                          // TO ADD STRONG PASSWORD USE THE FOLLOWING REGEXP
-                                          // RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)
-
-                                        },
+                                        } else {
+                                          return "Invalid Email";
+                                        }
+                                      },
+                                    ),
+                                    TextFormField(
+                                      obscureText: true,
+                                      controller: password,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Password',
+                                        hintText: 'Enter your password',
                                       ),
-                                    ],
-                                  ),
-                                )
-                              ),
+                                      validator: (String? value) {
+                                        if (value == null)
+                                          return "You must enter a password";
+
+                                        bool atLeastEightChars =
+                                            RegExp(r'.{8,}').hasMatch(value);
+                                        if (!atLeastEightChars)
+                                          return "Enter at least 8 characters";
+
+                                        return null;
+
+                                        // TO ADD STRONG PASSWORD USE THE FOLLOWING REGEXP
+                                        // RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )),
                             ),
                             SizedBox(height: 20),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  textStyle: const TextStyle(fontSize: 16),
-                                  minimumSize: Size(220, 34),
+                                textStyle: const TextStyle(fontSize: 16),
+                                minimumSize: Size(220, 34),
                               ),
                               onPressed: handleSubmit,
                               child: const Text('Login / Register'),
@@ -365,26 +329,27 @@ class _AuthScreen extends State<AuthScreen> {
                                     textStyle: const TextStyle(fontSize: 10),
                                   ),
                                   onPressed: resetPassword,
-                                  child: Text('forgot password?',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey[600],
-                                      ),
+                                  child: Text(
+                                    'forgot password?',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
                                     ),
                                   ),
+                                ),
                                 TextButton(
                                   style: TextButton.styleFrom(
-                                    padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(30, 0, 0, 0),
                                     primary: Colors.grey[600],
                                     textStyle: const TextStyle(fontSize: 10),
                                   ),
                                   onPressed: continueAnonymous,
-                                  child: const Text('skip login',
-                                      style: TextStyle(
-                                        fontSize: 14
-                                      ),
-                                    ),
+                                  child: const Text(
+                                    'skip login',
+                                    style: TextStyle(fontSize: 14),
                                   ),
+                                ),
                               ],
                             ),
                           ],
