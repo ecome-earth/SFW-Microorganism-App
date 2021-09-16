@@ -99,7 +99,7 @@ If you like this project and want to contribute with code, please check the issu
 
 **Financial Support**
 
-We are using cryptocurrency whenever possible, to guarantee financial trust through transparency. All the invoices can be found [here](https://docs.google.com/spreadsheets/d/165NP_1uvO7J4LWyUNuq9B9GrtpmxK9cLvNutP7BcJzU/edit?usp=sharing). We plan to give donors governance tokens proportional to their donation, so they can influence the direction the project takes by making proposals and vote on them. We will use [Aragon](https://aragon.org/) for this. Whenever a proposal is accepted, we will create a milestone made out of issues and attach bounties to each issue proportional to the work it takes to complete them.
+We are using cryptocurrency whenever possible, to guarantee financial trust through transparency. All the invoices can be found [here](https://docs.google.com/spreadsheets/d/1YpBcWnIJo6QBekfoUGzOmU0x7lZTHRxWNk-1TIoKSA8/edit?usp=sharing). We plan to give donors governance tokens proportional to their donation, so they can influence the direction the project takes by making proposals and vote on them. We will use [Aragon](https://aragon.org/) for this. Whenever a proposal is accepted, we will create a milestone made out of issues and attach bounties to each issue proportional to the work it takes to complete them.
 
 
 
