@@ -12,8 +12,8 @@ class _UploadFormState extends State<UploadForm> {
   TextEditingController country = TextEditingController(text: 'Country');
   TextEditingController state = TextEditingController(text: 'State');
   TextEditingController umHeight =
-      TextEditingController(text: 'FoV Height in ');
-  TextEditingController umWidth = TextEditingController(text: 'FoV Width in ');
+      TextEditingController(text: 'Height in μm ');
+  TextEditingController umWidth = TextEditingController(text: 'Width in μm ');
   bool photoExists = false;
   List<String> speciesType = [
     'Soil',
@@ -119,9 +119,10 @@ class _UploadFormState extends State<UploadForm> {
                             Flexible(
                                 child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
+
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 24),
+                                  margin: EdgeInsets.only(bottom: 14),
                                   child: FittedBox(
                                     fit: BoxFit.scaleDown,
                                     child: Text(
@@ -141,88 +142,87 @@ class _UploadFormState extends State<UploadForm> {
                       ),
               ),
               Flexible(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: MaterialButton(
-                      onPressed: () {
-                        print('button pressed');
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  
+                  children: [
+                    Flexible(
+                      child: MaterialButton(
+                          onPressed: () {
+                            print('button pressed');
 
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                content: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  color: Colors.white,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        ...speciesType.map((value) {
-                                          return Container(
-                                            height: 50,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.7,
-                                            child: TextButton(
-                                                style: TextButton.styleFrom(
-                                                    primary: Colors.grey,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    side: BorderSide(
-                                                        color: Colors.black45)),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    selectedType = value;
-                                                    print(selectedType);
-                                                  });
-                                                },
-                                                child: Text(
-                                                  value,
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.black45),
-                                                )),
-                                          );
-                                        })
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                child: FittedBox(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Select Sample Type',
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.black45),
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height * 0.4,
+                                      color: Colors.white,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            ...speciesType.map((value) {
+                                              return Container(
+                                                height: 50,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.7,
+                                                child: TextButton(
+                                                    style: TextButton.styleFrom(
+                                                        primary: Colors.grey,
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        side: BorderSide(
+                                                            color: Colors.black45)),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        selectedType = value;
+                                                        print(selectedType);
+                                                      });
+                                                    },
+                                                    child: Text(
+                                                      value,
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: Colors.black45),
+                                                    )),
+                                              );
+                                            })
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                    fit: BoxFit.fill),
-                                margin: EdgeInsets.only(bottom: 12),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        color: Colors.black45, width: 1)),
+                                  );
+                                });
+                          },
+                          child: Container(
+
+                            height: MediaQuery.of(context).size.height*0.18,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Center(
+                                child: Text(
+                                  'Select Sample Type',
+                                  style: TextStyle(
+
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.black45),
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                      )),
+                            margin: EdgeInsets.only(bottom: 12),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.black45, width: 1)),
+                          )),
+                    ),
+                  ],
                 ),
               ),
               Flexible(
@@ -286,40 +286,26 @@ class _UploadFormState extends State<UploadForm> {
                     ),
                   ),
                 ],
-              )),
+              ),
+              ),
               Flexible(
-                  child: Row(
-                children: [
-                  Flexible(
-                    child: MaterialButton(
-                      highlightColor: Colors.white,
-                      focusColor: Colors.white,
-                      onPressed: () {
-                        print('first Button pressed');
-                      },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
                       child: Container(
-                        padding: EdgeInsets.only(left: 5),
-                        margin: EdgeInsets.only(bottom: 12),
+                        padding: EdgeInsets.only(left: 5 ),
+                        margin: EdgeInsets.only(bottom: 12,left: 15,right: 15),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border:
-                                Border.all(color: Colors.black45, width: 1)),
+                            Border.all(color: Colors.black45, width: 1)),
                         child: TextFormField(
                           decoration: InputDecoration(
-                              suffix: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'μm  ',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                              fillColor: Colors.white,
-                              focusColor: Colors.white,
-                              hoverColor: Colors.white),
-                          keyboardType: TextInputType.number,
+                            fillColor: Colors.white,
+                            focusColor: Colors.white,
+                            hoverColor: Colors.white,
+                          ),
                           style: TextStyle(color: Colors.black45),
                           onTap: () {
                             umHeight.text = '';
@@ -328,32 +314,19 @@ class _UploadFormState extends State<UploadForm> {
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    child: MaterialButton(
-                      highlightColor: Colors.white,
-                      focusColor: Colors.white,
-                      onPressed: () {
-                        print('first Button pressed');
-                      },
+                    Expanded(
                       child: Container(
                         padding: EdgeInsets.only(left: 5),
-                        margin: EdgeInsets.only(bottom: 12, left: 0),
+                        margin: EdgeInsets.only(bottom: 12,left: 15,right: 15),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             border:
-                                Border.all(color: Colors.black45, width: 1)),
+                            Border.all(color: Colors.black45, width: 1)),
                         child: TextFormField(
                           decoration: InputDecoration(
-                              suffix: Center(
-                                  child: Text(
-                                'μm  ',
-                                style: TextStyle(fontSize: 20),
-                              )),
                               fillColor: Colors.white,
                               focusColor: Colors.white,
                               hoverColor: Colors.white),
-                          keyboardType: TextInputType.number,
                           style: TextStyle(color: Colors.black45),
                           onTap: () {
                             umWidth.text = '';
@@ -362,9 +335,9 @@ class _UploadFormState extends State<UploadForm> {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -373,6 +346,7 @@ class _UploadFormState extends State<UploadForm> {
                     onPressed: () {
                       print(
                           'Connecting to Drive Navigating to second screen later');
+                      print(umHeight.text+'   '+ umWidth.text + '  ' + country.text);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.1,
