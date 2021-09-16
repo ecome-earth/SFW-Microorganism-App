@@ -374,7 +374,7 @@ class _UploadFormState extends State<UploadForm> {
                   child: Center(
                       child: Container(
                           child: Text(
-                'Every Submit costs 5 Points',
+                'Every submit costs 5 points',
                 style: TextStyle(
                     color: Colors.red,
                     fontSize: 14,
