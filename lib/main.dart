@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sfw_microorganisms/classes/Profile.dart';
-
+import 'screens/UploadForm.dart';
 import 'screens/AuthScreen.dart';
 import 'screens/ProfileScreen.dart';
-
 void main() {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       title: 'SFW Microorganisms',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -77,7 +79,7 @@ class MyApp extends StatelessWidget {
                     // redirect to Login page if not logged in
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AuthScreen()),
+                      MaterialPageRoute(builder: (context) => UploadForm()),
                     );
                   }
                   // else {

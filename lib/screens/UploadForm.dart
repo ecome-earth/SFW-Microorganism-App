@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sfw_microorganisms/screens/UploadFormSecond.dart';
 class UploadForm extends StatefulWidget {
   const UploadForm({Key? key}) : super(key: key);
 
@@ -15,6 +14,10 @@ class _UploadFormState extends State<UploadForm> {
       TextEditingController(text: 'FoV Height in μm');
   TextEditingController umWidth =
       TextEditingController(text: 'FoV Width in μm');
+  bool photoExists= false;
+List<String> speciesType=['Soil', 'potting soil', 'Compost', 'Compost-Extract', 'Compost-Tee', 'Mulch', 'Worm Casting', 'Other'];
+String? selectedType;
+
   @override
   Widget build(BuildContext context) {
 
@@ -42,51 +45,57 @@ class _UploadFormState extends State<UploadForm> {
                 ),
                 margin: EdgeInsets.only(bottom: 20),
               )),
-              Container(height: 220,child: Column(children: [Flexible(
-                  child: MaterialButton(
-                      onPressed: () {
-                        print('first Button pressed');
-                      },
-                      child: Container(
-                        child: Center(child: Text('Upload Photo/Video',style: TextStyle(fontSize: 24,fontWeight: FontWeight.w300),)),
-                        margin: EdgeInsets.only(bottom: 12),
-                        height: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            border:
-                            Border.all(color: Colors.black45, width: 1)),
-                      ))),
-                Flexible(
-                  child: MaterialButton(
-                      onPressed: () {
-                        print('button pressed');
+               Container(margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height)*0.02,height: MediaQuery.of(context).size.height*0.33,child: photoExists? Placeholder():Padding(
+                 padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.03),
+                 child: Column(children: [Flexible(
+                    child: MaterialButton(
+                        onPressed: () {
+                          print('first Button pressed');
+                        },
+                        child: Container(
+                          child: Center(child: Text('Upload Photo/Video',style: TextStyle(fontSize: 24,fontWeight: FontWeight.w300),)),
+                          margin: EdgeInsets.only(bottom: 12),
+                          height: 100,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              border:
+                              Border.all(color: Colors.black45, width: 1)),
+                        ))),
+                  Flexible(
+                    child: MaterialButton(
+                        onPressed: () {
+                          print('button pressed, changing variable to true');
+                          setState(() {
+                            photoExists = true;
+                          });
 
-                      },
-                      child: Container(
-                        child: FittedBox(child: Text('Select from online drive',style: TextStyle(fontSize: 24,fontWeight: FontWeight.w300),),fit: BoxFit.none,),
-                        margin: EdgeInsets.only(bottom: 12),
-                        height: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            border: Border.all(color: Colors.black45, width: 1)),
-                      )),
-                ),
-                Flexible(
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
+                        },
+                        child: Container(
+                          child: FittedBox(child: Text('Select from online drive',style: TextStyle(fontSize: 24,fontWeight: FontWeight.w300),),fit: BoxFit.none,),
+                          margin: EdgeInsets.only(bottom: 12),
+                          height: 100,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black45, width: 1)),
+                        )),
+                  ),
+                  Flexible(
+                      child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
 
-                          margin: EdgeInsets.only(bottom: 24),
-                          child: Text(
-                            'Max 10s static video\nor photo',
-                            style: TextStyle(color: Colors.red,fontSize: 18,fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.center,
+                            margin: EdgeInsets.only(bottom: 24),
+                            child: Text(
+                              'Max 10s static video\nor photo',
+                              style: TextStyle(color: Colors.red,fontSize: 18,fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ),
-                      ],
-                    )),],),),
+                        ],
+                      )),],),
+               ),),
 
               Flexible(
                 child: MaterialButton(
@@ -95,7 +104,25 @@ class _UploadFormState extends State<UploadForm> {
 
                       showDialog(context: context, builder: (BuildContext context) {
 
-                      return AlertDialog(content: Container(height: 400,color: Colors.white,),);});
+                      return AlertDialog(content: Container(height: MediaQuery.of(context).size.height*0.6,color: Colors.white,child: Column(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [
+
+                        ...speciesType.map((value) {
+                          return Container(height: 50,width: MediaQuery.of(context).size.height*0.7,
+                            child: TextButton(
+                            style: TextButton.styleFrom(backgroundColor: Colors.white,side: BorderSide(color: Colors.black45)),
+                            onPressed: (){
+
+
+                              setState(() {
+                                selectedType=value;
+                                print(selectedType);
+                              });
+                            }, child: Text(value,style: TextStyle(fontSize: 24,color: Colors.black45),)),
+                          );
+                        } )
+
+
+                      ],),),);});
 
 
 
@@ -177,7 +204,7 @@ class _UploadFormState extends State<UploadForm> {
                                 color: Colors.white,
                                 border:
                                 Border.all(color: Colors.black45, width: 1)),
-                            child: TextFormField(
+                            child: TextFormField(keyboardType: TextInputType.number,
                               style: TextStyle(color: Colors.black45),
                               onTap: () {
                                 umHeight.text = '';
@@ -200,7 +227,7 @@ class _UploadFormState extends State<UploadForm> {
                                 color: Colors.white,
                                 border:
                                 Border.all(color: Colors.black45, width: 1)),
-                            child: TextFormField(
+                            child: TextFormField(keyboardType: TextInputType.number,
                               style: TextStyle(color: Colors.black45),
                               onTap: () {
                                 umWidth.text = '';
@@ -219,17 +246,14 @@ class _UploadFormState extends State<UploadForm> {
                   MaterialButton(
                     onPressed: () {
                   print('Connecting to Drive Navigating to second screen later');
-                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                    return SecondUploadForm(country: country.text,state: state.text,umHeight: umHeight.text,umWidth: umWidth.text,species: 'Parasite',);
-                  }));
                     },
-                    child: Container(height: 80, width: 240,
+                    child: Container(height: MediaQuery.of(context).size.height*0.1, width: MediaQuery.of(context).size.width*0.55,
 
 
                   margin: EdgeInsets.only(bottom: 12,top: 24),
                   child: Center(
                     child: Text(
-                      'Connect to your\nonline drive',textAlign: TextAlign.center,
+                      'Submit',textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white,fontSize: 26,fontWeight: FontWeight.w600),
                     ),
                   ),
