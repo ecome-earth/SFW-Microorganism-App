@@ -265,7 +265,7 @@ String? selectedType;
                   ),
                 ],
               ),
-              Spacer(),
+              SizedBox(height: MediaQuery.of(context).size.height*0.017,),
               Flexible(
                   child: Center(child: Container(child: Text('Every Submit costs 5 Points',style: TextStyle(color: Colors.red,fontSize: 20,fontWeight: FontWeight.w500),)))),
             ],
