@@ -22,7 +22,7 @@ String? selectedType;
   Widget build(BuildContext context) {
 
     return SafeArea(
-      child: Scaffold(
+      child: Scaffold(backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Container(
           margin: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -109,7 +109,7 @@ String? selectedType;
                         ...speciesType.map((value) {
                           return Container(height: 50,width: MediaQuery.of(context).size.height*0.7,
                             child: TextButton(
-                            style: TextButton.styleFrom(backgroundColor: Colors.white,side: BorderSide(color: Colors.black45)),
+                            style: TextButton.styleFrom(primary: Colors.grey,backgroundColor: Colors.white,side: BorderSide(color: Colors.black45)),
                             onPressed: (){
 
 
@@ -141,7 +141,7 @@ String? selectedType;
                   child: Row(
                 children: [
                   Flexible(
-                    child: MaterialButton(
+                    child: MaterialButton(highlightColor: Colors.white, focusColor: Colors.white,
                       onPressed: () {
                         print('first Button pressed');
                       },
@@ -153,7 +153,7 @@ String? selectedType;
                             color: Colors.white,
                             border:
                                 Border.all(color: Colors.black45, width: 1)),
-                        child: TextFormField(
+                        child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),
                           style: TextStyle(color: Colors.black45),
                           onTap: () {
                             country.text = '';
@@ -164,7 +164,7 @@ String? selectedType;
                     ),
                   ),
                   Flexible(
-                    child: MaterialButton(
+                    child: MaterialButton(highlightColor: Colors.white, focusColor: Colors.white,
                       onPressed: () {
                         print('first Button pressed');
                       },
@@ -176,7 +176,7 @@ String? selectedType;
                             color: Colors.white,
                             border:
                                 Border.all(color: Colors.black45, width: 1)),
-                        child: TextFormField(
+                        child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),
                           style: TextStyle(color: Colors.black45),
                           onTap: () {
                             state.text = '';
@@ -192,7 +192,7 @@ String? selectedType;
                   child: Row(
                     children: [
                       Flexible(
-                        child: MaterialButton(
+                        child: MaterialButton(highlightColor: Colors.white, focusColor: Colors.white,
                           onPressed: () {
                             print('first Button pressed');
                           },
@@ -204,7 +204,7 @@ String? selectedType;
                                 color: Colors.white,
                                 border:
                                 Border.all(color: Colors.black45, width: 1)),
-                            child: TextFormField(keyboardType: TextInputType.number,
+                            child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),keyboardType: TextInputType.number,
                               style: TextStyle(color: Colors.black45),
                               onTap: () {
                                 umHeight.text = '';
@@ -215,7 +215,7 @@ String? selectedType;
                         ),
                       ),
                       Flexible(
-                        child: MaterialButton(
+                        child: MaterialButton(highlightColor: Colors.white, focusColor: Colors.white,
                           onPressed: () {
                             print('first Button pressed');
                           },
@@ -227,7 +227,7 @@ String? selectedType;
                                 color: Colors.white,
                                 border:
                                 Border.all(color: Colors.black45, width: 1)),
-                            child: TextFormField(keyboardType: TextInputType.number,
+                            child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),keyboardType: TextInputType.number,
                               style: TextStyle(color: Colors.black45),
                               onTap: () {
                                 umWidth.text = '';
