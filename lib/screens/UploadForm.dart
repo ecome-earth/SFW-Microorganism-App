@@ -11,11 +11,11 @@ class _UploadFormState extends State<UploadForm> {
   TextEditingController country = TextEditingController(text: 'Country');
   TextEditingController state = TextEditingController(text: 'State');
   TextEditingController umHeight =
-      TextEditingController(text: 'FoV Height in μm');
+      TextEditingController(text: 'FoV Height in ');
   TextEditingController umWidth =
-      TextEditingController(text: 'FoV Width in μm');
+      TextEditingController(text: 'FoV Width in ');
   bool photoExists= false;
-List<String> speciesType=['Soil', 'potting soil', 'Compost', 'Compost-Extract', 'Compost-Tee', 'Mulch', 'Worm Casting', 'Other'];
+List<String> speciesType=['Soil', 'Potting Soil', 'Compost', 'Compost-Extract', 'Compost-Tee', 'Mulch', 'Worm Casting', 'Other'];
 String? selectedType;
 
   @override
@@ -153,7 +153,7 @@ String? selectedType;
                             color: Colors.white,
                             border:
                                 Border.all(color: Colors.black45, width: 1)),
-                        child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),
+                        child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white, ),
                           style: TextStyle(color: Colors.black45),
                           onTap: () {
                             country.text = '';
@@ -204,7 +204,7 @@ String? selectedType;
                                 color: Colors.white,
                                 border:
                                 Border.all(color: Colors.black45, width: 1)),
-                            child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),keyboardType: TextInputType.number,
+                            child: TextFormField(decoration: InputDecoration(suffix: Text('μm  ',style: TextStyle(fontSize: 20),),fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),keyboardType: TextInputType.number,
                               style: TextStyle(color: Colors.black45),
                               onTap: () {
                                 umHeight.text = '';
@@ -227,7 +227,7 @@ String? selectedType;
                                 color: Colors.white,
                                 border:
                                 Border.all(color: Colors.black45, width: 1)),
-                            child: TextFormField(decoration: InputDecoration(fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),keyboardType: TextInputType.number,
+                            child: TextFormField(decoration: InputDecoration(suffix: Text('μm  ',style: TextStyle(fontSize: 20),),fillColor: Colors.white, focusColor: Colors.white, hoverColor: Colors.white),keyboardType: TextInputType.number,
                               style: TextStyle(color: Colors.black45),
                               onTap: () {
                                 umWidth.text = '';
@@ -267,7 +267,7 @@ String? selectedType;
               ),
               Spacer(),
               Flexible(
-                  child: Center(child: Container(child: Text('Every Submit costs 5 Points')))),
+                  child: Center(child: Container(child: Text('Every Submit costs 5 Points',style: TextStyle(color: Colors.red,fontSize: 20,fontWeight: FontWeight.w500),)))),
             ],
           ),
         ),
