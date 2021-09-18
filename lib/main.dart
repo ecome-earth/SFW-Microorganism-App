@@ -11,7 +11,7 @@ import 'screens/AuthScreen.dart';
 import 'screens/ProfileScreen.dart';
 import 'screens/ProfileUploads.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }

@@ -112,7 +112,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
 
   Widget _buildBottomNavBar({required ProfileProvider provider}) {
     return SizedBox(
-      height: 100,
+      height: 120,
       child: BottomNavigationBar(
         onTap: (index) {
           debugPrint('the nav items: ${provider.bottomNavItems}');
