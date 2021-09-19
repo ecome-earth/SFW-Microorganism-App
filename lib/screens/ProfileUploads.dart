@@ -166,13 +166,19 @@ class _ProfileUploadsState extends State<ProfileUploads>
                 ),
               )),
           BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/profile/microdex.png',
-                height: 40,
-                width: 40,
-                color: provider.bottomNavItems![2]!
-                    ? Color(0xFF03DAC5)
-                    : Colors.black,
+              icon: InkWell(onTap: (){
+
+                print('Navigating to gallery');
+                Navigator.pushNamed(context, 'gallery');
+              },
+                child: Image.asset(
+                  'assets/profile/microdex.png',
+                  height: 40,
+                  width: 40,
+                  color: provider.bottomNavItems![2]!
+                      ? Color(0xFF03DAC5)
+                      : Colors.black,
+                ),
               ),
               // ignore: deprecated_member_use
               title: Text('Microdex',
