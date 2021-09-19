@@ -93,27 +93,13 @@ class _ProfileUploadsState extends State<ProfileUploads>
       color: Color(0xFFFFF7F4),
       child: Row(
         children: [
-          IconButton(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              onPressed: () {
-
-                    print('Navigating to Gallery');
-                    Navigator.of(context).pushNamed('gallery');
-              },
-              icon: Icon(
-                Icons.list,
-                size: 40,
-
-              )),
+          Spacer(),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Text(
-              '2 Uploads',
-              style: tabHeading,
-              textAlign: TextAlign.center,
-            ),
-          )),
+              child: Text(
+                '2 Uploads',
+                style: tabHeading,
+                textAlign: TextAlign.center,
+              )),
           IconButton(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               onPressed: () { 
