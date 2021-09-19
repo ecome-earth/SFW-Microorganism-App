@@ -9,6 +9,30 @@ class Gallery extends StatefulWidget {
 
 class _GalleryState extends State<Gallery> {
   List<int> postList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  List<String> speciesType = [
+    'Soil',
+    'Potting Soil',
+    'Compost',
+    'Compost-Extract',
+    'Compost-Tee',
+    'Mulch',
+    'Worm Casting',
+    'Other'
+  ];
+
+  Map<String, List<String>> filter = {
+    'Nematode': [
+      'Bacterial-feeding',
+      'Fungal-feeding',
+      'Predatory',
+      'Root-feeding'
+    ],
+    'Protozoa': ['Flagellate', 'Ciliate', 'Amoebea'],
+    'Filamentous': ['Actinobacteria', 'Fungi', 'Oomycetes'],
+    'Bacteria': ['Aerobic', 'Anaerobic', 'Phatogenic'],
+    'Other': ['Plant Matter', 'Dead Organism', 'Seed', 'Pollen', 'Other(enter']
+  };
+
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -29,35 +53,134 @@ class _GalleryState extends State<Gallery> {
                       icon: Icon(Icons.arrow_back_outlined)),
                   IconButton(
                     onPressed: () {
-                      showDialog(context: context, builder: (BuildContext context){
-                        return AlertDialog(
-                          title: Center(child: Text('Sort By',style: TextStyle(fontSize: 22),)),
-                         content: Column( mainAxisSize: MainAxisSize.min,children: [
-                            Container(decoration: BoxDecoration(color: Colors.white12,border: Border.all(color: Colors.black45),borderRadius: BorderRadius.circular(5)),margin: EdgeInsets.only(top: 10),child: Center(child: TextButton(onPressed: (){},child: Text('Date Of Upload',style: TextStyle(color: Colors.black45),)))),
-                           Container(decoration: BoxDecoration(color: Colors.white12,border: Border.all(color: Colors.black45),borderRadius: BorderRadius.circular(5)),margin: EdgeInsets.only(top: 10),child: Center(child: TextButton(onPressed: (){},child: Text('Number Of Votes',style: TextStyle(color: Colors.black45))))),
-                          ],
-                         ),
-                        );
-                      });
-
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Center(
+                                  child: Text(
+                                'Sort By',
+                                style: TextStyle(fontSize: 22),
+                              )),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white12,
+                                          border:
+                                              Border.all(color: Colors.black45),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Center(
+                                          child: TextButton(
+                                              onPressed: () {},
+                                              child: Text(
+                                                'Date Of Upload',
+                                                style: TextStyle(
+                                                    color: Colors.black45),
+                                              )))),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white12,
+                                          border:
+                                              Border.all(color: Colors.black45),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Center(
+                                          child: TextButton(
+                                              onPressed: () {},
+                                              child: Text('Number Of Votes',
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.black45))))),
+                                ],
+                              ),
+                            );
+                          });
                     },
                     icon: Icon(Icons.sort_outlined),
                   ),
                   IconButton(
                     onPressed: () {
-                      showDialog(context: context, builder: (BuildContext context){
-                        return AlertDialog(
-                          title: Center(child: Text('Sort By',style: TextStyle(fontSize: 22),)),
-                          content: Column( mainAxisSize: MainAxisSize.min,children: [
-                            Container(decoration: BoxDecoration(color: Colors.white12,border: Border.all(color: Colors.black45),borderRadius: BorderRadius.circular(5)),margin: EdgeInsets.only(top: 10),child: Center(child: TextButton(onPressed: (){},child: Text('Filter 1',style: TextStyle(color: Colors.black45),)))),
-                            Container(decoration: BoxDecoration(color: Colors.white12,border: Border.all(color: Colors.black45),borderRadius: BorderRadius.circular(5)),margin: EdgeInsets.only(top: 10),child: Center(child: TextButton(onPressed: (){},child: Text('Filter 2',style: TextStyle(color: Colors.black45),)))),
-                            Container(decoration: BoxDecoration(color: Colors.white12,border: Border.all(color: Colors.black45),borderRadius: BorderRadius.circular(5)),margin: EdgeInsets.only(top: 10),child: Center(child: TextButton(onPressed: (){},child: Text('Filter 3',style: TextStyle(color: Colors.black45),)))),
-                            Container(decoration: BoxDecoration(color: Colors.white12,border: Border.all(color: Colors.black45),borderRadius: BorderRadius.circular(5)),margin: EdgeInsets.only(top: 10),child: Center(child: TextButton(onPressed: (){},child: Text('Filter 4',style: TextStyle(color: Colors.black45),)))),
-                            Container(decoration: BoxDecoration(color: Colors.white12,border: Border.all(color: Colors.black45),borderRadius: BorderRadius.circular(5)),margin: EdgeInsets.only(top: 10),child: Center(child: TextButton(onPressed: (){},child: Text('Filter 5',style: TextStyle(color: Colors.black45),)))),
-                          ],
-                          ),
-                        );
-                      });
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Center(
+                                  child: Text(
+                                'Filter By',
+                                style: TextStyle(fontSize: 22),
+                              )),
+                              content: Container(
+                                height: 300,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ...filter.keys.map(
+                                        (index) => Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white12,
+                                              border: Border.all(
+                                                  color: Colors.black45,
+                                                  width: 2),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          child: ExpansionTile(
+                                            title: Container(
+                                              child: Center(
+                                                child: TextButton(
+                                                  onPressed: () {},
+                                                  child: Text(
+                                                    index,
+                                                    style: TextStyle(
+                                                        color: Colors.black45,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            children: [
+                                              ...filter[index]!.map(
+                                                (subIndex) => Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border(
+                                                          top: BorderSide(
+                                                              color: Colors
+                                                                  .black45))),
+                                                  margin:
+                                                      EdgeInsets.only(top: 7),
+                                                  child: Center(
+                                                    child: TextButton(
+                                                      onPressed: () {},
+                                                      child: Text(
+                                                        subIndex,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black45,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
                     },
                     icon: Icon(Icons.filter_alt_outlined),
                   ),
@@ -93,7 +216,7 @@ class _GalleryState extends State<Gallery> {
                         ),
                         Text(' A little bit of description goes here'),
                         Padding(
-                          padding:  EdgeInsets.only(right: 6.0),
+                          padding: EdgeInsets.only(right: 6.0),
                           child: IconButton(
                               onPressed: () {},
                               icon: Icon(Icons.message_outlined)),
@@ -109,4 +232,11 @@ class _GalleryState extends State<Gallery> {
       ),
     );
   }
+}
+
+class Entry {
+  Entry(this.title, [this.children = const <Entry>[]]);
+
+  final String title;
+  final List<Entry> children;
 }
