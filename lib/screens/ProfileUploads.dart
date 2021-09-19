@@ -91,18 +91,19 @@ class _ProfileUploadsState extends State<ProfileUploads>
     return Container(
       height: 75,
       color: Color(0xFFFFF7F4),
-      child: Row(
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Spacer(),
-          Expanded(
-              child: Text(
-                '2 Uploads',
-                style: tabHeading,
-                textAlign: TextAlign.center,
-              )),
+          Spacer(),
+          Text(
+            '2 Uploads',
+            style: tabHeading,
+            textAlign: TextAlign.center,
+          ),
+          Spacer(),
+
           IconButton(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              onPressed: () { 
+              onPressed: () {
                 print('changing to New Upload form');
                 Navigator.of(context).pushNamed('newUpload');
               },
