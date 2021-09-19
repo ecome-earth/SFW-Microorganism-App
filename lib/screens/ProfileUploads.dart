@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
-
+import 'package:sfw_microorganisms/screens/ProfileScreen.dart';
 class ProfileUploads extends StatefulWidget {
   ProfileUploads({Key? key}) : super(key: key);
 
@@ -13,17 +13,17 @@ class ProfileUploads extends StatefulWidget {
 
 class _ProfileUploadsState extends State<ProfileUploads>
     with TickerProviderStateMixin {
-  TabController? _tabController;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this,initialIndex: 1);
   }
 
   @override
   void dispose() {
-    _tabController!.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -59,17 +59,25 @@ class _ProfileUploadsState extends State<ProfileUploads>
           ),
           body: Consumer<ProfileProvider>(
             builder: (context, provider, _) {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    for (var upload in provider.uploads!)
-                      UploadTile(
-                        uploadModel: upload,
-                      ),
-                  ],
-                ),
+              return TabBarView(
+                controller: _tabController,
+                children: [
+                  ProfileScreen(),
+                  SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(),
+                        for (var upload in provider.uploads!)
+                          UploadTile(
+                            uploadModel: upload,
+                          ),
+                      ],
+                    ),
+                  ),
+
+                  Container(color: Colors.white,child: Center(child: Text('Microdex..'),),)
+                ],
               );
             },
           ),
@@ -87,10 +95,15 @@ class _ProfileUploadsState extends State<ProfileUploads>
         children: [
           IconButton(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              onPressed: () => print('hello world'),
+              onPressed: () {
+
+                    print('Navigating to Gallery');
+                    Navigator.of(context).pushNamed('gallery');
+              },
               icon: Icon(
                 Icons.list,
                 size: 40,
+
               )),
           Expanded(
               child: Padding(
@@ -103,7 +116,11 @@ class _ProfileUploadsState extends State<ProfileUploads>
           )),
           IconButton(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              onPressed: () => print('hello world'),
+              onPressed: () { 
+                print('changing to New Upload form');
+                Navigator.of(context).pushNamed('newUpload');
+              },
+              
               icon: Icon(Icons.add_a_photo_outlined, size: 32)),
         ],
       ),
@@ -112,7 +129,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
 
   Widget _buildBottomNavBar({required ProfileProvider provider}) {
     return SizedBox(
-      height: 100,
+      height: 95,
       child: BottomNavigationBar(
         onTap: (index) {
           debugPrint('the nav items: ${provider.bottomNavItems}');
@@ -138,13 +155,19 @@ class _ProfileUploadsState extends State<ProfileUploads>
                 ),
               )),
           BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/profile/quiz.png',
-                height: 40,
-                width: 40,
-                color: provider.bottomNavItems![1]!
-                    ? Color(0xFF03DAC5)
-                    : Colors.black,
+              icon: InkWell(
+                onTap: (){
+                  
+
+                },
+                child: Image.asset(
+                  'assets/profile/quiz.png',
+                  height: 40,
+                  width: 40,
+                  color: provider.bottomNavItems![1]!
+                      ? Color(0xFF03DAC5)
+                      : Colors.black,
+                ),
               ),
               // ignore: deprecated_member_use
               title: Text(
