@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
+import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
 
-class ProfileUploads extends StatefulWidget {
-  ProfileUploads({Key? key}) : super(key: key);
+class RootScreen extends StatefulWidget {
+  RootScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileUploadsState createState() => _ProfileUploadsState();
+  _RootScreenState createState() => _RootScreenState();
 }
 
-class _ProfileUploadsState extends State<ProfileUploads>
-    with TickerProviderStateMixin {
+class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -57,56 +57,11 @@ class _ProfileUploadsState extends State<ProfileUploads>
               ),
             ),
           ),
-          body: Consumer<ProfileProvider>(
-            builder: (context, provider, _) {
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    for (var upload in provider.uploads!)
-                      UploadTile(
-                        uploadModel: upload,
-                      ),
-                  ],
-                ),
-              );
-            },
-          ),
+          body: Provider.of<BottomNavBarProvider>(context, listen: false)
+              .pages[provider.selectedIndex],
           bottomNavigationBar: _buildBottomNavBar(provider: provider),
         );
       },
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      height: 75,
-      color: Color(0xFFFFF7F4),
-      child: Row(
-        children: [
-          IconButton(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              onPressed: () => print('hello world'),
-              icon: Icon(
-                Icons.list,
-                size: 40,
-              )),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Text(
-              '2 Uploads',
-              style: tabHeading,
-              textAlign: TextAlign.center,
-            ),
-          )),
-          IconButton(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
-              onPressed: () => print('hello world'),
-              icon: Icon(Icons.add_a_photo_outlined, size: 32)),
-        ],
-      ),
     );
   }
 
@@ -115,7 +70,6 @@ class _ProfileUploadsState extends State<ProfileUploads>
       height: 120,
       child: BottomNavigationBar(
         onTap: (index) {
-          debugPrint('the nav items: ${provider.bottomNavItems}');
           provider.selectItem(index: index);
           provider.setPreviousIndex(index: index);
         },
