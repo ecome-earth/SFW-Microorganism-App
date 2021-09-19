@@ -115,7 +115,7 @@ class _GalleryState extends State<Gallery> {
                                 style: TextStyle(fontSize: 22),
                               )),
                               content: Container(
-                                height: 300,
+                                height: 400,
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
