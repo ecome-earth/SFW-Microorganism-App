@@ -121,20 +121,20 @@ class _GalleryState extends State<Gallery> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       ...filter.keys.map(
-                                        (index) => Container(
-                                          margin: EdgeInsets.only(top: 10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white12,
-                                              border: Border.all(
-                                                  color: Colors.black45,
-                                                  width: 2),
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                          child: ExpansionTile(
-                                            title: Container(
-                                              child: Center(
-                                                child: TextButton(
-                                                  onPressed: () {},
+                                        (index) => InkWell(
+                                          onTap: () {},
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white12,
+                                                border: Border.all(
+                                                    color: Colors.black45,
+                                                    width: 2),
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: ExpansionTile(
+                                              title: Container(
+                                                child: Center(
                                                   child: Text(
                                                     index,
                                                     style: TextStyle(
@@ -144,34 +144,34 @@ class _GalleryState extends State<Gallery> {
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            children: [
-                                              ...filter[index]!.map(
-                                                (subIndex) => Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border(
-                                                          top: BorderSide(
-                                                              color: Colors
-                                                                  .black45))),
-                                                  margin:
-                                                      EdgeInsets.only(top: 7),
-                                                  child: Center(
-                                                    child: TextButton(
-                                                      onPressed: () {},
-                                                      child: Text(
-                                                        subIndex,
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black45,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
+                                              children: [
+                                                ...filter[index]!.map(
+                                                  (subIndex) => InkWell(
+                                                    onTap: () { print('clicked on inkewell'); },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          border: Border(
+                                                              top: BorderSide(
+                                                                  color: Colors
+                                                                      .black45))),
+                                                      margin:
+                                                          EdgeInsets.only(top: 7),
+                                                      child: Center(
+                                                        child: Text(
+                                                          subIndex,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black45,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              )
-                                            ],
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
