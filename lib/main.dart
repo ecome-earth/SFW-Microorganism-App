@@ -5,12 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/providers/quiz_provider.dart';
-import 'package:sfw_microorganisms/screens/root_screen.dart';
 import 'package:sfw_microorganisms/screens/Gallery.dart';
+import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
 import 'package:sfw_microorganisms/screens/ProfileUploadNew.dart';
-import 'package:sfw_microorganisms/screens/ProfileScreen.dart';
-
-
+import 'package:sfw_microorganisms/screens/root_screen.dart';
 import 'package:sfw_microorganisms/screens/quiz/answer_selected_screen.dart';
 
 import 'screens/root_screen.dart';
@@ -35,29 +33,18 @@ class MyApp extends StatelessWidget {
       ],
       child: ChangeNotifierProvider(
         create: (context) => ProfileProvider(),
-
         child: MaterialApp(
+            title: 'SFW Microorganisms',
             debugShowCheckedModeBanner: false,
-            routes:
-            {
-              //TODO: add route to quiz
-              // 'quiz': (context) => Quiz(),
+           routes: {
+              'quiz': (context) => AnswerSelectedScreen(),
               'gallery': (context) => Gallery(),
               'newUpload': (context) => UploadForm(),
-              'root': (context) => RootScreen(),
-              'profile': (context) => ProfileScreen(),
+              'root': (context) => ProfileUploads(),
+              'info': (context) => ProfileInfo(),
             },
-            title: 'SFW Microorganisms',
             theme: ThemeData(
-              // This is the theme of your application.
-              //
-              // Try running your application with "flutter run". You'll see the
-              // application has a blue toolbar. Then, without quitting the app, try
-              // changing the primarySwatch below to Colors.green and then invoke
-              // "hot reload" (press "r" in the console where you ran "flutter run",
-              // or simply save your changes to "hot reload" in a Flutter IDE).
-              // Notice that the counter didn't reset back to zero; the application
-              // is not restarted.
+
               primarySwatch: Colors.blue,
             ),
             home: FutureBuilder(
@@ -74,16 +61,16 @@ class MyApp extends StatelessWidget {
                       backgroundColor: Colors.grey[100],
                       body: SafeArea(
                           child: Stack(children: [
-                        Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              right: 16.0,
-                              bottom: 20.0,
-                            ),
-                            child: Center(
-                              child: Text('Problem with firebase ...'),
-                            )),
-                      ])));
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 16.0,
+                                  bottom: 20.0,
+                                ),
+                                child: Center(
+                                  child: Text('Problem with firebase ...'),
+                                )),
+                          ])));
                 }
 
                 // Once complete, show your application
@@ -96,18 +83,18 @@ class MyApp extends StatelessWidget {
                       Navigator.push(
                         context,
                         // MaterialPageRoute(builder: (context) => AuthScreen()),
-                        MaterialPageRoute(builder: (context) => RootScreen()),
+                        MaterialPageRoute(builder: (context) => ProfileUploads()),
                       );
                     }
                     // else {
                     //   Navigator.push(
                     //       context,
-                    //       MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    //       MaterialPageRoute(builder: (context) => ProfileInfo()),
                     //   );
                     // }
                   });
 
-                  return RootScreen();
+                  return ProfileUploads();
                 }
 
                 // Otherwise, show something LOADING waiting for initialization to complete
@@ -115,23 +102,23 @@ class MyApp extends StatelessWidget {
                     backgroundColor: Colors.grey[100],
                     body: SafeArea(
                         child: Stack(children: [
-                      Padding(
-                          padding: const EdgeInsets.only(
-                            left: 16.0,
-                            right: 16.0,
-                            bottom: 20.0,
-                          ),
-                          child: Center(
-                            child: Text('Loading ...'),
-                          )),
-                    ])));
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16.0,
+                                right: 16.0,
+                                bottom: 20.0,
+                              ),
+                              child: Center(
+                                child: Text('Loading ...'),
+                              )),
+                        ])));
 
                 // childAuthScreen();
               },
             )
 
-            //MyHomePage(title: 'SFW Microorganisms'),
-            ),
+          //MyHomePage(title: 'SFW Microorganisms'),
+        ),
       ),
     );
   }

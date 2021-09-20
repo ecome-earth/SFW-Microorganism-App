@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileInfo extends StatefulWidget {
   @override
-  _ProfileScreen createState() => _ProfileScreen();
+  _ProfileInfo createState() => _ProfileInfo();
 }
 
-class _ProfileScreen extends State<ProfileScreen> {
+class _ProfileInfo extends State<ProfileInfo> {
   void showMessage(String text) {
     final snackBar = SnackBar(
       content: Text(text),

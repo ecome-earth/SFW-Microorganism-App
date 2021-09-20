@@ -11,7 +11,7 @@ class AnswerSelectedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<QuizProvider>(builder: (context, provider, _) {
-      return Scaffold(
+      return SafeArea(child: Scaffold(
         body: Container(
           margin: const EdgeInsets.all(16.0),
           child: Column(
@@ -59,13 +59,15 @@ class AnswerSelectedScreen extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: provider.testQuiz!.choices!.entries
-                      .map((choice) => QuizTile(
-                            text: choice.key,
-                          ))
-                      .toList(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: provider.testQuiz!.choices!.entries
+                        .map((choice) => QuizTile(
+                              text: choice.key,
+                            ))
+                        .toList(),
+                  ),
                 ),
               ),
               // for (var choice in provider.testQuiz!.choices!.entries)
@@ -74,7 +76,7 @@ class AnswerSelectedScreen extends StatelessWidget {
               //   )
             ],
           ),
-        ),
+        ),),
       );
     });
   }
