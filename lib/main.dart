@@ -5,7 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/classes/Profile.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
+import 'package:sfw_microorganisms/screens/ProfileUploadNew.dart';
 import 'package:sfw_microorganisms/screens/ProfileUploads.dart';
+import 'package:sfw_microorganisms/screens/Gallery.dart';
+
 
 import 'screens/AuthScreen.dart';
 import 'screens/ProfileScreen.dart';
@@ -17,25 +20,29 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ProfileProvider(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes:
+        {
+         //TODO: add route to quiz
+          // 'quiz': (context) => Quiz(),
+          'gallery': (context) => Gallery(),
+          'newUpload': (context) => UploadForm(),
+          'uploads': (context) => ProfileUploads(),
+          'profile': (context) => ProfileScreen(),
+        },
           title: 'SFW Microorganisms',
           theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // Try running your application with "flutter run". You'll see the
-            // application has a blue toolbar. Then, without quitting the app, try
-            // changing the primarySwatch below to Colors.green and then invoke
-            // "hot reload" (press "r" in the console where you ran "flutter run",
-            // or simply save your changes to "hot reload" in a Flutter IDE).
-            // Notice that the counter didn't reset back to zero; the application
-            // is not restarted.
             primarySwatch: Colors.blue,
           ),
+
+
+
           home: FutureBuilder(
             // Initialize FlutterFire
             future: Firebase.initializeApp(),
@@ -104,9 +111,12 @@ class MyApp extends StatelessWidget {
 
               // childAuthScreen();
             },
-          )
+          ),
 
-          //MyHomePage(title: 'SFW Microorganisms'),
+
+
+
+
           ),
     );
   }

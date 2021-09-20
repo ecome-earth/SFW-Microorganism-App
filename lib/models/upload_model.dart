@@ -5,4 +5,5 @@ class UploadModel {
   final String? image;
   final String? percentage;
   final int? participants;
+
 }

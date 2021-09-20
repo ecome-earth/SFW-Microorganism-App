@@ -45,6 +45,7 @@ class _UploadFormState extends State<UploadForm> {
                     IconButton(
                         onPressed: () {
                           print('navigate to back');
+                          Navigator.of(context).pop();
                         },
                         icon: Icon(
                           Icons.arrow_back_outlined,
