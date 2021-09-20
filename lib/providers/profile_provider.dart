@@ -21,6 +21,9 @@ class ProfileProvider extends ChangeNotifier {
   Map<int, bool>? _bottomNavItems = {0: true, 1: false, 2: false};
   Map<int, bool>? get bottomNavItems => _bottomNavItems;
 
+  int? _selectedIndex = 0;
+  int? get selectedIndex => _selectedIndex;
+
   int? _previousIndex = 0;
   int? get previousIndex => _previousIndex;
 
@@ -28,6 +31,7 @@ class ProfileProvider extends ChangeNotifier {
     if (index != previousIndex) {
       _bottomNavItems!.update(index, (value) => true);
       _bottomNavItems!.update(_previousIndex!, (value) => false);
+      _selectedIndex = index;
     }
     notifyListeners();
   }

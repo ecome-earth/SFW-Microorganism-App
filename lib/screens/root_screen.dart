@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
+import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
-import 'package:sfw_microorganisms/screens/ProfileScreen.dart';
-class ProfileUploads extends StatefulWidget {
-  ProfileUploads({Key? key}) : super(key: key);
+
+class RootScreen extends StatefulWidget {
+  RootScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileUploadsState createState() => _ProfileUploadsState();
+  _RootScreenState createState() => _RootScreenState();
 }
 
-class _ProfileUploadsState extends State<ProfileUploads>
-    with TickerProviderStateMixin {
+class _RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this,initialIndex: 1);
+    _tabController = TabController(initialIndex: 1, length: 3, vsync: this);
   }
 
   @override
@@ -35,7 +35,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
           appBar: AppBar(
             backgroundColor: Colors.white,
             bottom: PreferredSize(
-              preferredSize: Size(double.infinity, 10.0),
+              preferredSize: Size.fromHeight(kToolbarHeight),
               child: TabBar(
                 controller: _tabController,
                 indicatorColor: Color(0xFF03DAC5),
@@ -57,69 +57,19 @@ class _ProfileUploadsState extends State<ProfileUploads>
               ),
             ),
           ),
-          body: Consumer<ProfileProvider>(
-            builder: (context, provider, _) {
-              return TabBarView(
-                controller: _tabController,
-                children: [
-                  ProfileScreen(),
-                  SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildHeader(),
-                        for (var upload in provider.uploads!)
-                          UploadTile(
-                            uploadModel: upload,
-                          ),
-                      ],
-                    ),
-                  ),
-
-                  Container(color: Colors.white,child: Center(child: Text('Microdex..'),),)
-                ],
-              );
-            },
-          ),
+          body: Provider.of<BottomNavBarProvider>(context, listen: false)
+              .pages[provider.selectedIndex],
           bottomNavigationBar: _buildBottomNavBar(provider: provider),
         );
       },
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      height: 75,
-      color: Color(0xFFFFF7F4),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Spacer(),
-          Spacer(),
-          Text(
-            '2 Uploads',
-            style: tabHeading,
-            textAlign: TextAlign.center,
-          ),
-          Spacer(),
-
-          IconButton(
-              onPressed: () {
-                print('changing to New Upload form');
-                Navigator.of(context).pushNamed('newUpload');
-              },
-              
-              icon: Icon(Icons.add_a_photo_outlined, size: 32)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildBottomNavBar({required ProfileProvider provider}) {
     return SizedBox(
-      height: 95,
+      height: 120,
       child: BottomNavigationBar(
         onTap: (index) {
-          debugPrint('the nav items: ${provider.bottomNavItems}');
           provider.selectItem(index: index);
           provider.setPreviousIndex(index: index);
         },
@@ -142,19 +92,13 @@ class _ProfileUploadsState extends State<ProfileUploads>
                 ),
               )),
           BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: (){
-                  
-
-                },
-                child: Image.asset(
-                  'assets/profile/quiz.png',
-                  height: 40,
-                  width: 40,
-                  color: provider.bottomNavItems![1]!
-                      ? Color(0xFF03DAC5)
-                      : Colors.black,
-                ),
+              icon: Image.asset(
+                'assets/profile/quiz.png',
+                height: 40,
+                width: 40,
+                color: provider.bottomNavItems![1]!
+                    ? Color(0xFF03DAC5)
+                    : Colors.black,
               ),
               // ignore: deprecated_member_use
               title: Text(
@@ -166,19 +110,13 @@ class _ProfileUploadsState extends State<ProfileUploads>
                 ),
               )),
           BottomNavigationBarItem(
-              icon: InkWell(onTap: (){
-
-                print('Navigating to gallery');
-                Navigator.pushNamed(context, 'gallery');
-              },
-                child: Image.asset(
-                  'assets/profile/microdex.png',
-                  height: 40,
-                  width: 40,
-                  color: provider.bottomNavItems![2]!
-                      ? Color(0xFF03DAC5)
-                      : Colors.black,
-                ),
+              icon: Image.asset(
+                'assets/profile/microdex.png',
+                height: 40,
+                width: 40,
+                color: provider.bottomNavItems![2]!
+                    ? Color(0xFF03DAC5)
+                    : Colors.black,
               ),
               // ignore: deprecated_member_use
               title: Text('Microdex',
