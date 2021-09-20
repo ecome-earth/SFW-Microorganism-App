@@ -34,7 +34,6 @@ dependencies:
   google_fonts: ^2.1.0
   google_sign_in: ^5.1.0
   shared_preferences: ^2.0.7
-  photo_view: ^0.12.0
 
 dev_dependencies:
   flutter_test:
@@ -52,11 +51,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/images/logo.png
     - assets/profile/microdex.png
     - assets/profile/placeholder.jpg
     - assets/profile/quiz.png
-    - assets/icons/
+    - assets/images/animal1.png
+    - assets/images/animal2.png
 
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
