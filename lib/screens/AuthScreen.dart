@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:sfw_microorganisms/classes/Profile.dart';
-import 'package:sfw_microorganisms/screens/ProfileScreen.dart';
+import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -53,8 +53,8 @@ class _AuthScreen extends State<AuthScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void continueToProfileScreen() {
-    Route route = MaterialPageRoute(builder: (context) => ProfileScreen());
+  void continueToProfileInfo() {
+    Route route = MaterialPageRoute(builder: (context) => ProfileInfo());
     Navigator.pushReplacement(context, route);
   }
 
@@ -72,12 +72,12 @@ class _AuthScreen extends State<AuthScreen> {
     }
   }
 
-  Future<void> getProfileAndContinueToProfileScreen() async {
+  Future<void> getProfileAndContinueToProfileInfo() async {
     Profile? userProfile = await Profile.getByEmail(email.text);
 
     if (userProfile is Profile) {
       print('page navigation complete');
-      continueToProfileScreen();
+      continueToProfileInfo();
     } else {
       showMessage('Error occured gathering your profile');
       print('No profile gathered');
@@ -103,7 +103,7 @@ class _AuthScreen extends State<AuthScreen> {
       print('USER CREATED');
 
       await createUserProfile(email.text);
-      getProfileAndContinueToProfileScreen();
+      getProfileAndContinueToProfileInfo();
 
       // SEND VERIFICATION EMAIL WHEN ALL IS COMPLETE
       // await sendVerificationEmail();
@@ -156,13 +156,13 @@ class _AuthScreen extends State<AuthScreen> {
       await createUserProfile(email.text);
     }
 
-    continueToProfileScreen();
+    continueToProfileInfo();
   }
 
   Future<void> continueAnonymous() async {
     await FirebaseAuth.instance.signInAnonymously();
     createUserProfile(auth.currentUser.uid);
-    continueToProfileScreen();
+    continueToProfileInfo();
   }
 
   Future<void> loginOrRegister() async {
@@ -171,7 +171,7 @@ class _AuthScreen extends State<AuthScreen> {
           email: email.text, password: password.text);
 
       // GET PPROFILE AND REDIRECT TO PROFILE PAGE
-      getProfileAndContinueToProfileScreen();
+      getProfileAndContinueToProfileInfo();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
