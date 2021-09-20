@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
-import 'package:sfw_microorganisms/screens/ProfileScreen.dart';
+import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
+
 class ProfileUploads extends StatefulWidget {
   ProfileUploads({Key? key}) : super(key: key);
 
@@ -18,7 +19,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this,initialIndex: 1);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
   }
 
   @override
@@ -62,7 +63,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
               return TabBarView(
                 controller: _tabController,
                 children: [
-                  ProfileScreen(),
+                  ProfileInfo(),
                   SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +145,8 @@ class _ProfileUploadsState extends State<ProfileUploads>
           BottomNavigationBarItem(
               icon: InkWell(
                 onTap: (){
-                  
+                  print('Navigating to quiz screen');
+                  Navigator.of(context).pushNamed('quiz');
 
                 },
                 child: Image.asset(

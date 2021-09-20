@@ -38,23 +38,22 @@ class _UploadFormState extends State<UploadForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                  child: Container(
+              Container(
                 child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          print('navigate to back');
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_outlined,
-                          size: 35,
-                        ))
-                  ],
+              children: [
+                IconButton(
+                    onPressed: () {
+                      print('navigate to back');
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_outlined,
+                      size: 35,
+                    ))
+              ],
                 ),
-                margin: EdgeInsets.only(bottom: 20),
-              )),
+
+              ),
               Container(
                 margin: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height) *
