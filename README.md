@@ -1,7 +1,6 @@
 <p align="center"> 
 <img src="https://user-images.githubusercontent.com/52453582/134106131-da0dc609-4d1c-46e2-9786-f8cf0b2b851e.png" alt="Screenshot 2021-09-21 at 05 10 47 2"/> 
  </p>
-</br>
 
 # Welcome to Soil-Food-Web Microorganism App.
 This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com/). It is currently in development phase. The App helps users to identify soil microorganisms with each other. You cam upload photos or short 10 second static videos, see how other people voted and even have a chat about the organisms. </br>
@@ -14,16 +13,17 @@ This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com
 
 ## Table of Contents
 
- 1. Tech stacks used
- 2. Cloning this project
- 3. Project structure
- 4. Testing
- 5. Roadmap
- 6. Support us
- 7. License
+1. [Tech stack used](#1-tech-stack-used)
+2. [Cloning this project](#2-cloning-this-project)
+3. [Project structure](3-project-structure)
+4. [Testing](4-testing)
+5. [Roadmap](5-roadmap)
+6. [Support us](6-support-us)
+7. [License](7-license)
 
 
-## 1. Tech stack used
+
+## 1 Tech stack used
 
 [Flutter (Mobile + Web)](https://flutter.dev/) - [Firebase](https://firebase.google.com/)
 
@@ -31,7 +31,7 @@ The UI for this project is built with Flutter for cross-platform mobile apps and
 
 
 
-## 2. Cloning this project
+## 2 Cloning this project
 
 To clone this project you need a firebase account and create a new firebase app.
 
@@ -54,7 +54,7 @@ rename the file *firebase-config-sample.js* to *firebase-config.js* and then cop
 
 
 
-## 3. Project Structure
+## 3 Project Structure
 
 **./assets**
 The assets folder contains app assets. Those include images, maybe fonts, and other global assets.
@@ -73,12 +73,12 @@ Contains general app classes and functions.
 
 
 
-## 4. Testing
+## 4 Testing
 All tests are placed in the *./test* directory. We are using dart and flutter's default testing libraries. More information on testing on Flutter's official docs https://flutter.dev/docs/testing
 
 
 
-## 5. Roadmap
+## 5 Roadmap
 
 **Current Phase:** 
 
@@ -92,7 +92,7 @@ All our finished and current milestones are published [here](https://github.com/
 
 
 
-## 6. Support us
+## 6 Support us
 
 **Developers**
 
@@ -104,9 +104,7 @@ We are using cryptocurrency whenever possible, to guarantee financial trust thro
 
 
 
-
-
-## 7. License
+## 7 License
 
 Thanks to [kn9ts](https://gist.github.com/kn9ts) for summarising the license details below. [Original Source](https://gist.github.com/kn9ts/cbe95340d29fc1aaeaa5dd5c059d2e60)
 
