@@ -15,11 +15,11 @@ This open-source app is made for the [SFW-Community](https://www.soilfoodweb.com
 
 1. [Tech stack used](#1-tech-stack-used)
 2. [Cloning this project](#2-cloning-this-project)
-3. [Project structure](3-project-structure)
-4. [Testing](4-testing)
-5. [Roadmap](5-roadmap)
-6. [Support us](6-support-us)
-7. [License](7-license)
+3. [Project Structure](#3-project-structure)
+4. [Testing](#4-testing)
+5. [Roadmap](#5-roadmap)
+6. [Support us](#6-support-us)
+7. [License](#7-license)
 
 
 
@@ -74,6 +74,7 @@ Contains general app classes and functions.
 
 
 ## 4 Testing
+
 All tests are placed in the *./test* directory. We are using dart and flutter's default testing libraries. More information on testing on Flutter's official docs https://flutter.dev/docs/testing
 
 
