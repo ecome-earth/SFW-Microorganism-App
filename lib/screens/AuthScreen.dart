@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import 'package:sfw_microorganisms/classes/Profile.dart';
 import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
@@ -23,16 +25,12 @@ class _AuthScreen extends State<AuthScreen> {
 
   bool showpassword = false;
 
-  var auth;
-  var userStore;
   var profile;
 
   @override
   @mustCallSuper
   void initState() {
     super.initState();
-    auth = FirebaseAuth.instance;
-    userStore = FirebaseFirestore.instance.collection('users');
   }
 
   @override
@@ -58,20 +56,6 @@ class _AuthScreen extends State<AuthScreen> {
     Navigator.pushReplacement(context, route);
   }
 
-  Future<void> resetPassword() async {
-    if (isValidEmail(email.text)) {
-      try {
-        await auth.sendPasswordResetEmail(email: email.text);
-        showMessage('We send you reset email');
-      } catch (e) {
-        print(e);
-        showMessage("Couldn't connect to server");
-      }
-    } else {
-      showMessage('Enter a valid email first');
-    }
-  }
-
   Future<void> getProfileAndContinueToProfileInfo() async {
     Profile? userProfile = await Profile.getByEmail(email.text);
 
@@ -93,124 +77,10 @@ class _AuthScreen extends State<AuthScreen> {
     await Profile.add(profile.toJson());
   }
 
-  Future<void> registerWithEmail() async {
-    try {
-      print('CALLED REGISTER FUNCTION');
-
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email.text, password: password.text);
-
-      print('USER CREATED');
-
-      await createUserProfile(email.text);
-      getProfileAndContinueToProfileInfo();
-
-      // SEND VERIFICATION EMAIL WHEN ALL IS COMPLETE
-      // await sendVerificationEmail();
-
-      // print('EMAIL VERIFICATION SENT');
-
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-        showMessage('The password provided is too§ weak.');
-      }
-      // else if (e.code == 'email-already-in-use') {
-      //
-      //   print('The account already exists logging in.');
-      //   await login();
-      //
-      //
-      // }
-      else {
-        print('error occured $e');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<void> continueWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser!.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    UserCredential credentials =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-    User? user = credentials.user;
-
-    // Create new profile if user profile exist
-    if (user != null) {
-      Profile? userProfile = await Profile.getByEmail(user.uid);
-    } else {
-      await createUserProfile(email.text);
-    }
-
-    continueToProfileInfo();
-  }
-
-  Future<void> continueAnonymous() async {
-    await FirebaseAuth.instance.signInAnonymously();
-    createUserProfile(auth.currentUser.uid);
-    continueToProfileInfo();
-  }
-
-  Future<void> loginOrRegister() async {
-    try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email.text, password: password.text);
-
-      // GET PPROFILE AND REDIRECT TO PROFILE PAGE
-      getProfileAndContinueToProfileInfo();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        registerWithEmail();
-      } else if (e.code == 'wrong-password') {
-        showMessage('Invalid password');
-        print('Wrong password provided for that user.');
-      }
-    }
-  }
-
-  Future sendVerificationEmail() async {
-    User? user = auth.currentUser;
-
-    if (user != null && !user.emailVerified) {
-      await user.sendEmailVerification();
-      showMessage('Verfifcation Email Sent');
-    }
-  }
-
   bool isValidEmail(String email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
-  }
-
-  void signout() {
-    auth.signOut();
-  }
-
-  Future<void> handleSubmit() async {
-    // LOGIN
-    // IF USER DOESN'T EXIST THEN CREATE PROFILE AND REGISTER
-    // ELSE GET PROFILE AND SHOW PROFILE SCREEN
-
-    final FormState form = _formKey.currentState as FormState;
-    if (form.validate()) {
-      await loginOrRegister();
-    }
   }
 
   @override
@@ -233,7 +103,7 @@ class _AuthScreen extends State<AuthScreen> {
                     TextFormField(
                       controller: email,
                       decoration: const InputDecoration(
-                        hintText: 'Username / Email',
+                        hintText: 'Email',
                       ),
                       validator: (String? value) {
                         if (value != null && isValidEmail(value)) {
@@ -289,7 +159,7 @@ class _AuthScreen extends State<AuthScreen> {
                             primary: Colors.grey[800],
                             textStyle: const TextStyle(fontSize: 10),
                           ),
-                          onPressed: resetPassword,
+                          onPressed: null,
                           child: Text(
                             'forgot password?',
                             style: TextStyle(
@@ -308,7 +178,10 @@ class _AuthScreen extends State<AuthScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextButton(
-                        onPressed: handleSubmit,
+                        onPressed: () {
+                          loginOrRegister(
+                              email.text.trim(), password.text.trim(), context);
+                        },
                         child: const Text(
                           'Login / Register',
                           style: TextStyle(
@@ -325,7 +198,7 @@ class _AuthScreen extends State<AuthScreen> {
                       child: SignInButton(
                         Buttons.Google,
                         text: "Continue with Google",
-                        onPressed: continueWithGoogle,
+                        onPressed: () {},
                       ),
                     ),
                     const Spacer(),
@@ -353,5 +226,56 @@ class _AuthScreen extends State<AuthScreen> {
         ),
       ),
     );
+  }
+}
+
+bool isValidEmail(String email) {
+  return RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(email);
+}
+
+loginOrRegister(String email, String pass, BuildContext context) async {
+
+  final emailExists = SnackBar(content: Text('Wrong Password!'));
+
+  final wrongEmail = SnackBar(content: Text('Email invalid'),);
+
+  if (isValidEmail(email)!=true) {
+    ScaffoldMessenger.of(context).showSnackBar(wrongEmail);
+return null;
+  }
+
+
+  ParseUser user = ParseUser(email, pass, email);
+  var response = await user.login();
+  if (response.success) {
+    print('Login Successful, redirecting to Root Page');
+    Navigator.pushReplacementNamed(context, 'root');
+
+    return null;
+  } else {
+    print('Something is wrong Here...');
+    if (response.error!.message == 'Invalid username/password.') {
+      print(response.error!.message);
+
+      user = ParseUser.createUser(email, pass, email);
+
+      response = await user.signUp();
+
+      if (response.success) {
+        print('User created Succefully');
+        Navigator.of(context).pushReplacementNamed('root');
+        return null;
+      } else {
+        print('Something went wrong ...\n');
+        if (response.error!.message=='Account already exists for this username.'){
+          ScaffoldMessenger.of(context).showSnackBar(emailExists);
+          return null;
+        }
+      }
+
+    }
+
   }
 }

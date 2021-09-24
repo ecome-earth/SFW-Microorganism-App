@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:photo_gallery/photo_gallery.dart';
+import 'dart:io';
 class UploadForm extends StatefulWidget {
   const UploadForm({Key? key}) : super(key: key);
 
@@ -27,6 +28,7 @@ class _UploadFormState extends State<UploadForm> {
   ];
   String? selectedType;
 
+String photoID ='';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,8 +71,7 @@ class _UploadFormState extends State<UploadForm> {
                             Flexible(
                                 child: MaterialButton(
                                     onPressed: () {
-                                      print('first Button pressed');
-                                    },
+                                      print('first Button pressed');},
                                     child: Container(
                                       child: Center(
                                           child: Text(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class ProfileInfo extends StatefulWidget {
   @override
@@ -65,9 +66,26 @@ class _ProfileInfo extends State<ProfileInfo> {
                 Spacer(),
                 Row(crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,children: [
-                  IconButton(onPressed: (){}, icon: Icon(Icons.facebook)),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.message_outlined)),
-                    IconButton(onPressed: (){}, icon: Icon(Icons.email_outlined)),
+                  IconButton(onPressed: (){
+
+                    
+                  }, 
+                      
+                      icon: Icon(Icons.facebook)),
+                    IconButton(onPressed: (){
+                      
+                      
+                      
+                    }, 
+                        
+                        icon: Icon(Icons.message_outlined)),
+                    IconButton(onPressed: (){
+                      
+                      
+                      
+                    }, 
+                        
+                        icon: Icon(Icons.email_outlined)),
                   ],)
               ],
             ),
@@ -82,8 +100,18 @@ class _ProfileInfo extends State<ProfileInfo> {
             ),
             Positioned(
               child: IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     print('Navigate to settings');
+                    print('But Logging out for now...');
+                    final user = await ParseUser.currentUser() as ParseUser;
+                    var response = await user.logout();
+
+                    if (response.success) {
+                      print("User successfully logged out!");
+                      Navigator.of(context).pushReplacementNamed('auth');
+                    } else {
+                      print(response.error!.message);
+                    }
                   },
                   icon: Icon(Icons.settings)),
               top: 10,

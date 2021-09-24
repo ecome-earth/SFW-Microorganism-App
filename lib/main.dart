@@ -5,16 +5,29 @@ import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/providers/quiz_provider.dart';
+import 'package:sfw_microorganisms/screens/AuthScreen.dart';
 import 'package:sfw_microorganisms/screens/Gallery.dart';
 import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
 import 'package:sfw_microorganisms/screens/ProfileUploadNew.dart';
 import 'package:sfw_microorganisms/screens/root_screen.dart';
 import 'package:sfw_microorganisms/screens/quiz/answer_selected_screen.dart';
-
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'screens/root_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final keyApplicationId = 'gfy4voXwtd1HRxLS8Ye2cKrnnipWDl0mcwOkAMFt';
+  final keyClientKey = 'sYJfx9d1B1kLhXsFZ6tQVz0hzKTZtkYRIdPocW4E';
+  final keyParseServerUrl = 'https://parseapi.back4app.com';
+
+  Parse parse = await Parse().initialize(keyApplicationId, keyParseServerUrl,
+      clientKey: keyClientKey, autoSendSessionId: true);
+  var firstObject = ParseObject('FirstClass')
+    ..set(
+        'message', 'Hey ! First message from Flutter. Parse is now connected');
+  await firstObject.save();
+
+  print('done');
   runApp(MyApp());
 }
 
@@ -34,92 +47,89 @@ class MyApp extends StatelessWidget {
       child: ChangeNotifierProvider(
         create: (context) => ProfileProvider(),
         child: MaterialApp(
-            title: 'SFW Microorganisms',
-            debugShowCheckedModeBanner: false,
-           routes: {
-              'quiz': (context) => AnswerSelectedScreen(),
-              'gallery': (context) => Gallery(),
-              'newUpload': (context) => UploadForm(),
-              'root': (context) => ProfileUploads(),
-              'info': (context) => ProfileInfo(),
+          title: 'SFW Microorganisms',
+          debugShowCheckedModeBanner: false,
+          routes: {
+            'quiz': (context) => AnswerSelectedScreen(),
+            'gallery': (context) => Gallery(),
+            'newUpload': (context) => UploadForm(),
+            'root': (context) => ProfileUploads(),
+            'info': (context) => ProfileInfo(),
+            'auth': (context) => AuthScreen(),
+          },
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: FutureBuilder(
+            // Initialize Parse
+            future: hasUserLogged(),
+            builder: (context, snapshot) {
+              // Check for errors
+
+              if (snapshot.data == false) {
+                print('problem occured with Back4App');
+                print('No User Session Detected Redirecting to Auth Screen');
+
+                return AuthScreen();
+              } else {
+
+                print('User Session Detected, Lets Navigate to root page ');
+
+                return ProfileUploads();
+              }
+
+              // childAuthScreen();
             },
-            theme: ThemeData(
-
-              primarySwatch: Colors.blue,
-            ),
-            home: FutureBuilder(
-              // Initialize FlutterFire
-              future: Firebase.initializeApp(),
-              builder: (context, snapshot) {
-                // Check for errors
-
-                if (snapshot.hasError) {
-                  print('problem occured with Firebase');
-
-                  // TODO: RETURN ERROR SCREEN INSTEAD OFF AuthScreen
-                  return Scaffold(
-                      backgroundColor: Colors.grey[100],
-                      body: SafeArea(
-                          child: Stack(children: [
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 16.0,
-                                  right: 16.0,
-                                  bottom: 20.0,
-                                ),
-                                child: Center(
-                                  child: Text('Problem with firebase ...'),
-                                )),
-                          ])));
-                }
-
-                // Once complete, show your application
-                if (snapshot.connectionState == ConnectionState.done) {
-                  // ADD LISTENER TO KNOW IF USER IS NOT LOGGED IN TO SIGNIN
-                  print('All good and connected to firebase');
-                  FirebaseAuth.instance.authStateChanges().listen((User? user) {
-                    if (user == null) {
-                      // redirect to Login page if not logged in
-                      Navigator.push(
-                        context,
-                        // MaterialPageRoute(builder: (context) => AuthScreen()),
-                        MaterialPageRoute(builder: (context) => ProfileUploads()),
-                      );
-                    }
-                    // else {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(builder: (context) => ProfileInfo()),
-                    //   );
-                    // }
-                  });
-
-                  return ProfileUploads();
-                }
-
-                // Otherwise, show something LOADING waiting for initialization to complete
-                return Scaffold(
-                    backgroundColor: Colors.grey[100],
-                    body: SafeArea(
-                        child: Stack(children: [
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16.0,
-                                right: 16.0,
-                                bottom: 20.0,
-                              ),
-                              child: Center(
-                                child: Text('Loading ...'),
-                              )),
-                        ])));
-
-                // childAuthScreen();
-              },
-            )
+          ),
 
           //MyHomePage(title: 'SFW Microorganisms'),
         ),
       ),
     );
   }
+}
+
+Future<bool> hasUserLogged() async {
+  ParseUser? currentUser = await ParseUser.currentUser() as ParseUser?;
+  if (currentUser == null) {
+    return false;
+  }
+  //Checks whether the user's session token is valid
+  final ParseResponse? parseResponse =
+      await ParseUser.getCurrentUserFromServer(currentUser.sessionToken!);
+
+  if (parseResponse?.success == null || !parseResponse!.success) {
+    //Invalid session. Logout
+    await currentUser.logout();
+    return false;
+  } else {
+    return true;
+  }
+}
+
+class ErrorScreen extends StatelessWidget {
+  const ErrorScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.grey[100],
+        body: SafeArea(
+            child: Stack(children: [
+          Padding(
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                bottom: 20.0,
+              ),
+              child: Center(
+                child: Text('Problem with Back4App ...'),
+              )),
+        ])));
+  }
+}
+
+Future<ParseUser?> getUser() async {
+  ParseUser? currentUser = await ParseUser.currentUser();
+  return currentUser;
 }
