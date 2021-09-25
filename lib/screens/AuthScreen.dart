@@ -4,14 +4,11 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import 'package:sfw_microorganisms/classes/Profile.dart';
 import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
 
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthScreen extends StatefulWidget {
   @override

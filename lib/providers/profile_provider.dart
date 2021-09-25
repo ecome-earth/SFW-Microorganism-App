@@ -1,22 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sfw_microorganisms/models/upload_model.dart';
+import 'package:sfw_microorganisms/models/upload.dart';
 
 class ProfileProvider extends ChangeNotifier {
-  final List<UploadModel>? _uploads = [
-    UploadModel(
+  final List<Upload>? _uploads = [
+    Upload(
       name: 'Nematode',
       percentage: '85',
       participants: 35,
     ),
-    UploadModel(
+    Upload(
       name: 'Nematode',
       percentage: '85',
       participants: 35,
     ),
   ];
 
-  List<UploadModel>? get uploads => _uploads;
+  List<Upload>? get uploads => _uploads;
 
   Map<int, bool>? _bottomNavItems = {0: true, 1: false, 2: false};
   Map<int, bool>? get bottomNavItems => _bottomNavItems;
