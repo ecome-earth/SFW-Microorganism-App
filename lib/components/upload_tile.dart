@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sfw_microorganisms/models/upload_model.dart';
+import 'package:sfw_microorganisms/models/upload.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
 
 class UploadTile extends StatelessWidget {
-  const UploadTile({Key? key, this.uploadModel}) : super(key: key);
+  const UploadTile({Key? key, this.upload}) : super(key: key);
 
-  final UploadModel? uploadModel;
+  final Upload? upload;
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +19,12 @@ class UploadTile extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    '${uploadModel!.percentage}%',
+                    '${upload!.percentage}%',
                     style: percentageText,
                   ),
                   Expanded(
                     child: Text(
-                      '${uploadModel!.name}',
+                      '${upload!.name}',
                       style: tabHeading,
                       textAlign: TextAlign.center,
                     ),
@@ -32,7 +32,7 @@ class UploadTile extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.person_outlined),
-                      Text('${uploadModel!.participants.toString()}'),
+                      Text('${upload!.participants.toString()}'),
                     ],
                   ),
                 ],

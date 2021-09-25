@@ -71,7 +71,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
                         _buildHeader(),
                         for (var upload in provider.uploads!)
                           UploadTile(
-                            uploadModel: upload,
+                            upload: upload,
                           ),
                       ],
                     ),
