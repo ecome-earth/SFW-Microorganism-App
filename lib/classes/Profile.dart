@@ -23,39 +23,7 @@ class Profile {
         return complete;
     }
 
-    static Future<Profile?> getByEmail(String email) async {
-      try {
 
-        return await FirebaseFirestore.instance
-            .collection('users')
-            .where('email', isEqualTo: email)
-            .get()
-            .then((QuerySnapshot result) async {
-
-              if (result.docs.length > 0) {
-
-                dynamic firstDocument = result.docs[0];
-                Profile profile = Profile.fromJson(firstDocument);
-
-                return profile;
-
-
-              } else {
-
-                return null;
-              }
-
-            });
-
-      } catch (e) {
-
-        print('couldnt get profile.');
-        print(e);
-        return null;
-
-      }
-
-    }
 
     Future<bool> save () async {
         bool complete = false;

@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/providers/quiz_provider.dart';
-import 'package:sfw_microorganisms/screens/AuthScreen.dart';
+import 'package:sfw_microorganisms/screens/auth/AuthScreen.dart';
 import 'package:sfw_microorganisms/screens/Gallery.dart';
 import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
 import 'package:sfw_microorganisms/screens/ProfileUploadNew.dart';
@@ -129,7 +127,3 @@ class ErrorScreen extends StatelessWidget {
   }
 }
 
-Future<ParseUser?> getUser() async {
-  ParseUser? currentUser = await ParseUser.currentUser();
-  return currentUser;
-}

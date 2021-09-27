@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/photo_gallery.dart';
-import 'dart:io';
+import 'package:sfw_microorganisms/services/database_service.dart';
+
+
 class UploadForm extends StatefulWidget {
   const UploadForm({Key? key}) : super(key: key);
 
@@ -11,7 +12,7 @@ class UploadForm extends StatefulWidget {
 
 class _UploadFormState extends State<UploadForm> {
   TextEditingController country = TextEditingController(text: 'Country');
-  TextEditingController state = TextEditingController(text: 'State');
+  TextEditingController state = TextEditingController(text: 'City');
   TextEditingController umHeight =
       TextEditingController(text: 'Height in μm ');
   TextEditingController umWidth = TextEditingController(text: 'Width in μm ');
@@ -26,7 +27,7 @@ class _UploadFormState extends State<UploadForm> {
     'Worm Casting',
     'Other'
   ];
-  String? selectedType;
+  String selectedType='Select Sample Type';
 
 String photoID ='';
   @override
@@ -75,7 +76,7 @@ String photoID ='';
                                     child: Container(
                                       child: Center(
                                           child: Text(
-                                        'Upload Photo/Video',
+                                        'Upload From Gallery',
                                         style: TextStyle(
                                             fontSize: 22,
                                             fontWeight: FontWeight.w300),
@@ -101,7 +102,7 @@ String photoID ='';
                                   child: Container(
                                     child: FittedBox(
                                       child: Text(
-                                        'Select from online drive',
+                                        'Paste a link',
                                         style: TextStyle(
                                             fontSize: 22,
                                             fontWeight: FontWeight.w300),
@@ -156,44 +157,47 @@ String photoID ='';
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    content: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height * 0.4,
-                                      color: Colors.white,
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            ...speciesType.map((value) {
-                                              return Container(
-                                                height: 50,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.7,
-                                                child: TextButton(
-                                                    style: TextButton.styleFrom(
-                                                        primary: Colors.grey,
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        side: BorderSide(
-                                                            color: Colors.black45)),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        selectedType = value;
-                                                        print(selectedType);
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      value,
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          color: Colors.black45),
-                                                    )),
-                                              );
-                                            })
-                                          ],
+                                    content: Center(
+                                      child: Container(
+                                        height:
+                                            MediaQuery.of(context).size.height * 0.6,
+                                        color: Colors.white,
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              ...speciesType.map((value) {
+                                                return Container(
+                                                  height: 50,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.7,
+                                                  child: TextButton(
+                                                      style: TextButton.styleFrom(
+                                                          primary: Colors.grey,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          side: BorderSide(
+                                                              color: Colors.black45)),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          selectedType = value;
+                                                          print(selectedType);
+                                                          Navigator.of(context).pop();
+                                                        });
+                                                      },
+                                                      child: Text(
+                                                        value,
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.black45),
+                                                      )),
+                                                );
+                                              })
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -207,7 +211,7 @@ String photoID ='';
                               padding: const EdgeInsets.all(2.0),
                               child: Center(
                                 child: Text(
-                                  'Select Sample Type',
+                                  selectedType,
                                   style: TextStyle(
 
                                       fontSize: 18,
@@ -348,6 +352,7 @@ String photoID ='';
                       print(
                           'Connecting to Drive Navigating to second screen later');
                       print(umHeight.text+'   '+ umWidth.text + '  ' + country.text);
+                      addUpload('http://something.com', umWidth.text, umHeight.text, country.text, state.text, selectedType);
                     },
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.1,
