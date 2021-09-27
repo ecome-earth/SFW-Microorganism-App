@@ -103,7 +103,6 @@ class _ProfileUploadsState extends State<ProfileUploads>
           IconButton(
               onPressed: () {
                 print('changing to New Upload form');
-                //TODO:replace with NewUpload
                 Navigator.of(context).pushNamed('newUpload');
               },
               
@@ -180,7 +179,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
                         ? Color(0xFF03DAC5)
                         : Colors.black,
                   ))),
-          
+
         ],
       ),
     );
