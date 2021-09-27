@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Profile {
 
@@ -13,28 +11,8 @@ class Profile {
     int xp = 0;
 
 
-    static Future<bool> add (data) async {
-        bool complete = false;
-        await FirebaseFirestore.instance.collection('users')
-            .add(data)
-            .then((value) => { complete = true })
-            .catchError((error) => print("Failed to add user: $error"));
-
-        return complete;
-    }
 
 
-
-    Future<bool> save () async {
-        bool complete = false;
-        await FirebaseFirestore.instance.collection('users')
-            .doc(docId)
-            .update(this.toJson())
-            .then((value) => complete = true)
-            .catchError((error) => print("Failed to update user: $error"));
-
-        return complete;
-    }
 
 
     static Profile fromJson(dynamic json) {
