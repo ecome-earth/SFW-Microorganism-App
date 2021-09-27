@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'SFW Microorganisms',
             debugShowCheckedModeBanner: false,
-           routes: {
+            routes: {
               'quiz': (context) => AnswerSelectedScreen(),
               'gallery': (context) => Gallery(),
               'newUpload': (context) => UploadForm(),
@@ -44,7 +44,6 @@ class MyApp extends StatelessWidget {
               'info': (context) => ProfileInfo(),
             },
             theme: ThemeData(
-
               primarySwatch: Colors.blue,
             ),
             home: FutureBuilder(
@@ -58,19 +57,23 @@ class MyApp extends StatelessWidget {
 
                   // TODO: RETURN ERROR SCREEN INSTEAD OFF AuthScreen
                   return Scaffold(
-                      backgroundColor: Colors.grey[100],
-                      body: SafeArea(
-                          child: Stack(children: [
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 16.0,
-                                  right: 16.0,
-                                  bottom: 20.0,
-                                ),
-                                child: Center(
-                                  child: Text('Problem with firebase ...'),
-                                )),
-                          ])));
+                    backgroundColor: Colors.grey[100],
+                    body: SafeArea(
+                      child: Stack(
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16.0,
+                                right: 16.0,
+                                bottom: 20.0,
+                              ),
+                              child: Center(
+                                child: Text('Problem with firebase ...'),
+                              )),
+                        ],
+                      ),
+                    ),
+                  );
                 }
 
                 // Once complete, show your application
@@ -83,7 +86,8 @@ class MyApp extends StatelessWidget {
                       Navigator.push(
                         context,
                         // MaterialPageRoute(builder: (context) => AuthScreen()),
-                        MaterialPageRoute(builder: (context) => ProfileUploads()),
+                        MaterialPageRoute(
+                            builder: (context) => ProfileUploads()),
                       );
                     }
                     // else {
@@ -102,23 +106,23 @@ class MyApp extends StatelessWidget {
                     backgroundColor: Colors.grey[100],
                     body: SafeArea(
                         child: Stack(children: [
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16.0,
-                                right: 16.0,
-                                bottom: 20.0,
-                              ),
-                              child: Center(
-                                child: Text('Loading ...'),
-                              )),
-                        ])));
+                      Padding(
+                          padding: const EdgeInsets.only(
+                            left: 16.0,
+                            right: 16.0,
+                            bottom: 20.0,
+                          ),
+                          child: Center(
+                            child: Text('Loading ...'),
+                          )),
+                    ])));
 
                 // childAuthScreen();
               },
             )
 
-          //MyHomePage(title: 'SFW Microorganisms'),
-        ),
+            //MyHomePage(title: 'SFW Microorganisms'),
+            ),
       ),
     );
   }
