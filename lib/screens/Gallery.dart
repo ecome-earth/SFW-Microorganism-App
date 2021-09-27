@@ -58,7 +58,7 @@ class _GalleryState extends State<Gallery> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Center(
-                                  child: Text(
+                                  child:  Text(
                                 'Sort By',
                                 style: TextStyle(fontSize: 22),
                               )),
@@ -147,21 +147,24 @@ class _GalleryState extends State<Gallery> {
                                               children: [
                                                 ...filter[index]!.map(
                                                   (subIndex) => InkWell(
-                                                    onTap: () { print('clicked on inkewell'); },
+                                                    onTap: () {
+                                                      print(
+                                                          'clicked on inkewell');
+                                                    },
                                                     child: Container(
                                                       decoration: BoxDecoration(
                                                           border: Border(
                                                               top: BorderSide(
                                                                   color: Colors
                                                                       .black45))),
-                                                      margin:
-                                                          EdgeInsets.only(top: 7),
+                                                      margin: EdgeInsets.only(
+                                                          top: 7),
                                                       child: Center(
                                                         child: Text(
                                                           subIndex,
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.black45,
+                                                              color: Colors
+                                                                  .black45,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400),
@@ -219,7 +222,8 @@ class _GalleryState extends State<Gallery> {
                           padding: EdgeInsets.only(right: 6.0),
                           child: IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.message_outlined)),
+                              icon: Icon(Icons.message_outlined)
+                          ),
                         )
                       ],
                     ),
@@ -240,3 +244,12 @@ class Entry {
   final String title;
   final List<Entry> children;
 }
+
+
+Widget function (){
+
+
+  return Text('gfg');
+}
+
+

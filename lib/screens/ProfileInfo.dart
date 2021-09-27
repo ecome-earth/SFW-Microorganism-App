@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:sfw_microorganisms/services/authentication_service.dart';
 
 class ProfileInfo extends StatefulWidget {
   @override
@@ -13,8 +10,7 @@ class ProfileInfo extends StatefulWidget {
 class _ProfileInfo extends State<ProfileInfo> {
   void showMessage(String text) {
     final snackBar = SnackBar(
-      content: Text(text),
-    );
+      content: Text(text),);
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -46,16 +42,19 @@ class _ProfileInfo extends State<ProfileInfo> {
                 Text('Username',style: TextStyle(fontSize: 28,fontWeight: FontWeight.w600),),
                 Padding(
                   padding:  EdgeInsets.only(top:8.0),
-                  child: Text('Country, City',style: TextStyle(fontSize: 22)),
+                  child: Text('Country, City',style: TextStyle(fontSize: 22),),
 
                 ),
                 Row( mainAxisAlignment: MainAxisAlignment.center,children: [
-                  Image.asset('assets/images/animal1.png',width: MediaQuery.of(context).size.width/6,),
+
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Text('0/10',style: TextStyle(fontSize: 24)),
+                    padding: EdgeInsets.symmetric(horizontal: 2.0),
+                    child: Text('10',style: TextStyle(fontSize: 24)),
                   ),
-               Image.asset('assets/images/animal2.png',width: MediaQuery.of(context).size.width/6,),
+               Padding(
+                 padding: const EdgeInsets.only(top: 8.0),
+                 child: Image.asset('assets/icons/worm.png',width: MediaQuery.of(context).size.width/6,),
+               ),
 
                 ],),
                 Padding(
@@ -89,31 +88,15 @@ class _ProfileInfo extends State<ProfileInfo> {
                   ],)
               ],
             ),
-            Positioned(
-              child: IconButton(
-                  onPressed: () {
-                    print('Navigate to Payment');
-                  },
-                  icon: Icon(Icons.attach_money)),
-              top: 10,
-              left: 10,
-            ),
+
             Positioned(
               child: IconButton(
                   onPressed: () async {
                     print('Navigate to settings');
-                    print('But Logging out for now...');
-                    final user = await ParseUser.currentUser() as ParseUser;
-                    var response = await user.logout();
 
-                    if (response.success) {
-                      print("User successfully logged out!");
-                      Navigator.of(context).pushReplacementNamed('auth');
-                    } else {
-                      print(response.error!.message);
-                    }
+                    logout(context);
                   },
-                  icon: Icon(Icons.settings)),
+                  icon: Icon(Icons.settings,size: 35,)),
               top: 10,
               right: 10,
             )
@@ -123,3 +106,4 @@ class _ProfileInfo extends State<ProfileInfo> {
     );
   }
 }
+//TODO: internal routing to Web Browser with a link to Paypal.me
