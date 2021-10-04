@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
+import 'dart:ui'as ui;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -16,11 +17,24 @@ class UploadModel extends StatefulWidget {
 }
 
 class _UploadModelState extends State<UploadModel> {
+
+  Future<ui.Image> _getImage(link) {
+    Image image = new Image.network(link);
+    Completer<ui.Image> completer = new Completer<ui.Image>();
+    image.image
+        .resolve(new ImageConfiguration())
+        .addListener(ImageStreamListener((ImageInfo info, bool _) {
+      completer.complete(info.image);
+    }));
+    return completer.future;
+  }
+
+  late double imageWidth;
   Offset p1 = Offset(0, 0), p2 = Offset(0, 0);
   bool focusMode = false, lengthMode = false, widthMode = false;
   GlobalKey photoKey = GlobalKey();
   bool idleMode = true;
-  PhotoViewController _controller = PhotoViewController(initialScale: 1.0);
+  PhotoViewController _controller = PhotoViewController();
   late List<Offset> points;
   late WidthPainter widthPainter;
   late LengthPainter lengthPainter;
@@ -28,13 +42,36 @@ class _UploadModelState extends State<UploadModel> {
   Color idleColor = Colors.grey;
   Color focusedColor = Colors.white;
   Color selectedColor = Colors.green;
+GlobalKey photoViewKey = GlobalKey();
+GlobalKey clipKey = GlobalKey();
+ImageProvider imageProvider = AssetImage('assets/images/example.jpg');
+RegExp regex = RegExp(r"([\d])");
+NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
+ late Image image;
+@override
+  void initState() {
 
+   image = Image(image: networkImage);
+
+    super.initState();
+  }
   @override
+
+  double getSizeImage(){
+
+
+
+  return 2;
+  }
+
+
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         Expanded(
           child: ClipRect(
+            key: clipKey,
             child: Container(
               height: 300,
               width: 400,
@@ -45,15 +82,16 @@ class _UploadModelState extends State<UploadModel> {
                       if (widthMode) {
                         print('the width of organisme is:' +
                             (pixelRealSize(
-                                        photoKey, this.widget.imageMicroWidth) /
+                                        photoKey, this.widget.imageMicroWidth) /imageWidth/
                                     _controller.scale!.toDouble() *
                                     widthPainter.getDistance())
                                 .toString());
+                        print(_controller.scale);
                       }
                       if (lengthMode) {
                         print('the length of organism is:' +
                             (pixelRealSize(
-                                        photoKey, this.widget.imageMicroWidth) /
+                                        photoKey, this.widget.imageMicroWidth)/imageWidth /
                                     _controller.scale!.toDouble() *
                                     lengthPainter.getLength())
                                 .toString());
@@ -84,13 +122,15 @@ class _UploadModelState extends State<UploadModel> {
                       }
                     },
                     child: CustomPaint(
+                      key: photoViewKey,
                         child: PhotoView(
+                          tightMode: true,
                           key: photoKey,
                           disableGestures: widthMode || lengthMode || focusMode,
                           controller: _controller,
                           initialScale: 1.0,
                           imageProvider:
-                              AssetImage('assets/images/example.jpg'),
+                              networkImage,
                         ),
                         foregroundPainter: widthMode
                             ? widthPainter = WidthPainter(p1: p1, p2: p2)
@@ -116,7 +156,14 @@ class _UploadModelState extends State<UploadModel> {
                     color: focusMode ? Colors.green : Colors.white,
                     borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+
+
+                    ui.Image myimage = (await _getImage('https://i.ibb.co/pKPyH80/2.jpg')) ;
+                imageWidth=myimage.width.toDouble();
+                  print(myimage.width);
+                    print(image.width);
+                    print(_controller.scale);
                     setState(() {
                       if (!focusMode) {
                         focusMode = true;
@@ -265,7 +312,7 @@ class LengthPainter extends CustomPainter {
       ..color = Colors.red
       ..strokeWidth = 3.0;
 
-    canvas.drawPoints(PointMode.polygon, points, paint);
+    canvas.drawPoints(ui.PointMode.polygon, points, paint);
     print(size);
   }
 
