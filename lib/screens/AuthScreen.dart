@@ -160,14 +160,7 @@ class _AuthScreen extends State<AuthScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Container(
-                      width: 200,
-                      child: SignInButton(
-                        Buttons.Google,
-                        text: "Continue with Google",
-                        onPressed: () {},
-                      ),
-                    ),
+
                     const Spacer(),
                     // Row(
                     //   children: [

@@ -29,8 +29,6 @@ class _UploadModelState extends State<UploadModel> {
   Color focusedColor = Colors.white;
   Color selectedColor = Colors.green;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,14 +44,16 @@ class _UploadModelState extends State<UploadModel> {
                     onPanEnd: (details) {
                       if (widthMode) {
                         print('the width of organisme is:' +
-                            (pixelRealSize(photoKey, this.widget.imageMicroWidth) /
+                            (pixelRealSize(
+                                        photoKey, this.widget.imageMicroWidth) /
                                     _controller.scale!.toDouble() *
                                     widthPainter.getDistance())
                                 .toString());
                       }
                       if (lengthMode) {
                         print('the length of organism is:' +
-                            (pixelRealSize(photoKey, this.widget.imageMicroWidth) /
+                            (pixelRealSize(
+                                        photoKey, this.widget.imageMicroWidth) /
                                     _controller.scale!.toDouble() *
                                     lengthPainter.getLength())
                                 .toString());
@@ -89,21 +89,18 @@ class _UploadModelState extends State<UploadModel> {
                           disableGestures: widthMode || lengthMode || focusMode,
                           controller: _controller,
                           initialScale: 1.0,
-                          imageProvider: AssetImage('assets/images/example.jpg'),
+                          imageProvider:
+                              AssetImage('assets/images/example.jpg'),
                         ),
                         foregroundPainter: widthMode
                             ? widthPainter = WidthPainter(p1: p1, p2: p2)
                             : lengthMode
                                 ? lengthPainter = LengthPainter(points: points)
-                                : focusMode?focusPainter =
-                                    FocusPainter(startPoint: p1, endPoint: p2):null),
+                                : focusMode
+                                    ? focusPainter = FocusPainter(
+                                        startPoint: p1, endPoint: p2)
+                                    : null),
                   ),
-                  Positioned(child: IconButton(icon: Icon(Icons.info),onPressed: (){
-                    showDialog(context: context, builder: (BuildContext context){
-                      return AlertDialog(title: Center(child: Text('Info')),content: Text('Please Zoom and move the Image to the preferred Position then finish setting focus, Length and Width for the microoganisme.'),);
-                    });
-
-                  },),top: 0,right: 0,),
                 ],
               ),
             ),
@@ -115,18 +112,17 @@ class _UploadModelState extends State<UploadModel> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                decoration: BoxDecoration(color: focusMode ? Colors.green : Colors.white, borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(
+                    color: focusMode ? Colors.green : Colors.white,
+                    borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () {
-
-
                     setState(() {
-                      if(!focusMode) {
+                      if (!focusMode) {
                         focusMode = true;
                         lengthMode = widthMode = false;
                         print(_controller.position);
-                      }
-                      else {
+                      } else {
                         lengthMode = false;
                         focusMode = widthMode = false;
                       }
@@ -142,11 +138,13 @@ class _UploadModelState extends State<UploadModel> {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(color: lengthMode ? Colors.green : Colors.white, borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(
+                    color: lengthMode ? Colors.green : Colors.white,
+                    borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () {
                     setState(() {
-                      points=[];
+                      points = [];
                     });
                     if (!lengthMode) {
                       setState(() {
@@ -170,12 +168,13 @@ class _UploadModelState extends State<UploadModel> {
                 ),
               ),
               Container(
-                decoration: BoxDecoration(color: widthMode ? Colors.green : Colors.white, borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(
+                    color: widthMode ? Colors.green : Colors.white,
+                    borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () {
                     setState(() {
-                      points=[];
-
+                      points = [];
                     });
                     if (!widthMode) {
                       setState(() {
@@ -221,19 +220,10 @@ class _UploadModelState extends State<UploadModel> {
     return micro / key.currentContext!.size.width;
   }
 
-  PhotoViewControllerValue getControllerValues(){
-
+  PhotoViewControllerValue getControllerValues() {
     return _controller.value;
   }
-
 }
-
-
-
-
-
-
-
 
 class WidthPainter extends CustomPainter {
   final Offset p1, p2;

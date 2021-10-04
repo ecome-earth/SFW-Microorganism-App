@@ -27,7 +27,7 @@ class _UploadFormState extends State<UploadForm> {
     'Worm Casting',
     'Other'
   ];
-  String selectedType='Select Sample Type';
+  String selectedType = 'Select Sample Type';
 
   Offset position = Offset(200, 200);
 
@@ -46,11 +46,6 @@ class _UploadFormState extends State<UploadForm> {
       widthdesc =
           "please mark the width of the object, by zooming in and tapping on the one end and then on the other end of the object width";
   bool zoomDisabled = false;
-
-
-
-
-
 
   GlobalKey<ScaffoldState> key = GlobalKey();
   @override
@@ -123,16 +118,26 @@ class _UploadFormState extends State<UploadForm> {
                                       print(
                                           'button pressed, changing variable to true');
 
-
-
-
-                                      if(isNumeric(umWidth.text) && isNumeric(umHeight.text)){
-                                      setState(() {
-                                        photoExists = true;
-                                      });}
-                                      else{
-                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please Define your image real dimensions')));
-
+                                      if (isNumeric(umWidth.text) &&
+                                          isNumeric(umHeight.text)) {
+                                        setState(() {
+                                          photoExists = true;
+                                        });
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title:
+                                                    Center(child: Text('Info')),
+                                                content: Text(
+                                                    'Please Zoom and move the Image to the preferred Position then finish setting focus, Length and Width for the microoganisme.'),
+                                              );
+                                            });
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    'Please Define your image real dimensions')));
                                       }
                                     },
                                     child: Container(
@@ -407,7 +412,9 @@ class _UploadFormState extends State<UploadForm> {
                                                                   value;
                                                               print(
                                                                   selectedType);
-                                                              Navigator.of(context).pop();
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
                                                             });
                                                           },
                                                           child: Text(
@@ -455,7 +462,6 @@ class _UploadFormState extends State<UploadForm> {
                     Flexible(
                       child: Row(
                         children: [
-
                           Expanded(
                             child: MaterialButton(
                               highlightColor: Colors.white,

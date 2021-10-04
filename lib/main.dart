@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +60,7 @@ class MyApp extends StatelessWidget {
             'info': (context) => ProfileInfo(),
             'auth': (context) => AuthScreen(),
           },
+
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
@@ -70,14 +70,12 @@ class MyApp extends StatelessWidget {
             builder: (context, snapshot) {
               // Check for errors
 
-
               if (snapshot.data == false) {
                 print('problem occured with Back4App');
                 print('No User Session Detected Redirecting to Auth Screen');
 
                 return AuthScreen();
               } else {
-
                 print('User Session Detected, Lets Navigate to root page ');
 
                 return ProfileUploads();

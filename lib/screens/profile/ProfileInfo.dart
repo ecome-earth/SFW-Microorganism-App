@@ -92,67 +92,117 @@ class _ProfileInfo extends State<ProfileInfo> {
               ],
             ),
             Positioned(
-
               child: IconButton(
                   onPressed: () {
-                    int selection=0;
-                    
+                    int selection = 0;
+
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return Container(
                             child: Column(
                               children: [
-                                Flexible(flex: 1,child: Container(color: Colors.white,child: Center(child: Text('SETTINGS',style: GoogleFonts.luckiestGuy(fontSize: 36,fontWeight: FontWeight.w400),),)),),
-                                Flexible(flex: 1,child: Container(
-                                  color: Colors.white,
-                                  child: TextButton(
-                                    onPressed: (){
-
-                                      Navigator.of(context).pushNamed('donate');
-
-                                    },
-                                    child: Center(child: Text('DONATE',style: GoogleFonts.permanentMarker(color: Colors.black,fontSize: 24),),),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: Text(
+                                          'SETTINGS',
+                                          style: GoogleFonts.luckiestGuy(
+                                              fontSize: 36,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      )),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pushNamed('donate');
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          'DONATE',
+                                          style: GoogleFonts.permanentMarker(
+                                              color: Colors.black,
+                                              fontSize: 24),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),),
-                                Flexible(flex: 1,child: Container(
-                                  color: Colors.white,
-                                  child: TextButton(
-                                    onPressed: () {
-                                    },
-                                    child: Center(child: Text('PROFILE',style: GoogleFonts.permanentMarker(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w400),),),
-                                  ),
-                                ),),
-                                Flexible(flex: 1,child: Container(
-                                  color: Colors.white,
-                                  child: TextButton(
-                                    onPressed: (){
-                                     
-                                      
-                                    },
-                                    child: Center(child: Text('SECURITY',style: GoogleFonts.permanentMarker(color: Colors.black,fontSize: 24,fontWeight: FontWeight.w400),),),
-                                  ),
-                                ),),
-                                Flexible(flex: 1,child: Container(
-                                  color: Colors.white,
-                                  child: TextButton(
-                                    onPressed: (){
-                                      logout(context);
-                                    },
-                                    child: Center(child: Text('LOGOUT',style: GoogleFonts.permanentMarker(fontSize: 24,fontWeight: FontWeight.w400,color: Colors.red),),),
-                                  ),
-                                ),),
-Spacer(flex: 4,),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pushNamed('changeInfo');
 
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          'PROFILE',
+                                          style: GoogleFonts.permanentMarker(
+                                              color: Colors.black,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pushNamed('security');
 
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          'SECURITY',
+                                          style: GoogleFonts.permanentMarker(
+                                              color: Colors.black,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        logout(context);
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          'LOGOUT',
+                                          style: GoogleFonts.permanentMarker(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.red),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Spacer(
+                                  flex: 4,
+                                ),
                               ],
                             ),
-                          )
-                             
-                          
-                          
-                          
-                          ;
+                          );
                         });
                   },
                   icon: Icon(Icons.settings)),
