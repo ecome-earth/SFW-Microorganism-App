@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
-import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
+import 'package:sfw_microorganisms/screens/profile/ProfileInfo.dart';
 
 class ProfileUploads extends StatefulWidget {
   ProfileUploads({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 1);
   }
 
   @override
@@ -51,9 +51,6 @@ class _ProfileUploadsState extends State<ProfileUploads>
                   Tab(
                     text: 'Uploads',
                   ),
-                  Tab(
-                    text: 'Microdex',
-                  )
                 ],
               ),
             ),
@@ -71,13 +68,11 @@ class _ProfileUploadsState extends State<ProfileUploads>
                         _buildHeader(),
                         for (var upload in provider.uploads!)
                           UploadTile(
-                            uploadModel: upload,
+                            upload: upload,
                           ),
                       ],
                     ),
                   ),
-
-                  Container(color: Colors.white,child: Center(child: Text('Microdex..'),),)
                 ],
               );
             },
@@ -106,6 +101,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
           IconButton(
               onPressed: () {
                 print('changing to New Upload form');
+                //TODO:replace with NewUpload
                 Navigator.of(context).pushNamed('newUpload');
               },
               
@@ -173,17 +169,10 @@ class _ProfileUploadsState extends State<ProfileUploads>
                 print('Navigating to gallery');
                 Navigator.pushNamed(context, 'gallery');
               },
-                child: Image.asset(
-                  'assets/profile/microdex.png',
-                  height: 40,
-                  width: 40,
-                  color: provider.bottomNavItems![2]!
-                      ? Color(0xFF03DAC5)
-                      : Colors.black,
-                ),
+                child: Icon(Icons.style, size: 35,color:Colors.black)
               ),
               // ignore: deprecated_member_use
-              title: Text('Microdex',
+              title: Text('Gallery',
                   style: TextStyle(
                     color: provider.bottomNavItems![2]!
                         ? Color(0xFF03DAC5)
@@ -194,3 +183,5 @@ class _ProfileUploadsState extends State<ProfileUploads>
     );
   }
 }
+
+

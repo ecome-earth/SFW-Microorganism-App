@@ -15,8 +15,10 @@ class CameraComponent extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            child: PhotoView(
-              imageProvider: AssetImage(imgPath!),
+            child: ClipRect(clipBehavior: Clip.hardEdge,
+              child: PhotoView(
+                imageProvider: AssetImage(imgPath!),
+              ),
             ),
           ),
           Align(

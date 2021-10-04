@@ -19,7 +19,7 @@ class UploadScreen extends StatelessWidget {
                 _buildHeader(),
                 for (var upload in provider.uploads!)
                   UploadTile(
-                    uploadModel: upload,
+                    upload: upload,
                   ),
               ],
             ),

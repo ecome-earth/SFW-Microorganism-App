@@ -30,8 +30,10 @@ class AnswerSelectedScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              CameraComponent(
-                imgPath: provider.testQuiz!.imgPath,
+              ClipRect(clipBehavior: Clip.hardEdge,
+                child: CameraComponent(
+                  imgPath: provider.testQuiz!.imgPath,
+                ),
               ),
               SizedBox(
                 height: 50,

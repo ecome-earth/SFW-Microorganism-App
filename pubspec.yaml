@@ -21,12 +21,9 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  cloud_firestore: ^2.5.2
   cloud_functions: ^3.0.3
   cupertino_icons: ^1.0.2
   draggable_widget: ^2.0.0
-  firebase_auth: ^3.1.1
-  firebase_core: ^1.6.0
   provider: 6.0.0
   firebase_messaging: ^10.0.7
   flutter:
@@ -36,6 +33,9 @@ dependencies:
   google_sign_in: ^5.1.0
   shared_preferences: ^2.0.7
   photo_view: ^0.12.0
+  parse_server_sdk_flutter: ^3.1.0
+  photo_gallery: ^1.0.1
+  image_painter: ^0.4.0
 
 dev_dependencies:
   flutter_test:

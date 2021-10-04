@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sfw_microorganisms/models/quiz_model.dart';
+import 'package:sfw_microorganisms/models/quiz.dart';
 
 class QuizProvider extends ChangeNotifier {
-  final QuizModel? _testQuiz = QuizModel(
+  final Quiz? _testQuiz = Quiz(
     imgPath: 'assets/images/example.jpg',
     choices: {
       'Plant Matter': false,
@@ -13,7 +13,7 @@ class QuizProvider extends ChangeNotifier {
     },
   );
 
-  QuizModel? get testQuiz => _testQuiz;
+  Quiz? get testQuiz => _testQuiz;
 
   String? _previousChoice = '';
   String? get previousChoice => _previousChoice;

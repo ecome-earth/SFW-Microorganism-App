@@ -1,8 +1,8 @@
-import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:sfw_microorganisms/components/uploadModel.dart';
 
 class UploadForm extends StatefulWidget {
   const UploadForm({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _UploadFormState extends State<UploadForm> {
     'Worm Casting',
     'Other'
   ];
-  String? selectedType;
+  String selectedType='Select Sample Type';
 
   Offset position = Offset(200, 200);
 
@@ -38,7 +38,6 @@ class _UploadFormState extends State<UploadForm> {
   List<Offset> lengthPoints = [];
   var widthp1 = null, widthp2 = null; //offset
   bool ok = true;
-
   bool focusmode = false, lengthmode = false, widthmode = false;
   String focusdesc =
           "please add a rectangel around the Object you want to focus on with drag and drop motion",
@@ -46,12 +45,18 @@ class _UploadFormState extends State<UploadForm> {
           "please mark the length of the object, by tapping on the all the corners along the length of the object",
       widthdesc =
           "please mark the width of the object, by zooming in and tapping on the one end and then on the other end of the object width";
+  bool zoomDisabled = false;
 
+
+
+
+
+
+  GlobalKey<ScaffoldState> key = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-
     return Scaffold(
+      key: key,
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -81,201 +86,8 @@ class _UploadFormState extends State<UploadForm> {
                   Container(
                     height: MediaQuery.of(context).size.height * 0.33,
                     child: photoExists
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onPanStart: (DragStartDetails d) {
-                                  // print(d.localPosition);
-                                  if (focusmode) {
-                                    setState(() {
-                                      p1 = d.localPosition;
-                                      p2 = p1;
-                                      rectHeight = rectWidth = 0;
-
-                                      top = p1.dy;
-                                      left = p1.dx;
-                                    });
-                                  }
-
-                                  if (lengthmode) {
-                                    setState(() {
-                                      if (lengthPoints.length == 0)
-                                        lengthPoints.add(d.localPosition);
-                                      ok = true;
-                                    });
-                                  }
-
-                                  if (widthmode) {
-                                    setState(() {
-                                      widthp1 = d.localPosition;
-                                      widthp2 = d.localPosition;
-                                    });
-                                  }
-                                },
-                                onPanUpdate: (DragUpdateDetails d) {
-                                  if (focusmode) {
-                                    setState(() {
-                                      p2 = d.localPosition;
-                                      rectHeight = (p2.dy - p1.dy).abs();
-                                      rectWidth = (p2.dx - p1.dx).abs();
-                                      if (p2.dx >= p1.dx && p2.dy >= p1.dy) {
-                                        top = p1.dy;
-                                        left = p1.dx;
-                                      } else if (p2.dx > p1.dx &&
-                                          p2.dy < p1.dy) {
-                                        top = p2.dy;
-                                        left = p1.dx;
-                                      } else if (p2.dx < p1.dx &&
-                                          p2.dy > p1.dy) {
-                                        top = p1.dy;
-                                        left = p2.dx;
-                                      } else {
-                                        top = p2.dy;
-                                        left = p2.dx;
-                                      }
-                                    });
-                                  }
-
-                                  if (lengthmode) {
-                                    setState(() {
-                                      if (ok) {
-                                        lengthPoints.add(d.localPosition);
-                                        ok = false;
-                                      } else {
-                                        lengthPoints.removeLast();
-                                        lengthPoints.add(d.localPosition);
-                                      }
-                                      // print(lengthPoints);
-                                    });
-                                  }
-
-                                  if (widthmode) {
-                                    setState(() {
-                                      widthp2 = d.localPosition;
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  height: 200.0,
-                                  width: size.width,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black),
-                                  ),
-                                  child: Stack(
-                                    children: [
-                                      Center(
-                                        child: Image.asset(
-                                          'assets/images/logo.png',
-                                        ),
-                                      ),
-                                      if (focusmode &&
-                                          top != null &&
-                                          left != null)
-                                        Positioned(
-                                          top: top,
-                                          left: left,
-                                          child: Container(
-                                            height: rectHeight,
-                                            width: rectWidth,
-                                            decoration: BoxDecoration(
-                                              color: Colors.transparent,
-                                              border: Border.all(
-                                                color: Colors.red,
-                                                width: 3,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      if (lengthmode &&
-                                          lengthPoints.length >= 2)
-                                        CustomPaint(
-                                          painter: LengthPainter(
-                                              points: lengthPoints),
-                                        ),
-                                      if (widthmode &&
-                                          widthp1 != null &&
-                                          widthp2 != null)
-                                        CustomPaint(
-                                          painter: WidthPainter(
-                                            p1: widthp1,
-                                            p2: widthp2,
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Container(
-                                      color: focusmode
-                                          ? Color(0xff20E46E)
-                                          : Color(0xffc4c4c4),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            focusmode = true;
-                                            lengthmode = widthmode = false;
-                                          });
-                                        },
-                                        child: Text(
-                                          "focus",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      color: lengthmode
-                                          ? Color(0xff20E46E)
-                                          : Color(0xffc4c4c4),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            lengthmode = true;
-                                            focusmode = widthmode = false;
-                                          });
-                                        },
-                                        child: Text(
-                                          "length",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      color: widthmode
-                                          ? Color(0xff20E46E)
-                                          : Color(0xffc4c4c4),
-                                      child: TextButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            widthmode = true;
-                                            lengthmode = focusmode = false;
-                                          });
-                                        },
-                                        child: Text(
-                                          "width",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+                        ? UploadModel(
+                            imageMicroWidth: int.parse(umWidth.text).toDouble(),
                           )
                         : Padding(
                             padding: EdgeInsets.only(
@@ -310,9 +122,18 @@ class _UploadFormState extends State<UploadForm> {
                                     onPressed: () {
                                       print(
                                           'button pressed, changing variable to true');
+
+
+
+
+                                      if(isNumeric(umWidth.text) && isNumeric(umHeight.text)){
                                       setState(() {
                                         photoExists = true;
-                                      });
+                                      });}
+                                      else{
+                                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please Define your image real dimensions')));
+
+                                      }
                                     },
                                     child: Container(
                                       child: FittedBox(
@@ -586,6 +407,7 @@ class _UploadFormState extends State<UploadForm> {
                                                                   value;
                                                               print(
                                                                   selectedType);
+                                                              Navigator.of(context).pop();
                                                             });
                                                           },
                                                           child: Text(
@@ -611,7 +433,7 @@ class _UploadFormState extends State<UploadForm> {
                                     padding: const EdgeInsets.all(2.0),
                                     child: Center(
                                       child: Text(
-                                        'Select Sample Type',
+                                        selectedType,
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w300,
@@ -633,6 +455,7 @@ class _UploadFormState extends State<UploadForm> {
                     Flexible(
                       child: Row(
                         children: [
+
                           Expanded(
                             child: MaterialButton(
                               highlightColor: Colors.white,
@@ -708,6 +531,7 @@ class _UploadFormState extends State<UploadForm> {
                                   border: Border.all(
                                       color: Colors.black45, width: 1)),
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   fillColor: Colors.white,
                                   focusColor: Colors.white,
@@ -731,6 +555,7 @@ class _UploadFormState extends State<UploadForm> {
                                   border: Border.all(
                                       color: Colors.black45, width: 1)),
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                     fillColor: Colors.white,
                                     focusColor: Colors.white,
@@ -853,4 +678,196 @@ class WidthPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return oldDelegate != this;
   }
+}
+
+class UploaddModel extends StatefulWidget {
+  const UploaddModel({Key? key}) : super(key: key);
+
+  @override
+  _UploaddModelState createState() => _UploaddModelState();
+}
+
+class _UploaddModelState extends State<UploaddModel> {
+  Offset position = Offset(200, 200);
+
+  var p1 = null, p2 = null; // p1 start point of drag, p2 end point of drag
+  var top = null, left = null; // top: dy offset , left dx offset
+  double rectHeight = 0, rectWidth = 0;
+
+  List<Offset> lengthPoints = [];
+  var widthp1 = null, widthp2 = null; //offset
+  bool ok = true;
+  String zoomLevelText = 'Zoom X2';
+  bool focusmode = false, lengthmode = false, widthmode = false;
+  String focusdesc =
+          "please add a rectangel around the Object you want to focus on with drag and drop motion",
+      lengthdesc =
+          "please mark the length of the object, by tapping on the all the corners along the length of the object",
+      widthdesc =
+          "please mark the width of the object, by zooming in and tapping on the one end and then on the other end of the object width";
+  bool jobStart = false;
+  PhotoViewController _controller = new PhotoViewController();
+  GlobalKey<RawGestureDetectorState> globalKey = GlobalKey();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200.0,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+      ),
+      child: Stack(
+        children: [
+          Center(
+              child: ClipRect(
+            child: GestureDetector(
+              key: globalKey,
+              onTapDown: (TapDownDetails tap) {},
+              onPanStart: (DragStartDetails d) {
+                // print(d.localPosition);
+                if (focusmode) {
+                  setState(() {
+                    p1 = d.localPosition;
+                    p2 = p1;
+                    rectHeight = rectWidth = 0;
+
+                    top = p1.dy;
+                    left = p1.dx;
+                  });
+                }
+
+                if (lengthmode) {
+                  setState(() {
+                    if (lengthPoints.length == 0)
+                      lengthPoints.add(d.localPosition);
+                    ok = true;
+                  });
+                }
+
+                if (widthmode) {
+                  setState(() {
+                    widthp1 = d.localPosition;
+                    widthp2 = d.localPosition;
+                  });
+                }
+              },
+              onPanUpdate: (DragUpdateDetails d) {
+                if (focusmode) {
+                  setState(() {
+                    p2 = d.localPosition;
+                    rectHeight = (p2.dy - p1.dy).abs();
+                    rectWidth = (p2.dx - p1.dx).abs();
+                    if (p2.dx >= p1.dx && p2.dy >= p1.dy) {
+                      top = p1.dy;
+                      left = p1.dx;
+                    } else if (p2.dx > p1.dx && p2.dy < p1.dy) {
+                      top = p2.dy;
+                      left = p1.dx;
+                    } else if (p2.dx < p1.dx && p2.dy > p1.dy) {
+                      top = p1.dy;
+                      left = p2.dx;
+                    } else {
+                      top = p2.dy;
+                      left = p2.dx;
+                    }
+                  });
+                }
+
+                if (lengthmode) {
+                  setState(() {
+                    if (ok) {
+                      lengthPoints.add(d.localPosition);
+                      ok = false;
+                    } else {
+                      lengthPoints.removeLast();
+                      lengthPoints.add(d.localPosition);
+                    }
+                    // print(lengthPoints);
+                  });
+                }
+
+                if (widthmode) {
+                  setState(() {
+                    widthp2 = d.localPosition;
+                  });
+                }
+              },
+              child: PhotoView(
+                imageProvider: AssetImage('assets/images/example.jpg'),
+                controller: _controller,
+                disableGestures: jobStart,
+              ),
+            ),
+          )),
+          if (focusmode)
+            Positioned(
+              top: top,
+              left: left,
+              child: Container(
+                height: rectHeight,
+                width: rectWidth,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(
+                    color: Colors.red,
+                    width: 3,
+                  ),
+                ),
+              ),
+            ),
+          if (lengthmode && lengthPoints.length >= 2 && jobStart)
+            CustomPaint(
+              child: PhotoView(
+                imageProvider: AssetImage('assets/images/example.jpg'),
+                controller: _controller,
+                disableGestures: jobStart,
+              ),
+              painter: LengthPainter(points: lengthPoints),
+            ),
+          if (widthmode && widthp1 != null && widthp2 != null)
+            CustomPaint(
+              child: PhotoView(
+                imageProvider: AssetImage('assets/images/example.jpg'),
+                controller: _controller,
+                disableGestures: jobStart,
+              ),
+              painter: WidthPainter(
+                p1: widthp1,
+                p2: widthp2,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyPaint extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {}
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    return true;
+  }
+}
+
+bool isNumeric(String string) {
+  // Null or empty string is not a number
+  if (string == null || string.isEmpty) {
+    return false;
+  }
+
+  // Try to parse input string to number.
+  // Both integer and double work.
+  // Use int.tryParse if you want to check integer only.
+  // Use double.tryParse if you want to check double only.
+  final number = num.tryParse(string);
+
+  if (number == null) {
+    return false;
+  }
+
+  return true;
 }
