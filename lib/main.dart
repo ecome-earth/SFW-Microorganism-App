@@ -1,12 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/providers/quiz_provider.dart';
-import 'package:sfw_microorganisms/screens/auth/AuthScreen.dart';
-import 'package:sfw_microorganisms/screens/Gallery.dart';
-import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
-import 'package:sfw_microorganisms/screens/ProfileUploadNew.dart';
+import 'package:sfw_microorganisms/screens/authScreen.dart';
+import 'package:sfw_microorganisms/screens/gallery.dart';
+import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
+import 'package:sfw_microorganisms/screens/profile/uploadNew.dart';
+import 'package:sfw_microorganisms/screens/profile/settings.dart';
 import 'package:sfw_microorganisms/screens/root_screen.dart';
 import 'package:sfw_microorganisms/screens/quiz/answer_selected_screen.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -48,6 +50,9 @@ class MyApp extends StatelessWidget {
           title: 'SFW Microorganisms',
           debugShowCheckedModeBanner: false,
           routes: {
+            'donate': (context) => DonatePage(),
+            'security': (context) => SecurityPage(),
+            'changeInfo': (context) => ChangeInfo(),
             'quiz': (context) => AnswerSelectedScreen(),
             'gallery': (context) => Gallery(),
             'newUpload': (context) => UploadForm(),
@@ -55,6 +60,7 @@ class MyApp extends StatelessWidget {
             'info': (context) => ProfileInfo(),
             'auth': (context) => AuthScreen(),
           },
+
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
@@ -70,7 +76,6 @@ class MyApp extends StatelessWidget {
 
                 return AuthScreen();
               } else {
-
                 print('User Session Detected, Lets Navigate to root page ');
 
                 return ProfileUploads();
@@ -127,3 +132,7 @@ class ErrorScreen extends StatelessWidget {
   }
 }
 
+Future<ParseUser?> getUser() async {
+  ParseUser? currentUser = await ParseUser.currentUser();
+  return currentUser;
+}

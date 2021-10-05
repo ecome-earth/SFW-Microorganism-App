@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
-import 'package:sfw_microorganisms/models/upload.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
-import 'package:sfw_microorganisms/screens/ProfileInfo.dart';
+import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
 
 class ProfileUploads extends StatefulWidget {
   ProfileUploads({Key? key}) : super(key: key);
@@ -20,7 +19,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this, initialIndex: 1);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
   }
 
   @override
@@ -67,14 +66,13 @@ class _ProfileUploadsState extends State<ProfileUploads>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildHeader(),
-                        for (Upload upload in provider.uploads!)
+                        for (var upload in provider.uploads!)
                           UploadTile(
                             upload: upload,
                           ),
                       ],
                     ),
                   ),
-
                 ],
               );
             },
@@ -103,6 +101,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
           IconButton(
               onPressed: () {
                 print('changing to New Upload form');
+                //TODO:replace with NewUpload
                 Navigator.of(context).pushNamed('newUpload');
               },
               
@@ -170,7 +169,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
                 print('Navigating to gallery');
                 Navigator.pushNamed(context, 'gallery');
               },
-                child: Icon(Icons.style,size: 30,color: Colors.black,),
+                child: Icon(Icons.style, size: 35,color:Colors.black)
               ),
               // ignore: deprecated_member_use
               title: Text('Gallery',
@@ -179,9 +178,10 @@ class _ProfileUploadsState extends State<ProfileUploads>
                         ? Color(0xFF03DAC5)
                         : Colors.black,
                   ))),
-
         ],
       ),
     );
   }
 }
+
+
