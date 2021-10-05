@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
-import 'package:sfw_microorganisms/screens/profile/ProfileInfo.dart';
+import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
 
 class ProfileUploads extends StatefulWidget {
   ProfileUploads({Key? key}) : super(key: key);

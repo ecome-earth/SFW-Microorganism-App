@@ -52,7 +52,6 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
   void initState() {
 
    image = Image(image: networkImage);
-
     super.initState();
   }
   @override
@@ -80,9 +79,9 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                   GestureDetector(
                     onPanEnd: (details) {
                       if (widthMode) {
-                        print('the width of organisme is:' +
+                        print('the width of organisme is:' + (this.widget.imageMicroWidth/imageWidth/_controller.scale!.toDouble()*widthPainter.getDistance()).toString() +
                             (pixelRealSize(
-                                        photoKey, this.widget.imageMicroWidth) /imageWidth/
+                                        photoKey, this.widget.imageMicroWidth) /
                                     _controller.scale!.toDouble() *
                                     widthPainter.getDistance())
                                 .toString());
@@ -90,8 +89,7 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                       }
                       if (lengthMode) {
                         print('the length of organism is:' +
-                            (pixelRealSize(
-                                        photoKey, this.widget.imageMicroWidth)/imageWidth /
+                            (this.widget.imageMicroWidth/ imageWidth /
                                     _controller.scale!.toDouble() *
                                     lengthPainter.getLength())
                                 .toString());
@@ -162,6 +160,15 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                     ui.Image myimage = (await _getImage('https://i.ibb.co/pKPyH80/2.jpg')) ;
                 imageWidth=myimage.width.toDouble();
                   print(myimage.width);
+
+
+
+
+
+
+
+
+
                     print(image.width);
                     print(_controller.scale);
                     setState(() {
@@ -262,6 +269,9 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
         _controller.scale!.toDouble() *
         lengthPainter.getLength());
   }
+
+  //  Real image Width  /  Container Size  / Image Size
+
 
   double pixelRealSize(key, micro) {
     return micro / key.currentContext!.size.width;

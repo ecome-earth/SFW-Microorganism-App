@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:sfw_microorganisms/screens/profile/ProfileInfo.dart';
+import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
 import 'package:sfw_microorganisms/services/authentication_service.dart';
 
 class AuthScreen extends StatefulWidget {
