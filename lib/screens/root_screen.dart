@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sfw_microorganisms/components/bottom_navbar.dart';
 import 'package:sfw_microorganisms/components/upload_tile.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
 import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 
 class ProfileUploads extends StatefulWidget {
   ProfileUploads({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class ProfileUploads extends StatefulWidget {
 class _ProfileUploadsState extends State<ProfileUploads>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  var _index = 0;
 
   @override
   void initState() {
@@ -77,7 +80,7 @@ class _ProfileUploadsState extends State<ProfileUploads>
               );
             },
           ),
-          bottomNavigationBar: _buildBottomNavBar(provider: provider),
+          bottomNavigationBar: CustomNavBar(provider: provider, index: 0),
         );
       },
     );
@@ -87,7 +90,8 @@ class _ProfileUploadsState extends State<ProfileUploads>
     return Container(
       height: 75,
       color: Color(0xFFFFF7F4),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Spacer(),
           Spacer(),
@@ -97,91 +101,15 @@ class _ProfileUploadsState extends State<ProfileUploads>
             textAlign: TextAlign.center,
           ),
           Spacer(),
-
           IconButton(
               onPressed: () {
                 print('changing to New Upload form');
                 //TODO:replace with NewUpload
                 Navigator.of(context).pushNamed('newUpload');
               },
-              
               icon: Icon(Icons.add_a_photo_outlined, size: 32)),
         ],
       ),
     );
   }
-
-  Widget _buildBottomNavBar({required ProfileProvider provider}) {
-    return SizedBox(
-      height: 95,
-      child: BottomNavigationBar(
-        onTap: (index) {
-          debugPrint('the nav items: ${provider.bottomNavItems}');
-          provider.selectItem(index: index);
-          provider.setPreviousIndex(index: index);
-        },
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                size: 40,
-                color: provider.bottomNavItems![0]!
-                    ? Color(0xFF03DAC5)
-                    : Colors.black,
-              ),
-              // ignore: deprecated_member_use
-              title: Text(
-                'Profile',
-                style: TextStyle(
-                  color: provider.bottomNavItems![0]!
-                      ? Color(0xFF03DAC5)
-                      : Colors.black,
-                ),
-              )),
-          BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: (){
-                  print('Navigating to quiz screen');
-                  Navigator.of(context).pushNamed('quiz');
-
-                },
-                child: Image.asset(
-                  'assets/profile/quiz.png',
-                  height: 40,
-                  width: 40,
-                  color: provider.bottomNavItems![1]!
-                      ? Color(0xFF03DAC5)
-                      : Colors.black,
-                ),
-              ),
-              // ignore: deprecated_member_use
-              title: Text(
-                'Quiz',
-                style: TextStyle(
-                  color: provider.bottomNavItems![1]!
-                      ? Color(0xFF03DAC5)
-                      : Colors.black,
-                ),
-              )),
-          BottomNavigationBarItem(
-              icon: InkWell(onTap: (){
-
-                print('Navigating to gallery');
-                Navigator.pushNamed(context, 'gallery');
-              },
-                child: Icon(Icons.style, size: 35,color:Colors.black)
-              ),
-              // ignore: deprecated_member_use
-              title: Text('Gallery',
-                  style: TextStyle(
-                    color: provider.bottomNavItems![2]!
-                        ? Color(0xFF03DAC5)
-                        : Colors.black,
-                  ))),
-        ],
-      ),
-    );
-  }
 }
-
-
