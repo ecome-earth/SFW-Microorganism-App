@@ -36,7 +36,6 @@ dependencies:
   parse_server_sdk_flutter: ^3.1.0
   photo_gallery: ^1.0.1
   image_painter: ^0.4.0
-  animated_bottom_navigation_bar: ^0.3.2
   floating_bottom_navigation_bar: ^1.5.2
 
 dev_dependencies:
