@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sfw_microorganisms/components/bottom_navbar.dart';
+import 'package:sfw_microorganisms/providers/profile_provider.dart';
 
 class Gallery extends StatefulWidget {
   const Gallery({Key? key}) : super(key: key);
@@ -46,19 +49,13 @@ class _GalleryState extends State<Gallery> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () {
-                        print('Navigating Back...');
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(Icons.arrow_back_outlined)),
-                  IconButton(
                     onPressed: () {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Center(
-                                  child:  Text(
+                                  child: Text(
                                 'Sort By',
                                 style: TextStyle(fontSize: 22),
                               )),
@@ -102,6 +99,10 @@ class _GalleryState extends State<Gallery> {
                           });
                     },
                     icon: Icon(Icons.sort_outlined),
+                  ),
+                  Text(
+                    'Gallery',
+                    style: TextStyle(fontSize: 24),
                   ),
                   IconButton(
                     onPressed: () {
@@ -222,8 +223,7 @@ class _GalleryState extends State<Gallery> {
                           padding: EdgeInsets.only(right: 6.0),
                           child: IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.message_outlined)
-                          ),
+                              icon: Icon(Icons.message_outlined)),
                         )
                       ],
                     ),
@@ -233,6 +233,8 @@ class _GalleryState extends State<Gallery> {
             );
           },
         ),
+        bottomNavigationBar: CustomNavBar(
+            provider: Provider.of<ProfileProvider>(context), index: 2),
       ),
     );
   }
@@ -245,11 +247,6 @@ class Entry {
   final List<Entry> children;
 }
 
-
-Widget function (){
-
-
+Widget function() {
   return Text('gfg');
 }
-
-
