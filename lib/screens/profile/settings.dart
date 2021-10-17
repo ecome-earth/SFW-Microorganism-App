@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DonatePage extends StatefulWidget {
@@ -17,7 +16,16 @@ class _DonatePageState extends State<DonatePage> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: IconButton(icon: Icon(Icons.arrow_back_ios_rounded,size: 36,color: Colors.black,),onPressed: (){Navigator.pop(context);},),
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 36,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: Colors.white,
           elevation: 0,
         ),
@@ -43,7 +51,11 @@ class _DonatePageState extends State<DonatePage> {
               Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Text(
-                  "We are an open source project for the Soil Food Web Community. (Github link)\n\nWe are working on a 99% transparent donation system. You can read about it here.\n\nAt the meantime we accept donation via my Paypal account. I will put all the received donations in here so everyone can see who donated what. If you want to stay anonymous please click the box.\n\nThank you very much for your support!",
+                  "We are an open source project for the Soil Food Web Community. (Github link)\n\n"
+                  "We are working on a 99% transparent donation system. You can read about it here.\n\n"
+                  "At the meantime we accept donation via my Paypal account."
+                  " I will put all the received donations in here so everyone can see who donated what. "
+                  "If you want to stay anonymous please click the box.\n\nThank you very much for your support!",
                   style: GoogleFonts.roboto(fontSize: 14),
                 ),
               ),
@@ -267,11 +279,10 @@ class ChangeInfo extends StatefulWidget {
 }
 
 class _ChangeInfoState extends State<ChangeInfo> {
+  TextEditingController name = TextEditingController(text: 'NAME');
+  TextEditingController country = TextEditingController(text: 'COUNTRY');
+  TextEditingController city = TextEditingController(text: 'CITY');
   @override
-
-  TextEditingController name= TextEditingController(text: 'NAME');
-  TextEditingController country= TextEditingController(text: 'COUNTRY');
-  TextEditingController city= TextEditingController(text: 'CITY');
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -300,14 +311,22 @@ class _ChangeInfoState extends State<ChangeInfo> {
                 style: GoogleFonts.permanentMarker(
                     color: Colors.black, fontSize: 36),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 25),
-                child: CircleAvatar(child: IconButton(onPressed: (){}, icon: Icon(Icons.add_a_photo_outlined,size: 36,color: Colors.black,)),radius: 60,backgroundColor: Colors.black12,),
+                child: CircleAvatar(
+                  child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.add_a_photo_outlined,
+                        size: 36,
+                        color: Colors.black,
+                      )),
+                  radius: 60,
+                  backgroundColor: Colors.black12,
+                ),
               ),
-
               Container(
-                margin: EdgeInsets.only(left: 25, right: 25,bottom:25 ),
+                margin: EdgeInsets.only(left: 25, right: 25, bottom: 25),
                 child: TextField(
                   decoration: InputDecoration(border: InputBorder.none),
                   showCursor: false,
@@ -317,7 +336,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   controller: name,
                   onTap: () {
                     setState(
-                          () {
+                      () {
                         name.text = '';
                       },
                     );
@@ -340,10 +359,8 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   ],
                 ),
               ),
-
-
               Container(
-                margin: EdgeInsets.only(left: 25, right: 25,bottom:25 ),
+                margin: EdgeInsets.only(left: 25, right: 25, bottom: 25),
                 child: TextField(
                   decoration: InputDecoration(border: InputBorder.none),
                   showCursor: false,
@@ -353,7 +370,7 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   controller: country,
                   onTap: () {
                     setState(
-                          () {
+                      () {
                         country.text = '';
                       },
                     );
@@ -376,23 +393,19 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   ],
                 ),
               ),
-
-
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 25, vertical: 0),
                 child: TextField(
                   decoration: InputDecoration(border: InputBorder.none),
                   showCursor: false,
-
                   textAlign: TextAlign.center,
                   style: GoogleFonts.permanentMarker(
                       color: Colors.black, fontSize: 24),
                   controller: city,
                   onTap: () {
                     setState(
-                          () {
+                      () {
                         city.text = '';
-
                       },
                     );
                   },
@@ -414,7 +427,6 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   ],
                 ),
               ),
-
               Container(
                 width: 120,
                 margin: EdgeInsets.only(top: 40),
@@ -436,8 +448,6 @@ class _ChangeInfoState extends State<ChangeInfo> {
                   onPressed: () {},
                 ),
               )
-
-
             ],
           ),
         ),

@@ -1,4 +1,5 @@
-import 'authentication_service.dart';
+import 'package:photo_view/photo_view.dart';
+
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 addVote(
@@ -26,6 +27,7 @@ addVote(
         await uploadResponse.results!.first,
       )
       ..set('type', 'Bacteria');
+    
 
     final ParseResponse parseResponse = await vote.save();
     if (parseResponse.success) {
@@ -45,14 +47,18 @@ getUploads() async {
 }
 
 addUpload(String url, String width, String height, String country, String state,
-    String type) async {
+    String type, PhotoViewControllerValue initialController, List<String> boxValues) async {
   ParseObject upload = ParseObject('Uploads')
     ..set('userID', await getUser())
     ..set('umWidth', width)
     ..set('umHeight', height)
     ..set('country', country)
     ..set('state', state)
+    ..set('initialController',initialController)
+    ..set('boxValues', boxValues)
     ..set('photoURL', url);
+
+  
   ParseResponse reponse = await upload.save();
   if (reponse.success) {
     print('Saved New Infos');
@@ -61,3 +67,10 @@ addUpload(String url, String width, String height, String country, String state,
     print(reponse.error!.message);
   }
 }
+
+
+Future<ParseUser?> getUser() async {
+  ParseUser? currentUser = await ParseUser.currentUser();
+  return currentUser;
+}
+

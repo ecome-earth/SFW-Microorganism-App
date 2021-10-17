@@ -197,3 +197,4 @@ class _AuthScreen extends State<AuthScreen> {
     );
   }
 }
+

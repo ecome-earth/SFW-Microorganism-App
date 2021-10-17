@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
 import 'package:sfw_microorganisms/providers/quiz_provider.dart';
+import 'package:sfw_microorganisms/screens/auth/welcomeScreen.dart';
 import 'package:sfw_microorganisms/screens/authScreen.dart';
 import 'package:sfw_microorganisms/screens/gallery.dart';
 import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
@@ -20,7 +21,7 @@ void main() async {
   final keyClientKey = 'sYJfx9d1B1kLhXsFZ6tQVz0hzKTZtkYRIdPocW4E';
   final keyParseServerUrl = 'https://parseapi.back4app.com';
 
-  Parse parse = await Parse().initialize(keyApplicationId, keyParseServerUrl,
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyClientKey, autoSendSessionId: true);
   var firstObject = ParseObject('FirstClass')
     ..set(
@@ -30,6 +31,7 @@ void main() async {
   print('done');
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -59,10 +61,14 @@ class MyApp extends StatelessWidget {
             'root': (context) => ProfileUploads(),
             'info': (context) => ProfileInfo(),
             'auth': (context) => AuthScreen(),
+            'welcome': (context) => WelcomeScreen(),
           },
 
           theme: ThemeData(
             primarySwatch: Colors.blue,
+
+
+
           ),
           home: FutureBuilder(
             // Initialize Parse
@@ -132,7 +138,4 @@ class ErrorScreen extends StatelessWidget {
   }
 }
 
-Future<ParseUser?> getUser() async {
-  ParseUser? currentUser = await ParseUser.currentUser();
-  return currentUser;
-}
+

@@ -14,6 +14,7 @@ class QuizTile extends StatelessWidget {
       builder: (context, provider, _) {
         return GestureDetector(
           onTap: () {
+            print('hi');
             provider.selectItem(choice: text!);
             provider.setPreviousIndex(choice: text!);
           },
