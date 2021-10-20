@@ -93,7 +93,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           print('Saved New Infos');
                           Navigator.pushReplacementNamed(context, 'root');
                         } else {
-                          print('something wrong happened, couldnt upload new photo');
+                          print('something wrong happened, could\'nt upload new photo');
                           print(reponse.error!.message);
                         }
                       },

@@ -1,51 +1,142 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/rendering.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:sfw_microorganisms/components/camera_component.dart';
-import 'package:sfw_microorganisms/components/quiz_tile.dart';
-import 'package:sfw_microorganisms/providers/quiz_provider.dart';
+import 'package:sfw_microorganisms/services/database_service.dart';
 import 'package:sfw_microorganisms/styles/text_styles.dart';
 
-class AnswerSelectedScreen extends StatelessWidget {
-  const AnswerSelectedScreen({Key? key}) : super(key: key);
-//TODO: add the Toast Package and Work with it to implement the Info Toast.
+class AnswerSelectedScreen extends StatefulWidget {
+  const AnswerSelectedScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _AnswerSelectedScreenState createState() => _AnswerSelectedScreenState();
+}
+
+class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
+  bool firstMenu = true;
+  String selectedMenu = '';
+  String selectedValue = '';
+  Map<String, List<String>> filter = {
+    'Nematode': [
+      'Bacterial-feeding',
+      'Fungal-feeding',
+      'Predatory',
+      'Root-feeding'
+    ],
+    'Protozoa': ['Flagellate', 'Ciliate', 'Amoebea'],
+    'Filamentous': ['Actinobacteria', 'Fungi', 'Oomycetes'],
+    'Bacteria': ['Aerobic', 'Anaerobic', 'Phatogenic'],
+    'Other': ['Plant Matter', 'Dead Organism', 'Seed', 'Pollen', 'Other(enter']
+  };
+  PageController pageController = PageController();
+  late String uploadId;
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {});
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<QuizProvider>(builder: (context, provider, _) {
-      return SafeArea(
-        child: Scaffold(
-          body: Container(
-            margin: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () => debugPrint('coming soon'),
-                      icon: Icon(Icons.style, size: 32.0),
-                    ),
-                    IconButton(
-                      onPressed: () {
-
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return InfoPopUp();
-                            });
-                      },
-                      icon: Icon(Icons.info_outline_rounded, size: 32.0),
-                    ),
-                  ],
-                ),
-                ClipRect(
-                  clipBehavior: Clip.hardEdge,
-                  child: CameraComponent(
-                    imgPath: provider.testQuiz!.imgPath,
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          margin: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () => debugPrint('coming soon'),
+                    icon: Icon(Icons.style, size: 32.0),
                   ),
-                ),
-                SizedBox(
+                  IconButton(
+                      onPressed: () {
+                        pageController.nextPage(
+                            duration: Duration(milliseconds: 1500),
+                            curve: Curves.elasticOut);
+                      },
+                      icon: Icon(Icons.next_plan_outlined)),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container();
+                          });
+                    },
+                    icon: Icon(Icons.info_outline_rounded, size: 32.0),
+                  ),
+                ],
+              ),
+              ClipRect(
+                  clipBehavior: Clip.hardEdge,
+                  child: FutureBuilder(
+                    future: getUploads(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<ParseObject>> snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                        case ConnectionState.waiting:
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        default:
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text("Error..."),
+                            );
+                          }
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: Text("No Data..."),
+                            );
+                          } else {
+                            return Container(
+                              height: 300,
+                              child: PageView.builder(
+                                  controller: pageController,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int page) {
+                                    
+                                    uploadId = snapshot.data![page].get('objectId');
+                                    return CameraComponent(
+                                      link:
+                                          snapshot.data![page].get('photoURL'),
+                                      initialController: PhotoViewController(
+                                          initialScale: double.tryParse(snapshot
+                                              .data![page]
+                                              .get('scale')),
+                                          initialPosition: Offset(
+                                              snapshot.data![page]
+                                                  .get('positionDx')
+                                                  .toDouble(),
+                                              snapshot.data![page]
+                                                  .get('positionDy')
+                                                  .toDouble())),
+                                      p1: Offset(
+                                          snapshot.data![page].get('p1dx'),
+                                          snapshot.data![page].get('p1dy')),
+                                      p2: Offset(
+                                          snapshot.data![page].get('p2dx'),
+                                          snapshot.data![page].get('p2dy')),
+                                    );
+                                  }),
+                            );
+                          }
+                      }
+                    },
+                  )),
+              Center(
+                child: SizedBox(
                   height: 50,
                   child: Stack(
                     children: [
@@ -54,54 +145,98 @@ class AnswerSelectedScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 42.0),
-                          child: Text(
-                            'Back',
-                            style: mediumText,
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                firstMenu = true;
+                                selectedMenu = 'Organism Type';
+                              });
+                            },
+                            child: Text(
+                              'Back',
+                              style: mediumText,
+                            ),
                           ),
                         ),
                       ),
+                      Align(alignment: Alignment.centerRight,
+                      child: TextButton(child: Text('Submit'),onPressed: ()async {
+                       await addVote(selectedValue, uploadId);
+                        
+                      },),),
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'Other',
+                          selectedMenu,
                           style: tabHeading,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: provider.testQuiz!.choices!.entries
-                          .map((choice) => QuizTile(
-                                text: choice.key,
-                              ))
-                          .toList(),
+              ),
+              firstMenu
+                  ? Expanded(
+                      child: ListView(children: [
+                        ...filter.keys
+                            .map(
+                              (key) => InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    selectedMenu = key;
+                                    firstMenu = false;
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    shape: ContinuousRectangleBorder(
+                                      side: BorderSide(),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    title: Text(
+                                      key,
+                                      textAlign: TextAlign.center,
+                                      style: tabHeading,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList()
+                      ]),
+                    )
+                  : Expanded(
+                      child: ListView(
+                        children: [
+                          ...filter[selectedMenu]!
+                              .map((value) => InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedValue = value;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ListTile(
+                                      shape: ContinuousRectangleBorder(
+                                        side: BorderSide(),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      title: Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  )))
+                              .toList()
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                // for (var choice in provider.testQuiz!.choices!.entries)
-                //   QuizTile(
-                //     text: choice.key,
-                //   )
-              ],
-            ),
+            ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }
-
-class InfoPopUp extends StatelessWidget {
-  const InfoPopUp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container( color: Colors.white,width: MediaQuery.of(context).size.width*0.8,
-      height:MediaQuery.of(context).size.height*0.4,child: Column(children: [Row(crossAxisAlignment: CrossAxisAlignment.start,children: [Text('15.05.21',style: GoogleFonts.roboto(fontSize: 8),),],)],) ,);
-  }
-}
-

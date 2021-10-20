@@ -25,7 +25,7 @@ loginOrRegister(String email, String pass, BuildContext context) async {
     print('Login Successful, redirecting to Root Page');
 
     ParseUser? currentUser = await ParseUser.currentUser();
-    String? info = await currentUser!.get('country');
+    String? info = currentUser!.get('country');
     print(info);
     if (info == null || info == '') {
       Navigator.pushReplacementNamed(context, 'welcome');
@@ -44,7 +44,7 @@ loginOrRegister(String email, String pass, BuildContext context) async {
 
       if (response.success) {
         print('User created Succefully');
-        Navigator.of(context).pushReplacementNamed('root');
+        Navigator.of(context).pushReplacementNamed('welcome');
         return null;
       } else {
         print('Something went wrong ...\n');

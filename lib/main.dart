@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
-import 'package:sfw_microorganisms/providers/quiz_provider.dart';
 import 'package:sfw_microorganisms/screens/auth/welcomeScreen.dart';
 import 'package:sfw_microorganisms/screens/authScreen.dart';
 import 'package:sfw_microorganisms/screens/gallery.dart';
@@ -32,7 +31,6 @@ void main() async {
   runApp(MyApp());
 }
 
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -41,8 +39,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: (context) => ProfileProvider(), lazy: false),
-        ChangeNotifierProvider(
-            create: (context) => QuizProvider(), lazy: false),
         ChangeNotifierProvider(
             create: (context) => BottomNavBarProvider(), lazy: false),
       ],
@@ -66,9 +62,6 @@ class MyApp extends StatelessWidget {
 
           theme: ThemeData(
             primarySwatch: Colors.blue,
-
-
-
           ),
           home: FutureBuilder(
             // Initialize Parse
@@ -137,5 +130,3 @@ class ErrorScreen extends StatelessWidget {
         ])));
   }
 }
-
-

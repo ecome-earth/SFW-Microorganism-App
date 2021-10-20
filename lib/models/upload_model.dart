@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:flutter/material.dart';
 import 'package:sfw_microorganisms/services/authentication_service.dart';
 import 'dart:ui' as ui;
@@ -9,9 +7,9 @@ import 'dart:ui' as ui;
 class UploadDataModel {
   late double imageWidth;
   late String organismWidth;
-  late String organsimeLength;
+  late String organismLength;
   late String scale;
-  late String position;
+  late Offset position;
   final NetworkImage networkImage;
 
   final double imageMicroWidth;
@@ -25,17 +23,15 @@ class UploadDataModel {
     required this.networkImage,
   });
 
-
-  initialize(String width, String length, String currentScale, String currentPosition) async {
+  initialize(String width, String length, String currentScale,
+      Offset currentPosition) async {
     // ui.Image myImage = await _getImage(networkImage.url);
     // imageWidth = myImage.width.toDouble();
     // print(myImage.width);
-    position=currentPosition;
-     organismWidth= width;
-    organsimeLength= length;
+    position = currentPosition;
+    organismWidth = width;
+    organismLength = length;
   }
-
-
 
   updateBox(Offset p1, Offset p2) {
     p1Rect = p1;
@@ -50,9 +46,11 @@ class UploadDataModel {
       String state,
       String type,
       String scale,
-      String position,
-      String p1,
-      String p2,
+      Offset position,
+      double p1dx,
+      double p1dy,
+      double p2dx,
+      double p2dy,
       String organismWidth,
       String organismHeight) async {
     ParseObject upload = ParseObject('Uploads')
@@ -61,10 +59,14 @@ class UploadDataModel {
       ..set('umHeight', imageHeight)
       ..set('country', country)
       ..set('state', state)
+      ..set('type', type)
       ..set('scale', scale)
-      ..set('position', position)
-      ..set('boxStart', p1)
-      ..set('boxEnd', p2)
+      ..set('positionDx', position.dx)
+      ..set('positionDy', position.dy)
+      ..set('p1dx', p1dx)
+      ..set('p1dy', p1dy)
+      ..set('p2dx', p2dx)
+      ..set('p2dy', p2dy)
       ..set('photoURL', url)
       ..set('organismWidth', organismWidth)
       ..set('organismHeight', organismHeight);
@@ -78,10 +80,5 @@ class UploadDataModel {
     }
   }
 
-  List<Offset> getBox() {
-    return [
-      p1,
-      p2,
-    ];
-  }
+
 }

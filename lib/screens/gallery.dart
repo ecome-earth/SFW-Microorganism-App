@@ -9,16 +9,7 @@ class Gallery extends StatefulWidget {
 
 class _GalleryState extends State<Gallery> {
   List<int> postList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  List<String> speciesType = [
-    'Soil',
-    'Potting Soil',
-    'Compost',
-    'Compost-Extract',
-    'Compost-Tee',
-    'Mulch',
-    'Worm Casting',
-    'Other'
-  ];
+
 
   Map<String, List<String>> filter = {
     'Nematode': [
@@ -113,7 +104,8 @@ class _GalleryState extends State<Gallery> {
                                   child: Text(
                                 'Filter By',
                                 style: TextStyle(fontSize: 22),
-                              )),
+                              ),
+                              ),
                               content: Container(
                                 height: 400,
                                 child: SingleChildScrollView(

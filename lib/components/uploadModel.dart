@@ -26,9 +26,8 @@ class UploadModel extends StatefulWidget {
 }
 
 class _UploadModelState extends State<UploadModel> {
-
   late double imageWidth;
-  Offset p1 = Offset(0, 0), p2 = Offset(0, 0);
+  Offset p1 = Offset(0, 0), p2 = Offset(0, 0),p1Rect = Offset.zero,p2Rect = Offset.zero;
   bool focusMode = false, lengthMode = false, widthMode = false;
   GlobalKey photoKey = GlobalKey();
   bool idleMode = true;
@@ -42,25 +41,22 @@ class _UploadModelState extends State<UploadModel> {
   GlobalKey photoViewKey = GlobalKey();
   GlobalKey clipKey = GlobalKey();
   late Image image;
-  String focusButtonText= 'Focus';
+  String focusButtonText = 'Focus';
   String widthButtonText = 'Width';
   String lengthButtonText = 'Length';
-  late String organismWidth ;
-  late String organismLength ;
+  late String organismWidth;
+  late String organismLength;
 
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-      await _getImage('https://i.ibb.co/pKPyH80/2.jpg');
-      image = Image(image: this.widget.networkImage);
+
       ui.Image myimage = await _getImage('https://i.ibb.co/pKPyH80/2.jpg');
       imageWidth = myimage.width.toDouble();
       print(myimage.width);
       print(image.width);
       print(this.widget.photoViewController.scale);
-
     });
-
 
     super.initState();
   }
@@ -98,42 +94,39 @@ class _UploadModelState extends State<UploadModel> {
                   GestureDetector(
                     onPanEnd: (details) {
                       if (widthMode) {
-                        print('the width of organism is:' );
-                            organismWidth = (this.widget.imageMicroWidth /
-                            imageWidth /
-                            this
-                                .widget
-                                .photoViewController
-                                .scale!
-                                .toDouble() *
-                            widthPainter.getDistance())
+                        print('the width of organism is:');
+                        organismWidth = (this.widget.imageMicroWidth /
+                                imageWidth /
+                                this
+                                    .widget
+                                    .photoViewController
+                                    .scale!
+                                    .toDouble() *
+                                widthPainter.getDistance())
                             .toString();
-                            print(organismWidth);
+                        print(organismWidth);
                         print(this.widget.photoViewController.scale);
 
-                        this.widget.dataModel.organismWidth=organismWidth;
+                        this.widget.dataModel.organismWidth = organismWidth;
                       }
                       if (lengthMode) {
                         print('the length of organism is:');
                         organismLength = (this.widget.imageMicroWidth /
-                            imageWidth /
-                            this
-                                .widget
-                                .photoViewController
-                                .scale!
-                                .toDouble() *
-                            lengthPainter.getLength())
+                                imageWidth /
+                                this
+                                    .widget
+                                    .photoViewController
+                                    .scale!
+                                    .toDouble() *
+                                lengthPainter.getLength())
                             .toString();
                         print(organismLength);
-                        this.widget.dataModel.organsimeLength=organismLength;
-
+                        this.widget.dataModel.organismLength = organismLength;
                       }
                       if (focusMode) {
-
                         setState(() {
-                          this.widget.dataModel.updateBox(p1, p2);
+                          this.widget.dataModel.updateBox(p1Rect, p2Rect);
                         });
-
                       }
                     },
                     onPanStart: (DragStartDetails details) {
@@ -141,7 +134,7 @@ class _UploadModelState extends State<UploadModel> {
                         p1 = details.localPosition;
                         points = [p1];
                         p2 = details.localPosition;
-
+                        p1Rect = details.localPosition;
                       });
                     },
                     onPanUpdate: (DragUpdateDetails details) {
@@ -155,7 +148,7 @@ class _UploadModelState extends State<UploadModel> {
                         });
                       } else {
                         setState(() {
-                          p2 = details.localPosition;
+                          p2Rect = details.localPosition;
                         });
                       }
                     },
@@ -175,7 +168,7 @@ class _UploadModelState extends State<UploadModel> {
                                 ? lengthPainter = LengthPainter(points: points)
                                 : focusMode
                                     ? focusPainter = FocusPainter(
-                                        startPoint: p1, endPoint: p2)
+                                        startPoint: p1Rect, endPoint: p2Rect)
                                     : null),
                   ),
                 ],
@@ -191,24 +184,28 @@ class _UploadModelState extends State<UploadModel> {
               Container(
                 decoration: BoxDecoration(
                     color: focusMode ? Colors.green : Colors.grey,
-                    boxShadow: [BoxShadow(color: Colors.black38,spreadRadius: 1,blurRadius: 2)],
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black38, spreadRadius: 1, blurRadius: 2)
+                    ],
                     borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () async {
                     print('Triggering Upload function');
-                    print('Fatal Error: null check operator used on a null value\n Please use your remaining brain cells to make a decision to never code again.');
+                    print(
+                        'Fatal Error: null check operator used on a null value\n Please use your remaining brain cells to make a decision to never code again.');
 
                     setState(() {
                       if (!focusMode) {
                         focusMode = true;
-                        focusButtonText='Done';
-                        lengthButtonText='Length';
-                        widthButtonText='Width';
+                        focusButtonText = 'Done';
+                        lengthButtonText = 'Length';
+                        widthButtonText = 'Width';
                         lengthMode = widthMode = false;
                         print(this.widget.photoViewController.position);
                       } else {
                         lengthMode = false;
-                        focusButtonText='Focus';
+                        focusButtonText = 'Focus';
                         focusMode = widthMode = false;
                       }
                     });
@@ -225,7 +222,10 @@ class _UploadModelState extends State<UploadModel> {
               Container(
                 decoration: BoxDecoration(
                     color: lengthMode ? Colors.green : Colors.grey,
-                    boxShadow: [BoxShadow(color: Colors.black38,spreadRadius: 1,blurRadius: 2)],
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black38, spreadRadius: 1, blurRadius: 2)
+                    ],
                     borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () {
@@ -235,15 +235,15 @@ class _UploadModelState extends State<UploadModel> {
                     if (!lengthMode) {
                       setState(() {
                         lengthMode = true;
-                        lengthButtonText='Done';
-                        focusButtonText='Focus';
-                        widthButtonText='Width';
+                        lengthButtonText = 'Done';
+                        focusButtonText = 'Focus';
+                        widthButtonText = 'Width';
                         focusMode = widthMode = false;
                       });
                     } else {
                       setState(() {
                         lengthMode = false;
-                        lengthButtonText='Length';
+                        lengthButtonText = 'Length';
                         focusMode = widthMode = false;
                       });
                     }
@@ -260,7 +260,10 @@ class _UploadModelState extends State<UploadModel> {
               Container(
                 decoration: BoxDecoration(
                     color: widthMode ? Colors.green : Colors.grey,
-                    boxShadow: [BoxShadow(color: Colors.black38,spreadRadius: 1,blurRadius: 2)],
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black38, spreadRadius: 1, blurRadius: 2)
+                    ],
                     borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () {
@@ -270,15 +273,15 @@ class _UploadModelState extends State<UploadModel> {
                     if (!widthMode) {
                       setState(() {
                         widthMode = true;
-                        widthButtonText='Done';
-                        focusButtonText='Focus';
-                        lengthButtonText='Length';
+                        widthButtonText = 'Done';
+                        focusButtonText = 'Focus';
+                        lengthButtonText = 'Length';
                         focusMode = lengthMode = false;
                       });
                     } else {
                       setState(() {
                         lengthMode = false;
-                        widthButtonText='Width';
+                        widthButtonText = 'Width';
                         focusMode = widthMode = false;
                       });
                     }
@@ -292,7 +295,24 @@ class _UploadModelState extends State<UploadModel> {
                   ),
                 ),
               ),
-              Container(child: TextButton(child: Text('Confirm'),onPressed: ()async { await this.widget.dataModel.initialize(organismWidth, organismLength,this.widget.photoViewController.value.scale.toString(),this.widget.photoViewController.value.position.toString());},),)
+              Container(
+                child: TextButton(
+                  child: Text('Confirm'),
+                  onPressed: () async {
+                    this.widget.dataModel.updateBox(p1, p2);
+                    await this.widget.dataModel.initialize(
+                        organismWidth,
+                        organismLength,
+                        this.widget.photoViewController.value.scale.toString(),
+                        this
+                            .widget
+                            .photoViewController
+                            .value
+                            .position
+                            );
+                  },
+                ),
+              )
             ],
           ),
         ),

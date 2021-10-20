@@ -35,6 +35,7 @@ class _UploadFormState extends State<UploadForm> {
   late UploadModel model;
   late UploadDataModel dataModel;
   late List<String> userDetails;
+  String link='https://i.ibb.co/pKPyH80/2.jpg';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +72,7 @@ class _UploadFormState extends State<UploadForm> {
                         ? model = UploadModel(
                             imageMicroWidth: int.parse(umWidth.text).toDouble(),
                             networkImage: NetworkImage(
-                              'https://i.ibb.co/pKPyH80/2.jpg',
+                              link,
                             ),
                             photoViewController: photoViewController,
                             dataModel: dataModel = UploadDataModel(
@@ -402,6 +403,9 @@ class _UploadFormState extends State<UploadForm> {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text('Please Select Sample Type')));
                           } else {
+
+
+
                             await model.dataModel.addUpload(
                                 model.networkImage.url,
                                 umWidth.text,
@@ -411,12 +415,13 @@ class _UploadFormState extends State<UploadForm> {
                                 selectedType,
                                 model.photoViewController.value.scale
                                     .toString(),
-                                model.photoViewController.value.position
-                                    .toString(),
-                                model.dataModel.p1Rect.toString(),
-                                model.dataModel.p2Rect.toString(),
+                                model.photoViewController.value.position,
+                                model.dataModel.p1Rect.dx,
+                                model.dataModel.p1Rect.dy,
+                                model.dataModel.p2Rect.dx,
+                                model.dataModel.p2Rect.dy,
                                 model.dataModel.organismWidth,
-                                model.dataModel.organsimeLength);
+                                model.dataModel.organismLength);
                           }
                         },
                         child: Container(
