@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sfw_microorganisms/providers/bottomnavbar_provider.dart';
 import 'package:sfw_microorganisms/providers/profile_provider.dart';
-import 'package:sfw_microorganisms/providers/quiz_provider.dart';
+import 'package:sfw_microorganisms/screens/auth/welcomeScreen.dart';
 import 'package:sfw_microorganisms/screens/authScreen.dart';
 import 'package:sfw_microorganisms/screens/gallery.dart';
 import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
@@ -20,7 +20,7 @@ void main() async {
   final keyClientKey = 'sYJfx9d1B1kLhXsFZ6tQVz0hzKTZtkYRIdPocW4E';
   final keyParseServerUrl = 'https://parseapi.back4app.com';
 
-  Parse parse = await Parse().initialize(keyApplicationId, keyParseServerUrl,
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyClientKey, autoSendSessionId: true);
   var firstObject = ParseObject('FirstClass')
     ..set(
@@ -40,8 +40,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (context) => ProfileProvider(), lazy: false),
         ChangeNotifierProvider(
-            create: (context) => QuizProvider(), lazy: false),
-        ChangeNotifierProvider(
             create: (context) => BottomNavBarProvider(), lazy: false),
       ],
       child: ChangeNotifierProvider(
@@ -59,6 +57,7 @@ class MyApp extends StatelessWidget {
             'root': (context) => ProfileUploads(),
             'info': (context) => ProfileInfo(),
             'auth': (context) => AuthScreen(),
+            'welcome': (context) => WelcomeScreen(),
           },
 
           theme: ThemeData(
@@ -71,7 +70,7 @@ class MyApp extends StatelessWidget {
               // Check for errors
 
               if (snapshot.data == false) {
-                print('problem occured with Back4App');
+                print('problem occurred with Back4App');
                 print('No User Session Detected Redirecting to Auth Screen');
 
                 return AuthScreen();
@@ -130,9 +129,4 @@ class ErrorScreen extends StatelessWidget {
               )),
         ])));
   }
-}
-
-Future<ParseUser?> getUser() async {
-  ParseUser? currentUser = await ParseUser.currentUser();
-  return currentUser;
 }

@@ -1,15 +1,24 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui'as ui;
+import 'dart:ui' as ui;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:sfw_microorganisms/models/upload_model.dart';
 
 class UploadModel extends StatefulWidget {
+  final PhotoViewController photoViewController;
   final double imageMicroWidth;
-  const UploadModel({Key? key, required this.imageMicroWidth})
+  final NetworkImage networkImage;
+  final UploadDataModel dataModel;
+  const UploadModel(
+      {Key? key,
+      required this.imageMicroWidth,
+      required this.networkImage,
+      required this.photoViewController,
+      required this.dataModel})
       : super(key: key);
 
   @override
@@ -17,6 +26,40 @@ class UploadModel extends StatefulWidget {
 }
 
 class _UploadModelState extends State<UploadModel> {
+  late double imageWidth;
+  Offset p1 = Offset(0, 0), p2 = Offset(0, 0),p1Rect = Offset.zero,p2Rect = Offset.zero;
+  bool focusMode = false, lengthMode = false, widthMode = false;
+  GlobalKey photoKey = GlobalKey();
+  bool idleMode = true;
+  late List<Offset> points;
+  late WidthPainter widthPainter;
+  late LengthPainter lengthPainter;
+  late FocusPainter focusPainter;
+  Color idleColor = Colors.grey;
+  Color focusedColor = Colors.white;
+  Color selectedColor = Colors.green;
+  GlobalKey photoViewKey = GlobalKey();
+  GlobalKey clipKey = GlobalKey();
+  late Image image;
+  String focusButtonText = 'Focus';
+  String widthButtonText = 'Width';
+  String lengthButtonText = 'Length';
+  late String organismWidth;
+  late String organismLength;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+
+      ui.Image myimage = await _getImage('https://i.ibb.co/pKPyH80/2.jpg');
+      imageWidth = myimage.width.toDouble();
+      print(myimage.width);
+      print(image.width);
+      print(this.widget.photoViewController.scale);
+    });
+
+    super.initState();
+  }
 
   Future<ui.Image> _getImage(link) {
     Image image = new Image.network(link);
@@ -29,43 +72,15 @@ class _UploadModelState extends State<UploadModel> {
     return completer.future;
   }
 
-  late double imageWidth;
-  Offset p1 = Offset(0, 0), p2 = Offset(0, 0);
-  bool focusMode = false, lengthMode = false, widthMode = false;
-  GlobalKey photoKey = GlobalKey();
-  bool idleMode = true;
-  PhotoViewController _controller = PhotoViewController();
-  late List<Offset> points;
-  late WidthPainter widthPainter;
-  late LengthPainter lengthPainter;
-  late FocusPainter focusPainter;
-  Color idleColor = Colors.grey;
-  Color focusedColor = Colors.white;
-  Color selectedColor = Colors.green;
-GlobalKey photoViewKey = GlobalKey();
-GlobalKey clipKey = GlobalKey();
-ImageProvider imageProvider = AssetImage('assets/images/example.jpg');
-RegExp regex = RegExp(r"([\d])");
-NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
- late Image image;
-@override
-  void initState() {
-
-   image = Image(image: networkImage);
-    super.initState();
+  List<Offset> getUploadInfo() {
+    return [
+      p1,
+      p2,
+    ];
   }
+
   @override
-
-  double getSizeImage(){
-
-
-
-  return 2;
-  }
-
-
   Widget build(BuildContext context) {
-
     return Column(
       children: [
         Expanded(
@@ -77,33 +92,49 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
               child: Stack(
                 children: [
                   GestureDetector(
-
-
                     onPanEnd: (details) {
                       if (widthMode) {
-                        print('the width of organisme is:' + (this.widget.imageMicroWidth/imageWidth/_controller.scale!.toDouble()*widthPainter.getDistance()).toString() +
-                            (pixelRealSize(
-                                        photoKey, this.widget.imageMicroWidth) /
-                                    _controller.scale!.toDouble() *
-                                    widthPainter.getDistance())
-                                .toString());
-                        print(_controller.scale);
+                        print('the width of organism is:');
+                        organismWidth = (this.widget.imageMicroWidth /
+                                imageWidth /
+                                this
+                                    .widget
+                                    .photoViewController
+                                    .scale!
+                                    .toDouble() *
+                                widthPainter.getDistance())
+                            .toString();
+                        print(organismWidth);
+                        print(this.widget.photoViewController.scale);
+
+                        this.widget.dataModel.organismWidth = organismWidth;
                       }
                       if (lengthMode) {
-                        print('the length of organism is:' +
-                            (this.widget.imageMicroWidth/ imageWidth /
-                                    _controller.scale!.toDouble() *
-                                    lengthPainter.getLength())
-                                .toString());
-                        print(LengthPainter(points: points));
+                        print('the length of organism is:');
+                        organismLength = (this.widget.imageMicroWidth /
+                                imageWidth /
+                                this
+                                    .widget
+                                    .photoViewController
+                                    .scale!
+                                    .toDouble() *
+                                lengthPainter.getLength())
+                            .toString();
+                        print(organismLength);
+                        this.widget.dataModel.organismLength = organismLength;
                       }
-                      if (focusMode) {}
+                      if (focusMode) {
+                        setState(() {
+                          this.widget.dataModel.updateBox(p1Rect, p2Rect);
+                        });
+                      }
                     },
                     onPanStart: (DragStartDetails details) {
                       setState(() {
                         p1 = details.localPosition;
                         points = [p1];
                         p2 = details.localPosition;
+                        p1Rect = details.localPosition;
                       });
                     },
                     onPanUpdate: (DragUpdateDetails details) {
@@ -117,20 +148,19 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                         });
                       } else {
                         setState(() {
-                          p2 = details.localPosition;
+                          p2Rect = details.localPosition;
                         });
                       }
                     },
                     child: CustomPaint(
-                      key: photoViewKey,
+                        key: photoViewKey,
                         child: PhotoView(
                           tightMode: true,
                           key: photoKey,
                           disableGestures: widthMode || lengthMode || focusMode,
-                          controller: _controller,
+                          controller: this.widget.photoViewController,
                           initialScale: 1.0,
-                          imageProvider:
-                              networkImage,
+                          imageProvider: this.widget.networkImage,
                         ),
                         foregroundPainter: widthMode
                             ? widthPainter = WidthPainter(p1: p1, p2: p2)
@@ -138,7 +168,7 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                                 ? lengthPainter = LengthPainter(points: points)
                                 : focusMode
                                     ? focusPainter = FocusPainter(
-                                        startPoint: p1, endPoint: p2)
+                                        startPoint: p1Rect, endPoint: p2Rect)
                                     : null),
                   ),
                 ],
@@ -153,39 +183,35 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
             children: [
               Container(
                 decoration: BoxDecoration(
-                    color: focusMode ? Colors.green : Colors.white,
+                    color: focusMode ? Colors.green : Colors.grey,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black38, spreadRadius: 1, blurRadius: 2)
+                    ],
                     borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () async {
+                    print('Triggering Upload function');
+                    print(
+                        'Fatal Error: null check operator used on a null value\n Please use your remaining brain cells to make a decision to never code again.');
 
-
-                    ui.Image myimage = (await _getImage('https://i.ibb.co/pKPyH80/2.jpg')) ;
-                imageWidth=myimage.width.toDouble();
-                  print(myimage.width);
-
-
-
-
-
-
-
-
-
-                    print(image.width);
-                    print(_controller.scale);
                     setState(() {
                       if (!focusMode) {
                         focusMode = true;
+                        focusButtonText = 'Done';
+                        lengthButtonText = 'Length';
+                        widthButtonText = 'Width';
                         lengthMode = widthMode = false;
-                        print(_controller.position);
+                        print(this.widget.photoViewController.position);
                       } else {
                         lengthMode = false;
+                        focusButtonText = 'Focus';
                         focusMode = widthMode = false;
                       }
                     });
                   },
                   child: Text(
-                    "focus",
+                    focusButtonText,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -195,7 +221,11 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: lengthMode ? Colors.green : Colors.white,
+                    color: lengthMode ? Colors.green : Colors.grey,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black38, spreadRadius: 1, blurRadius: 2)
+                    ],
                     borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () {
@@ -205,17 +235,21 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                     if (!lengthMode) {
                       setState(() {
                         lengthMode = true;
+                        lengthButtonText = 'Done';
+                        focusButtonText = 'Focus';
+                        widthButtonText = 'Width';
                         focusMode = widthMode = false;
                       });
                     } else {
                       setState(() {
                         lengthMode = false;
+                        lengthButtonText = 'Length';
                         focusMode = widthMode = false;
                       });
                     }
                   },
                   child: Text(
-                    "length",
+                    lengthButtonText,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -225,7 +259,11 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: widthMode ? Colors.green : Colors.white,
+                    color: widthMode ? Colors.green : Colors.grey,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black38, spreadRadius: 1, blurRadius: 2)
+                    ],
                     borderRadius: BorderRadius.circular(4)),
                 child: TextButton(
                   onPressed: () {
@@ -235,17 +273,21 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                     if (!widthMode) {
                       setState(() {
                         widthMode = true;
+                        widthButtonText = 'Done';
+                        focusButtonText = 'Focus';
+                        lengthButtonText = 'Length';
                         focusMode = lengthMode = false;
                       });
                     } else {
                       setState(() {
                         lengthMode = false;
+                        widthButtonText = 'Width';
                         focusMode = widthMode = false;
                       });
                     }
                   },
                   child: Text(
-                    "width",
+                    widthButtonText,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -253,6 +295,24 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
                   ),
                 ),
               ),
+              Container(
+                child: TextButton(
+                  child: Text('Confirm'),
+                  onPressed: () async {
+                    this.widget.dataModel.updateBox(p1, p2);
+                    await this.widget.dataModel.initialize(
+                        organismWidth,
+                        organismLength,
+                        this.widget.photoViewController.value.scale.toString(),
+                        this
+                            .widget
+                            .photoViewController
+                            .value
+                            .position
+                            );
+                  },
+                ),
+              )
             ],
           ),
         ),
@@ -262,25 +322,24 @@ NetworkImage networkImage = NetworkImage('https://i.ibb.co/pKPyH80/2.jpg');
 
   getWidth() {
     return (pixelRealSize(photoKey, this.widget.imageMicroWidth) *
-        _controller.scale!.toDouble() *
+        this.widget.photoViewController.scale!.toDouble() *
         widthPainter.getDistance());
   }
 
   getLength() {
     return (pixelRealSize(photoKey, this.widget.imageMicroWidth) *
-        _controller.scale!.toDouble() *
+        this.widget.photoViewController.scale!.toDouble() *
         lengthPainter.getLength());
   }
 
   //  Real image Width  /  Container Size  / Image Size
-
 
   double pixelRealSize(key, micro) {
     return micro / key.currentContext!.size.width;
   }
 
   PhotoViewControllerValue getControllerValues() {
-    return _controller.value;
+    return this.widget.photoViewController.value;
   }
 }
 

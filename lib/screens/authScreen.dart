@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:sfw_microorganisms/screens/profile/profileInfo.dart';
 import 'package:sfw_microorganisms/services/authentication_service.dart';
 
@@ -14,10 +13,7 @@ class _AuthScreen extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final password = TextEditingController();
-
-  bool showpassword = false;
-
-  var profile;
+  bool showPassword = false;
 
   @override
   @mustCallSuper
@@ -87,15 +83,15 @@ class _AuthScreen extends State<AuthScreen> {
                     const Spacer(),
                     TextFormField(
                       keyboardType: TextInputType.visiblePassword,
-                      obscureText: !showpassword,
+                      obscureText: !showPassword,
                       controller: password,
                       decoration: InputDecoration(
                         hintText: 'Password',
                         suffixIcon: IconButton(
                           onPressed: () => setState(() {
-                            showpassword = !showpassword;
+                            showPassword = !showPassword;
                           }),
-                          icon: showpassword
+                          icon: showPassword
                               ? Icon(Icons.visibility)
                               : Icon(Icons.visibility_off),
                         ),

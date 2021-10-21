@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sfw_microorganisms/main.dart';
-import 'package:sfw_microorganisms/screens/profile/settings.dart';
 import 'package:sfw_microorganisms/services/authentication_service.dart';
 
 class ProfileInfo extends StatefulWidget {
@@ -54,13 +52,12 @@ class _ProfileInfo extends State<ProfileInfo> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text('10', style: TextStyle(fontSize: 24)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Image.asset(
                         'assets/icons/worm.png',
                         width: MediaQuery.of(context).size.width / 7,
@@ -94,8 +91,6 @@ class _ProfileInfo extends State<ProfileInfo> {
             Positioned(
               child: IconButton(
                   onPressed: () {
-                    int selection = 0;
-
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -141,8 +136,8 @@ class _ProfileInfo extends State<ProfileInfo> {
                                     color: Colors.white,
                                     child: TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pushNamed('changeInfo');
-
+                                        Navigator.of(context)
+                                            .pushNamed('changeInfo');
                                       },
                                       child: Center(
                                         child: Text(
@@ -162,8 +157,8 @@ class _ProfileInfo extends State<ProfileInfo> {
                                     color: Colors.white,
                                     child: TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pushNamed('security');
-
+                                        Navigator.of(context)
+                                            .pushNamed('security');
                                       },
                                       child: Center(
                                         child: Text(

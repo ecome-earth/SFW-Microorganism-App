@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
-class CameraComponent extends StatelessWidget {
-  const CameraComponent({Key? key, this.imgPath}) : super(key: key);
+class CameraComponent extends StatefulWidget {
+  const CameraComponent({
+    Key? key,
+    required this.link,
+    required this.initialController,
+    required this.p1,
+    required this.p2,
+  }) : super(key: key);
+  final PhotoViewController initialController;
+  final String link;
+  final Offset p1, p2;
 
-  final String? imgPath;
+  @override
+  _CameraComponentState createState() => _CameraComponentState();
+}
 
+class _CameraComponentState extends State<CameraComponent> {
+  PhotoViewController controller = PhotoViewController();
+bool focused = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,16 +29,33 @@ class CameraComponent extends StatelessWidget {
         children: [
           Container(
             width: double.infinity,
-            child: ClipRect(clipBehavior: Clip.hardEdge,
-              child: PhotoView(
-                imageProvider: AssetImage(imgPath!),
+            child: ClipRect(
+              clipBehavior: Clip.hardEdge,
+              child: CustomPaint(
+                child: PhotoView(
+                  imageProvider: NetworkImage(widget.link),
+                  controller: controller,
+                ),
+                foregroundPainter: focused?FocusPainter(startPoint: this.widget.p1, endPoint: this.widget.p2):null,
+
               ),
             ),
           ),
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              onPressed: () => debugPrint('coming soon'),
+              onPressed: () {
+                setState(() {
+                  if (!focused){
+                  focused= true;
+                  controller=this.widget.initialController;
+                  }
+                  else{
+                    focused = false;
+                  }
+                });
+
+              },
               icon: Icon(
                 Icons.message,
                 color: Colors.white,
@@ -55,20 +86,28 @@ class CameraComponent extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox.expand(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 100.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('5 um I', style: TextStyle(color: Colors.white)),
-                  Text('130 um', style: TextStyle(color: Colors.white))
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
+  }
+}
+
+
+class FocusPainter extends CustomPainter {
+  final Offset startPoint;
+  final Offset endPoint;
+  FocusPainter({required this.startPoint, required this.endPoint});
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..strokeWidth = 2
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke;
+    canvas.drawRect(Rect.fromPoints(startPoint, endPoint), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }
