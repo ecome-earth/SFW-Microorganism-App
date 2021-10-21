@@ -57,13 +57,7 @@ class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
                     onPressed: () => debugPrint('coming soon'),
                     icon: Icon(Icons.style, size: 32.0),
                   ),
-                  IconButton(
-                      onPressed: () {
-                        pageController.nextPage(
-                            duration: Duration(milliseconds: 1500),
-                            curve: Curves.elasticOut);
-                      },
-                      icon: Icon(Icons.next_plan_outlined)),
+
                   IconButton(
                     onPressed: () {
                       showDialog(
@@ -142,35 +136,29 @@ class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
                     children: [
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 42.0),
-                          child: TextButton(
-                            onPressed: () {
-                              setState(() {
-                                firstMenu = true;
-                                selectedMenu = 'Organism Type';
-                              });
-                            },
-                            child: Text(
-                              'Back',
-                              style: mediumText,
-                            ),
+                        child: TextButton(
+                          onPressed: () {
+                            setState(() {
+                              firstMenu = true;
+                              selectedMenu = 'Organism Type';
+
+                            });
+                          },
+                          child: Text(
+                            'Back',
+                            style: TextStyle(color: firstMenu? Colors.transparent: Colors.black),
                           ),
                         ),
                       ),
-                      Align(alignment: Alignment.centerRight,
-                      child: TextButton(child: Text('Submit'),onPressed: ()async {
-                       await addVote(selectedValue, uploadId);
-                        
-                      },),),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          selectedMenu,
-                          style: tabHeading,
-                        ),
-                      ),
+                      Align(alignment: Alignment.centerRight,child: IconButton(
+                          onPressed: () {
+                            pageController.nextPage(
+                                duration: Duration(milliseconds: 1500),
+                                curve: Curves.elasticOut);
+                          },
+                          icon: Icon(Icons.next_plan_outlined)),)
+
+
                     ],
                   ),
                 ),
@@ -187,18 +175,16 @@ class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
                                     firstMenu = false;
                                   });
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ListTile(
-                                    shape: ContinuousRectangleBorder(
-                                      side: BorderSide(),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    title: Text(
-                                      key,
-                                      textAlign: TextAlign.center,
-                                      style: tabHeading,
-                                    ),
+                                child: ListTile(
+
+                                  shape: ContinuousRectangleBorder(
+                                    side: BorderSide(),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  title: Text(
+                                    key,
+                                    textAlign: TextAlign.center,
+                                    style: tabHeading,
                                   ),
                                 ),
                               ),
@@ -216,17 +202,17 @@ class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
                                       selectedValue = value;
                                     });
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ListTile(
-                                      shape: ContinuousRectangleBorder(
-                                        side: BorderSide(),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      title: Text(
-                                        value,
-                                        textAlign: TextAlign.center,
-                                      ),
+                                  child: ListTile(
+                                    onTap: (){showDialog(context: context, builder: (BuildContext context){
+                                      return AlertDialog(title: Text(selectedMenu),actions: [ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('Confirm'))],);
+                                    });},
+                                    shape: ContinuousRectangleBorder(
+                                      side: BorderSide(),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    title: Text(
+                                      value,
+                                      textAlign: TextAlign.center,
                                     ),
                                   )))
                               .toList()

@@ -45,13 +45,13 @@ loginOrRegister(String email, String pass, BuildContext context) async {
       if (response.success) {
         print('User created Succefully');
         Navigator.of(context).pushReplacementNamed('welcome');
-        return null;
+
       } else {
         print('Something went wrong ...\n');
         if (response.error!.message ==
             'Account already exists for this username.') {
           ScaffoldMessenger.of(context).showSnackBar(emailExists);
-          return null;
+
         }
       }
     }

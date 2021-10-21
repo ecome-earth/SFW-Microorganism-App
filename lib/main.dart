@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
               // Check for errors
 
               if (snapshot.data == false) {
-                print('problem occured with Back4App');
+                print('problem occurred with Back4App');
                 print('No User Session Detected Redirecting to Auth Screen');
 
                 return AuthScreen();
