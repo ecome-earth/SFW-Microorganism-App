@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:sfw_microorganisms/components/camera_component.dart';
@@ -63,7 +64,7 @@ class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return Container();
+                            return SimpleDialog(title: Container(height: 300,child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,children: [Text('info Here')],),));
                           });
                     },
                     icon: Icon(Icons.info_outline_rounded, size: 32.0),
@@ -140,7 +141,7 @@ class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
                           onPressed: () {
                             setState(() {
                               firstMenu = true;
-                              selectedMenu = 'Organism Type';
+                              selectedMenu = '';
 
                             });
                           },
@@ -204,7 +205,7 @@ class _AnswerSelectedScreenState extends State<AnswerSelectedScreen> {
                                   },
                                   child: ListTile(
                                     onTap: (){showDialog(context: context, builder: (BuildContext context){
-                                      return AlertDialog(title: Text(selectedMenu),actions: [ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('Confirm'))],);
+                                      return AlertDialog(title: Center(child: Text(selectedMenu)),actions: [Center(child: ElevatedButton(onPressed: (){Navigator.pop(context);},style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color.fromARGB(254,159, 101, 35))), child: Text('Confirm')))],content: Text('do you want to vote for this\nAnswer?\n\n\n Costs 2 Worms ',style: GoogleFonts.roboto(fontSize: 18,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),);
                                     });},
                                     shape: ContinuousRectangleBorder(
                                       side: BorderSide(),
